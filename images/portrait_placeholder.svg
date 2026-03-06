@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <!-- Background circle -->
+  <circle cx="100" cy="100" r="100" fill="#1a4a5e"/>
+  <!-- Body -->
+  <ellipse cx="100" cy="160" rx="55" ry="40" fill="#2a6a85"/>
+  <!-- Head -->
+  <circle cx="100" cy="78" r="38" fill="#e8c9a0"/>
+  <!-- Hair -->
+  <ellipse cx="100" cy="52" rx="38" ry="20" fill="#2c1a0e"/>
+  <!-- Eyes -->
+  <circle cx="87" cy="78" r="4" fill="#2c1a0e"/>
+  <circle cx="113" cy="78" r="4" fill="#2c1a0e"/>
+  <!-- Smile -->
+  <path d="M88 92 Q100 102 112 92" stroke="#2c1a0e" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Collar/shirt -->
+  <path d="M70 135 L100 120 L130 135 L140 200 L60 200 Z" fill="#1e407c"/>
+  <!-- Placeholder text -->
+  <text x="100" y="190" text-anchor="middle" font-family="Arial, sans-serif" font-size="10" fill="rgba(255,255,255,0.5)">Photo coming soon</text>
+</svg>
