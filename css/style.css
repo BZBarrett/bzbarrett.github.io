@@ -655,8 +655,60 @@ img { max-width: 100%; display: block; }
 .social-btn span { font-size: .78rem; color: var(--text-muted); }
 .social-btn.email   i { color: #d93025; }
 .social-btn.scholar i { color: #4285f4; }
+.social-btn.linkedin i { color: #0a66c2; }
 .social-btn.gisphere i { color: #27ae60; }
 .social-btn.github  i { color: #333; }
+
+/* Map */
+.map-wrapper { border-radius: var(--radius-sm); overflow: hidden; }
+
+/* School logos in timeline */
+.school-logo {
+  display: inline-block;
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  vertical-align: middle;
+  margin-right: .5rem;
+  border-radius: 3px;
+}
+
+/* Teaching quote */
+.teaching-quote {
+  background: var(--gradient);
+  color: #fff;
+  border-radius: var(--radius);
+  padding: 2rem 2.5rem;
+  position: relative;
+  box-shadow: var(--shadow-md);
+}
+.teaching-quote::before {
+  content: '\201C';
+  font-family: 'Merriweather', serif;
+  font-size: 6rem;
+  line-height: 1;
+  color: rgba(255,255,255,.15);
+  position: absolute;
+  top: -.5rem;
+  left: 1rem;
+}
+.teaching-quote p {
+  font-family: 'Merriweather', serif;
+  font-size: 1.05rem;
+  font-style: italic;
+  line-height: 1.8;
+  position: relative;
+  z-index: 1;
+}
+.teaching-quote cite {
+  display: block;
+  margin-top: 1rem;
+  font-style: normal;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--accent-light);
+  letter-spacing: .5px;
+}
 
 /* Contact form */
 .contact-form { display: flex; flex-direction: column; gap: 1rem; }
