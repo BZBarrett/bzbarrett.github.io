@@ -660,18 +660,7 @@ img { max-width: 100%; display: block; }
 .social-btn.github  i { color: #333; }
 
 /* Map */
-.map-wrapper { border-radius: var(--radius-sm); overflow: hidden; height: 100%; }
-
-/* Contact: Online Profiles + Map side by side */
-.contact-side-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.5rem;
-  grid-column: 1 / -1;
-}
-@media (max-width: 768px) {
-  .contact-side-row { grid-template-columns: 1fr; }
-}
+.map-wrapper { border-radius: var(--radius-sm); overflow: hidden; }
 
 /* School logos in timeline */
 .school-logo {
