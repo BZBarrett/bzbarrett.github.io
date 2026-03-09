@@ -2,12 +2,15 @@
 const navLinks = document.querySelectorAll('.nav-link[data-tab]');
 const panels   = document.querySelectorAll('.tab-panel');
 
-function activateTab(tabId) {
+const validTabs = [...navLinks].map(l => l.dataset.tab);
+
+function activateTab(tabId, updateHash = true) {
   navLinks.forEach(l => l.classList.toggle('active', l.dataset.tab === tabId));
   panels.forEach(p => p.classList.toggle('active', p.id === 'tab-' + tabId));
   window.scrollTo({ top: 0, behavior: 'smooth' });
   // Close mobile nav
   document.getElementById('mainNav').classList.remove('open');
+  if (updateHash) history.replaceState(null, '', '#' + tabId);
 }
 
 navLinks.forEach(link => {
@@ -15,6 +18,16 @@ navLinks.forEach(link => {
     e.preventDefault();
     activateTab(link.dataset.tab);
   });
+});
+
+// Load correct tab from URL hash on page load
+const initialHash = window.location.hash.slice(1);
+activateTab(validTabs.includes(initialHash) ? initialHash : 'home', false);
+
+// Browser back/forward navigation
+window.addEventListener('hashchange', () => {
+  const tab = window.location.hash.slice(1);
+  if (validTabs.includes(tab)) activateTab(tab, false);
 });
 
 // ── Hamburger ────────────────────────────────────────────────────────
