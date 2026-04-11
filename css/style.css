@@ -4,16 +4,20 @@
    =================================================== */
 
 :root {
-  --primary:     #1a4a5e;
-  --primary-light: #2a6a85;
-  --accent:      #e8a44a;
-  --accent-light: #f5c978;
-  --bg:          #f8f9fb;
+  --primary:     #2a2520;
+  --primary-light: #3d3530;
+  --secondary:   #1a1714;
+  --accent:      #72c02c;
+  --accent-light: #8ed44a;
+  --highlight:   #e8317a;
+  --highlight-dark: #c91f62;
+  --bg:          #f9fcf7;
+  --bg-light:    #f4f9f0;
   --card-bg:     #ffffff;
-  --text:        #1d2d3a;
-  --text-muted:  #6b7a8d;
-  --border:      #e2e8f0;
-  --gradient:    linear-gradient(135deg, #1a4a5e 0%, #2a6a85 50%, #0f3345 100%);
+  --text:        #1a1a1a;
+  --text-muted:  #6b7280;
+  --border:      #e5e7eb;
+  --gradient:    linear-gradient(135deg, #2a2520 0%, #3d3530 50%, #1a1714 100%);
   --shadow-sm:   0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
   --shadow-md:   0 4px 12px rgba(0,0,0,.10), 0 2px 4px rgba(0,0,0,.06);
   --shadow-lg:   0 10px 30px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.08);
@@ -168,7 +172,7 @@ img { max-width: 100%; display: block; }
 
 .profile-info { color: #fff; }
 .profile-name {
-  font-family: 'Merriweather', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 1.9rem;
   font-weight: 700;
   line-height: 1.2;
@@ -309,7 +313,7 @@ img { max-width: 100%; display: block; }
   font-size: 2rem;
   font-weight: 800;
   color: var(--primary);
-  font-family: 'Merriweather', serif;
+  font-family: 'Inter', sans-serif;
 }
 .stat-label { font-size: .78rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: .8px; }
 
@@ -321,7 +325,7 @@ img { max-width: 100%; display: block; }
   color: #fff;
 }
 .page-title {
-  font-family: 'Merriweather', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 2rem;
   font-weight: 700;
 }
@@ -371,9 +375,9 @@ img { max-width: 100%; display: block; }
   border: 3px solid var(--card-bg);
   box-shadow: 0 0 0 2px var(--primary);
 }
-.timeline-dot.phd { background: #e8a44a; }
-.timeline-dot.me  { background: #2a6a85; }
-.timeline-dot.be  { background: #6b9eb5; }
+.timeline-dot.phd { background: #72c02c; }
+.timeline-dot.me  { background: #3d3530; }
+.timeline-dot.be  { background: #8a7f77; }
 .timeline-dot.current { background: #27ae60; box-shadow: 0 0 0 2px #27ae60; }
 .timeline-dot.past    { background: var(--text-muted); box-shadow: 0 0 0 2px var(--text-muted); }
 .timeline-dot.industry { background: #9b59b6; box-shadow: 0 0 0 2px #9b59b6; }
@@ -684,7 +688,7 @@ img { max-width: 100%; display: block; }
 }
 .teaching-quote::before {
   content: '\201C';
-  font-family: 'Merriweather', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 6rem;
   line-height: 1;
   color: rgba(255,255,255,.15);
@@ -693,7 +697,7 @@ img { max-width: 100%; display: block; }
   left: 1rem;
 }
 .teaching-quote p {
-  font-family: 'Merriweather', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 1.05rem;
   font-style: italic;
   line-height: 1.8;
@@ -816,7 +820,7 @@ img { max-width: 100%; display: block; }
 .aag-hero {
   position: relative;
   overflow: hidden;
-  background: #0b1a2e;
+  background: #2a2520;
   min-height: 320px;
   display: flex;
   align-items: center;
@@ -827,14 +831,14 @@ img { max-width: 100%; display: block; }
   background:
     radial-gradient(ellipse 80% 60% at 20% 50%, rgba(30,90,160,.55) 0%, transparent 70%),
     radial-gradient(ellipse 60% 80% at 80% 30%, rgba(200,130,20,.3) 0%, transparent 65%),
-    linear-gradient(160deg, #0b1a2e 0%, #0e2a44 50%, #0d1f38 100%);
+    linear-gradient(160deg, #2a2520 0%, #3d3530 50%, #1a1714 100%);
 }
 /* Decorative floating circles */
 .aag-deco {
   position: absolute;
   border-radius: 50%;
   opacity: .12;
-  background: conic-gradient(from 0deg, #e8a44a, #2a6a85, #e8a44a);
+  background: conic-gradient(from 0deg, #72c02c, #e8317a, #72c02c);
   animation: aag-spin 20s linear infinite;
 }
 .aag-deco-1 { width: 420px; height: 420px; top: -140px; right: -100px; }
@@ -870,11 +874,11 @@ img { max-width: 100%; display: block; }
   gap: .5rem;
 }
 .aag-conf-title {
-  font-family: 'Merriweather', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 4.5rem;
   font-weight: 700;
   line-height: 1;
-  background: linear-gradient(135deg, #f5c978 0%, #fff 40%, #e8a44a 100%);
+  background: linear-gradient(135deg, #8ed44a 0%, #fff 40%, #72c02c 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -933,7 +937,7 @@ img { max-width: 100%; display: block; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #0b1a2e;
+  background: #2a2520;
   border-radius: 12px;
   padding: 1rem .75rem;
   color: #fff;
@@ -946,11 +950,11 @@ img { max-width: 100%; display: block; }
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: #e8a44a;
+  color: #72c02c;
   margin-bottom: .25rem;
 }
 .aag-day-date {
-  font-family: 'Merriweather', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 1.1rem;
   font-weight: 700;
   color: #fff;
@@ -981,13 +985,13 @@ img { max-width: 100%; display: block; }
 .aag-card.featured {
   border: 1.5px solid transparent;
   background: linear-gradient(#fff, #fff) padding-box,
-              linear-gradient(135deg, #e8a44a, #2a6a85) border-box;
+              linear-gradient(135deg, #72c02c, #e8317a) border-box;
   box-shadow: 0 4px 18px rgba(42,106,133,.15);
 }
 
 /* Left accent stripe */
 .aag-card-accent { width: 5px; flex-shrink: 0; }
-.chair-accent     { background: linear-gradient(to bottom, #f5c938, #e8a44a); }
+.chair-accent     { background: linear-gradient(to bottom, #f5c938, #72c02c); }
 .organizer-accent { background: linear-gradient(to bottom, #2dd4a0, #059669); }
 .presenter-accent { background: linear-gradient(to bottom, #ff7c50, #ef4444); }
 .coauthor-accent  { background: linear-gradient(to bottom, #a78bfa, #7c3aed); }
@@ -1057,7 +1061,7 @@ img { max-width: 100%; display: block; }
   justify-content: center;
   flex-wrap: wrap;
   gap: 1rem;
-  background: linear-gradient(135deg, #0b1a2e, #0e2a44);
+  background: linear-gradient(135deg, #2a2520, #3d3530);
   border-radius: 16px;
   padding: 1.75rem 2rem;
   box-shadow: 0 4px 20px rgba(0,0,0,.18);
@@ -1070,10 +1074,10 @@ img { max-width: 100%; display: block; }
   min-width: 70px;
 }
 .aag-sum-num {
-  font-family: 'Merriweather', serif;
+  font-family: 'Inter', sans-serif;
   font-size: 2rem;
   font-weight: 700;
-  color: #e8a44a;
+  color: #72c02c;
   line-height: 1;
 }
 .aag-sum-label {
