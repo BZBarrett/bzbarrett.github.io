@@ -4,61 +4,65 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bing Zhou | Academic Website</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <meta name="theme-color" content="#faf8f2" />
+  <link rel="stylesheet" href="css/fontawesome/icons.css" />
   <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/publications.css" />
+  <link rel="stylesheet" href="css/life.css" />
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
   <!-- Header -->
   <header class="site-header">
     <div class="header-inner">
-      <div class="header-name">
-        <span class="name-zh">周冰</span>
-        <span class="name-sep">·</span>
+      <a class="header-name" href="#home" aria-label="Bing Zhou home">
         <span class="name-en">Bing Zhou</span>
-      </div>
-      <nav class="main-nav" id="mainNav">
-        <a href="#" class="nav-link active" data-tab="home"><i class="fas fa-home"></i> Home</a>
-        <a href="#" class="nav-link" data-tab="education"><i class="fas fa-graduation-cap"></i> Education</a>
-        <a href="#" class="nav-link" data-tab="publications"><i class="fas fa-book-open"></i> Publications</a>
-        <a href="#" class="nav-link" data-tab="teaching"><i class="fas fa-chalkboard-teacher"></i> Teaching</a>
-        <a href="#" class="nav-link" data-tab="funding"><i class="fas fa-dollar-sign"></i> Funding</a>
-        <a href="#" class="nav-link" data-tab="service"><i class="fas fa-hands-helping"></i> Service</a>
-        <a href="#" class="nav-link" data-tab="contact"><i class="fas fa-envelope"></i> Contact</a>
-        <a href="#" class="nav-link nav-mystery" data-tab="mystery"><i class="fas fa-star"></i> Mystery Contents</a>
+        <span class="name-zh" lang="zh">周冰</span>
+      </a>
+      <nav class="main-nav" id="mainNav" aria-label="Main navigation">
+        <a href="#home" class="nav-link" data-tab="home" aria-current="page">Home</a>
+        <a href="#education" class="nav-link" data-tab="education">Education</a>
+        <a href="#publications" class="nav-link" data-tab="publications">Publication</a>
+        <a href="#teaching" class="nav-link" data-tab="teaching">Teaching</a>
+        <a href="#service" class="nav-link" data-tab="service">Service</a>
+        <a href="#wanderlust" class="nav-link" data-tab="wanderlust">Wanderlust</a>
       </nav>
-      <button class="hamburger" id="hamburger" aria-label="Toggle navigation">
+      <a class="lab-return" href="https://grind-lab-core.github.io/grind-lab-website/" aria-label="Return to the GRIND Lab website" title="Return to GRIND Lab">
+        <img src="images/grind-lab.png" alt="GRIND Lab" width="640" height="173">
+      </a>
+      <button class="hamburger" id="hamburger" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mainNav">
         <span></span><span></span><span></span>
       </button>
     </div>
   </header>
 
   <!-- Main Content -->
-  <main class="main-content">
+  <main class="main-content" id="main-content" tabindex="-1">
 
     <!-- ============================================================ HOME ============================================================ -->
     <section class="tab-panel active" id="tab-home">
       <div class="hero-section">
-        <div class="hero-bg"></div>
         <div class="hero-content">
           <div class="profile-card">
-            <div class="portrait-wrapper">
-              <img src="images/portrait.jpg" alt="Bing Zhou portrait" class="portrait" id="portrait" />
-              <div class="portrait-ring"></div>
-            </div>
+            <button class="portrait-wrapper portrait-flip" type="button" aria-label="Illustrated portrait of Bing Zhou" aria-pressed="false">
+              <span class="portrait-turn">
+                <img class="portrait-face" src="images/portrait.jpg" alt="Bing Zhou" width="978" height="978">
+                <img class="portrait-face portrait-back" src="images/portrait-anime.jpg" alt="" width="560" height="560">
+              </span>
+            </button>
             <div class="profile-info">
-              <h1 class="profile-name">Bing Zhou <span class="pronoun">(he/him)</span></h1>
               <p class="profile-title">Assistant Professor</p>
+              <h1 class="profile-name"><span>Bing Zhou</span> <small class="pronoun">(he/him)</small></h1>
               <p class="profile-dept">Department of Geography and Sustainability</p>
-              <p class="profile-inst"><i class="fas fa-university"></i> University of Tennessee, Knoxville</p>
+              <p class="profile-inst"><i class="fas fa-university" aria-hidden="true"></i> University of Tennessee, Knoxville</p>
               <div class="profile-links">
-                <a href="mailto:bzhou11@utk.edu" class="pill-link"><i class="fas fa-envelope"></i> bzhou11@utk.edu</a>
-                <a href="https://gisphere.info/" target="_blank" rel="noopener" class="pill-link"><i class="fas fa-globe"></i> GISphere</a>
-                <a href="https://scholar.google.com/citations?user=ehw9A-EAAAAJ&hl=en&oi=sra" target="_blank" rel="noopener" class="pill-link"><i class="fas fa-graduation-cap"></i> Google Scholar</a>
-                <a href="https://www.linkedin.com/in/bing-zhou-a90b98239/" target="_blank" rel="noopener" class="pill-link"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                <a href="mailto:bzhou11@utk.edu" class="pill-link"><i class="fas fa-envelope" aria-hidden="true"></i> bzhou11@utk.edu</a>
+                <div class="profile-social">
+                  <a href="https://gisphere.info/" target="_blank" rel="noopener"><i class="fas fa-globe" aria-hidden="true"></i> GISphere</a>
+                  <a href="https://scholar.google.com/citations?user=ehw9A-EAAAAJ&hl=en&oi=sra" target="_blank" rel="noopener"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Google Scholar</a>
+                  <a href="https://www.linkedin.com/in/bing-zhou-a90b98239/" target="_blank" rel="noopener"><i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn</a>
+                </div>
               </div>
             </div>
           </div>
@@ -68,30 +72,30 @@
       <div class="content-grid">
         <!-- Research Interests -->
         <div class="card full-width">
-          <h2 class="card-title"><i class="fas fa-flask"></i> Research Interests</h2>
+          <h2 class="card-title"><i class="fas fa-flask" aria-hidden="true"></i> Research Interests</h2>
           <div class="interest-grid">
             <div class="interest-item">
-              <div class="interest-icon"><i class="fas fa-brain"></i></div>
+              <div class="interest-icon"><i class="fas fa-brain" aria-hidden="true"></i></div>
               <span>GeoAI &amp; Deep Learning</span>
             </div>
             <div class="interest-item">
-              <div class="interest-icon"><i class="fas fa-shield-alt"></i></div>
+              <div class="interest-icon"><i class="fas fa-shield-alt" aria-hidden="true"></i></div>
               <span>Responsible GIScience</span>
             </div>
             <div class="interest-item">
-              <div class="interest-icon"><i class="fas fa-map-marked-alt"></i></div>
+              <div class="interest-icon"><i class="fas fa-map-marked-alt" aria-hidden="true"></i></div>
               <span>Geospatial Data Science</span>
             </div>
             <div class="interest-item">
-              <div class="interest-icon"><i class="fas fa-house-damage"></i></div>
+              <div class="interest-icon"><i class="fas fa-house-damage" aria-hidden="true"></i></div>
               <span>Disaster Resilience &amp; Management</span>
             </div>
             <div class="interest-item">
-              <div class="interest-icon"><i class="fas fa-chart-bar"></i></div>
+              <div class="interest-icon"><i class="fas fa-chart-bar" aria-hidden="true"></i></div>
               <span>Big Data Analysis &amp; Visualization</span>
             </div>
             <div class="interest-item">
-              <div class="interest-icon"><i class="fas fa-leaf"></i></div>
+              <div class="interest-icon"><i class="fas fa-leaf" aria-hidden="true"></i></div>
               <span>Human–Environment Interaction</span>
             </div>
           </div>
@@ -99,7 +103,7 @@
 
         <!-- Bio -->
         <div class="card">
-          <h2 class="card-title"><i class="fas fa-user"></i> About</h2>
+          <h2 class="card-title"><i class="fas fa-user" aria-hidden="true"></i> About</h2>
           <p class="bio-text">
             I am an Assistant Professor in the <strong>Department of Geography and Sustainability</strong> at the
             <strong>University of Tennessee, Knoxville</strong>. My research sits at the intersection of
@@ -116,7 +120,7 @@
 
         <!-- Recent News -->
         <div class="card">
-          <h2 class="card-title"><i class="fas fa-newspaper"></i> Recent News</h2>
+          <h2 class="card-title"><i class="fas fa-newspaper" aria-hidden="true"></i> Recent News</h2>
           <ul class="news-list">
             <li class="news-item">
               <span class="news-date">2026</span>
@@ -145,32 +149,41 @@
           </ul>
         </div>
 
-        <!-- Quick Stats -->
-        <div class="card full-width">
-          <div class="stats-row">
-            <div class="stat-box">
-              <span class="stat-num">27+</span>
-              <span class="stat-label">Journal Articles</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-num">3</span>
-              <span class="stat-label">Book Chapters</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-num">30+</span>
-              <span class="stat-label">Conference Talks</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-num">30+</span>
-              <span class="stat-label">Peer Reviews</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-num">$2M+</span>
-              <span class="stat-label">Research Funding</span>
-            </div>
-          </div>
-        </div>
       </div>
+
+      <section class="pursuits" aria-labelledby="pursuits-title">
+        <h2 class="card-title" id="pursuits-title">Research &amp; recreation</h2>
+        <div class="pursuit-grid">
+          <a class="pursuit pursuit-lead" href="images/pursuits/scholarship.webp">
+            <img src="images/pursuits/scholarship.webp" width="380" height="508" loading="lazy" alt="A brass drafting compass rests on the contour lines of a folded map.">
+            <span>Scholarship</span>
+          </a>
+          <a class="pursuit" href="images/pursuits/road-cycling.webp">
+            <img src="images/pursuits/road-cycling.webp" width="764" height="1020" loading="lazy" alt="A road cyclist rounds a wooded bend beneath layers of misty ridges.">
+            <span>Road cycling</span>
+          </a>
+          <a class="pursuit" href="images/pursuits/bodybuilding.webp">
+            <img src="images/pursuits/bodybuilding.webp" width="380" height="508" loading="lazy" alt="A chalked hand grips the knurling of a loaded barbell.">
+            <span>Bodybuilding</span>
+          </a>
+          <a class="pursuit" href="images/pursuits/basketball.webp">
+            <img src="images/pursuits/basketball.webp" width="380" height="508" loading="lazy" alt="A basketball casts a long shadow across an outdoor court.">
+            <span>Basketball</span>
+          </a>
+          <a class="pursuit" href="images/pursuits/photography.webp">
+            <img src="images/pursuits/photography.webp" width="380" height="508" loading="lazy" alt="Light falls across a camera lens and its woven strap.">
+            <span>Photography</span>
+          </a>
+        </div>
+        <dialog class="pursuit-viewer" id="pursuit-viewer" aria-labelledby="pursuit-caption">
+          <button class="viewer-close" type="button" aria-label="Close image" autofocus>×</button>
+          <figure><img id="pursuit-image" alt=""><figcaption><span id="pursuit-caption" aria-live="polite"></span><small>AI-generated illustration</small></figcaption></figure>
+          <div class="viewer-navigation">
+            <button type="button" id="pursuit-prev" aria-label="Previous image">←</button>
+            <button type="button" id="pursuit-next" aria-label="Next image">→</button>
+          </div>
+        </dialog>
+      </section>
     </section>
 
     <!-- ============================================================ EDUCATION ============================================================ -->
@@ -182,7 +195,7 @@
 
         <!-- Education -->
         <div class="card">
-          <h2 class="card-title"><i class="fas fa-graduation-cap"></i> Academic Degrees</h2>
+          <h2 class="card-title"><i class="fas fa-graduation-cap" aria-hidden="true"></i> Academic Degrees</h2>
           <div class="timeline">
 
             <div class="timeline-item">
@@ -238,7 +251,7 @@
 
         <!-- Appointments -->
         <div class="card">
-          <h2 class="card-title"><i class="fas fa-briefcase"></i> Professional Appointments</h2>
+          <h2 class="card-title"><i class="fas fa-briefcase" aria-hidden="true"></i> Professional Appointments</h2>
           <div class="timeline">
 
             <div class="timeline-item">
@@ -248,7 +261,7 @@
                   <span class="timeline-degree">Assistant Professor</span>
                   <span class="timeline-year">2025 – Present</span>
                 </div>
-                <p class="timeline-inst"><i class="fas fa-university"></i> University of Tennessee, Knoxville</p>
+                <p class="timeline-inst"><i class="fas fa-university" aria-hidden="true"></i> University of Tennessee, Knoxville</p>
               </div>
             </div>
 
@@ -259,7 +272,7 @@
                   <span class="timeline-degree">Assistant Teaching Professor</span>
                   <span class="timeline-year">2024 – 2025</span>
                 </div>
-                <p class="timeline-inst"><i class="fas fa-university"></i> Pennsylvania State University</p>
+                <p class="timeline-inst"><i class="fas fa-university" aria-hidden="true"></i> Pennsylvania State University</p>
               </div>
             </div>
 
@@ -270,7 +283,7 @@
                   <span class="timeline-degree">Graduate Research Assistant</span>
                   <span class="timeline-year">2022 – 2024</span>
                 </div>
-                <p class="timeline-inst"><i class="fas fa-university"></i> Texas A&amp;M University</p>
+                <p class="timeline-inst"><i class="fas fa-university" aria-hidden="true"></i> Texas A&amp;M University</p>
               </div>
             </div>
 
@@ -281,7 +294,7 @@
                   <span class="timeline-degree">Graduate Teaching Assistant &amp; Lab Instructor</span>
                   <span class="timeline-year">2021 – 2023</span>
                 </div>
-                <p class="timeline-inst"><i class="fas fa-university"></i> Texas A&amp;M University</p>
+                <p class="timeline-inst"><i class="fas fa-university" aria-hidden="true"></i> Texas A&amp;M University</p>
               </div>
             </div>
 
@@ -292,7 +305,7 @@
                   <span class="timeline-degree">Vice Deputy Director / Software Engineer / Certified UAV Pilot</span>
                   <span class="timeline-year">2014 – 2021</span>
                 </div>
-                <p class="timeline-inst"><i class="fas fa-building"></i> Central Southern China Electric Design Institute, Wuhan</p>
+                <p class="timeline-inst"><i class="fas fa-building" aria-hidden="true"></i> Central Southern China Electric Design Institute, Wuhan</p>
                 <p class="timeline-detail">Multiple roles including Survey Engineer, Software Development Engineer, and Certified UAV Pilot (top 0.01% national contest)</p>
               </div>
             </div>
@@ -304,7 +317,7 @@
                   <span class="timeline-degree">Graduate Research Assistant</span>
                   <span class="timeline-year">2011 – 2014</span>
                 </div>
-                <p class="timeline-inst"><i class="fas fa-university"></i> Tongji University, Shanghai</p>
+                <p class="timeline-inst"><i class="fas fa-university" aria-hidden="true"></i> Tongji University, Shanghai</p>
               </div>
             </div>
 
@@ -315,7 +328,7 @@
                   <span class="timeline-degree">Software Development Engineer Intern</span>
                   <span class="timeline-year">2011 – 2012</span>
                 </div>
-                <p class="timeline-inst"><i class="fas fa-building"></i> Leica Geosystem, Shanghai</p>
+                <p class="timeline-inst"><i class="fas fa-building" aria-hidden="true"></i> Leica Geosystem, Shanghai</p>
               </div>
             </div>
 
@@ -327,242 +340,452 @@
 
     <!-- ============================================================ PUBLICATIONS ============================================================ -->
     <section class="tab-panel" id="tab-publications">
-      <div class="page-header">
-        <h1 class="page-title">Publications</h1>
-        <p class="page-subtitle">27+ journal articles · 3 book chapters · Manuscripts available upon request</p>
+      <!-- lab publications -->
+      <header class="page-hero pub-heading">
+        <h1>Publications</h1>
+        <dl class="pub-stats" aria-label="CV publication counts and Google Scholar metrics">
+        <!-- statistics -->
+          <div><dt><span class="stat-name">Journal articles</span><abbr class="stat-short" title="Journal articles" aria-hidden="true">Journ.</abbr></dt><dd>35</dd></div>
+          <div><dt><span class="stat-name">Conference papers</span><abbr class="stat-short" title="Conference papers" aria-hidden="true">Conf.</abbr></dt><dd>3</dd></div>
+          <div><dt><span class="stat-name">Book chapters</span><abbr class="stat-short" title="Book chapters" aria-hidden="true">Ch.</abbr></dt><dd>3</dd></div>
+          <div><dt><span class="stat-name">Preprints</span><abbr class="stat-short" title="Preprints" aria-hidden="true">Prepr.</abbr></dt><dd>3</dd></div>
+        <!-- /statistics -->
+          <div><dt><span class="stat-name">Citations</span><abbr class="stat-short" title="Citations" aria-hidden="true">Cites</abbr></dt><dd>585</dd></div>
+          <div><dt><span class="stat-name">h-index</span><abbr class="stat-short" title="h-index" aria-hidden="true">h</abbr></dt><dd>11</dd></div>
+          <div><dt><span class="stat-name">i10-index</span><abbr class="stat-short" title="i10-index" aria-hidden="true">i10</abbr></dt><dd>12</dd></div>
+        </dl>
+        <p class="pub-metrics-source"><a href="https://scholar.google.com/citations?user=ehw9A-EAAAAJ">Google Scholar</a> metrics as of <time datetime="2026-11">November 2026</time></p>
+      </header>
+      <div class="container pub-catalog">
+        <!-- bibliography -->
+        <form class="pub-filters" id="pub-filters" role="search" aria-label="Filter publications" hidden>
+          <label>Publication type<select id="pub-type"><option value="">All types</option><option value="journal">Journal articles</option><option value="conference">Conference papers</option><option value="chapter">Book chapters</option><option value="preprint">Preprints</option><option value="abstract">Meeting abstracts</option><option value="thesis">Dissertations</option></select></label>
+          <label>Year<select id="pub-year"><option value="">All years</option><option>2026</option><option>2025</option><option>2024</option><option>2023</option><option>2022</option><option>2021</option><option>2020</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option><option>2013</option><option>2012</option></select></label>
+          <label class="pub-search">Search<input type="search" id="pub-query" placeholder="Title, author, or venue"></label>
+          <button type="reset" class="btn">Reset filters</button>
+        </form>
+        <p class="pub-count" id="pub-count" role="status">44 CV entries · 10 additional works</p>
+        <section class="pub-year" data-year="2026" aria-labelledby="year-2026">
+          <h2 id="year-2026">2026</h2>
+          <ul>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://grind-lab-core.github.io/grind-lab-website/geoprobe.html">GeoProbe: Layer-wise Probing of Core Geospatial Concepts in Large Language Models</a></h3>
+              <p class="pub-authors"><strong>Zhou, B.</strong>, Wang, J., Yang, Y., Zou, L., &amp; Kang, Y.</p>
+              <p class="pub-venue"><cite>International Journal of Geographical Information Science · In press</cite> <a class="version-link" href="https://doi.org/10.1080/13658816.2026.2756583">Assigned DOI</a></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1111/tgis.70432">Modeling hospital visitation flows through distance-attractiveness tradeoffs: Integrating human mobility, hospital attributes, and socioeconomic context</a></h3>
+              <p class="pub-authors">Lin, B., Zou, L., Tian, H., Cai, H., Yang, Y., &amp; <strong>Zhou, B.</strong></p>
+              <p class="pub-venue"><cite>Transactions in GIS, 30(7), Article e70432</cite> <a class="version-link" href="https://arxiv.org/abs/2601.15977">Preprint</a></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1080/19475683.2026.2738435">STEP towards responsible GIScience: Pillars, purposes, and challenges</a></h3>
+              <p class="pub-authors"><strong>Zhou, B.</strong>, &amp; Zou, L.</p>
+              <p class="pub-venue"><cite>Annals of GIS. Advance online publication</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1111/tgis.70400">From large language models to agentic systems: A systematic review of generative AI in GIScience</a></h3>
+              <p class="pub-authors">Zhang, J., Huang, X., Mai, G., <strong>Zhou, B.</strong>, Jia, Y., Wu, Q., &amp; Franklin, R.</p>
+              <p class="pub-venue"><cite>Transactions in GIS, 30(7), Article e70400</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1016/j.isprsjprs.2026.08.001">Measuring the spatial explicitness of GeoAI and geospatial foundation models: A systematic review and future roadmap</a></h3>
+              <p class="pub-authors"><strong>Zhou, B.</strong>, Huang, X., Wang, S., Mai, G., Li, D., Wang, Z., Wu, Q., Ning, H., Wang, J., Wu, Q., Jia, Y., Wang, R., Lyu, S., Tang, B., &amp; Huang, Z.</p>
+              <p class="pub-venue"><cite>ISPRS Journal of Photogrammetry and Remote Sensing, 240, 601–622</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1080/24694452.2025.2560491">Rapid disaster response and damage estimation with social media and pretrained large language models: Insights from multiple hurricanes</a></h3>
+              <p class="pub-authors"><strong>Zhou, B.</strong>, Zou, L., Yang, M., Lin, B., Mandal, D., Abedin, J., Cai, H., Ji, S., Klein, A., &amp; Tian, H.</p>
+              <p class="pub-venue"><cite>Annals of the American Association of Geographers, 116(3), 501–523</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1016/j.compenvurbsys.2026.102414">FlowsDT: A geospatial digital twin for navigating urban flood dynamics</a></h3>
+              <p class="pub-authors">Mandal, D., Zou, L., Wadhwa, A., Wilkho, R. S., Cai, Z., <strong>Zhou, B.</strong>, Ye, X., Newman, G., Gharaibeh, N., &amp; Güneralp, B.</p>
+              <p class="pub-venue"><cite>Computers, Environment and Urban Systems, 126, 102414</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://arxiv.org/abs/2503.18888">Toward building next-generation geocoding systems: A systematic review</a></h3>
+              <p class="pub-authors">Yin, Z., Goldberg, D. W., Lin, B., <strong>Zhou, B.</strong>, Li, D., Ma, A., Ming, Z., Cai, H., Zhang, Z., Wang, S., Gao, S., Lee, J. Y., Li, X., &amp; Huo, D.</p>
+              <p class="pub-venue"><cite>Computational Urban Science · Accepted, in press</cite></p>
+            </li>
+            <li class="pub-record" data-type="conference" data-search-alias="Urban Noise Prediction using Multi-source Geographic Feature Fusion">
+              <span class="pub-type">Conference paper</span>
+              <h3><a href="https://drive.google.com/file/d/1vs-z36gnHGGLEzX-1F4AVw5GTLx9TUh5/view">What Makes a City Noisy? A Multi-Source Feature Fusion for Urban Noise Prediction</a></h3>
+              <p class="pub-authors">Yang, X., Wang, J., Tan, H., Li, X., <strong>Zhou, B.</strong>, Liang, L., &amp; Kang, Y.</p>
+              <p class="pub-venue"><cite>ACM SIGSPATIAL 2026 · Application track, short paper (in press)</cite> <a class="version-link" href="https://sigspatial2026.sigspatial.org/application-accepted/">Conference program</a></p>
+            </li>
+            <li class="pub-record" data-type="conference">
+              <span class="pub-type">Conference paper</span>
+              <h3><a href="https://openaccess.thecvf.com/content/CVPR2026/html/Wang_SounDiT_Geo-Contextual_Soundscape-to-Landscape_Generation_CVPR_2026_paper.html">SounDiT: Geo-contextual soundscape-to-landscape generation</a></h3>
+              <p class="pub-authors">Wang, J., Tan, H., Liao, B., Jiang, A., Fei, T., Huang, Q., <strong>Zhou, B.</strong>, Tu, Z., Ye, S., &amp; Kang, Y.</p>
+              <p class="pub-venue"><cite>Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)</cite> <a class="version-link" href="https://arxiv.org/abs/2505.12734">Preprint</a></p>
+            </li>
+            <li class="pub-record" data-type="preprint">
+              <span class="pub-type">Preprint</span>
+              <h3><a href="https://arxiv.org/abs/2605.02092">NORA: A harness-engineered autonomous research agent for end-to-end spatial data science</a></h3>
+              <p class="pub-authors"><strong>Zhou, B.</strong>, Huang, X., Ning, H., Wu, Q., Li, D., &amp; Zhang, Z.</p>
+              <p class="pub-venue"><cite>arXiv:2605.02092</cite></p>
+            </li>
+            <li class="pub-record" data-type="preprint">
+              <span class="pub-type">Preprint</span>
+              <h3><a href="https://arxiv.org/abs/2603.14837">DamageArbiter: A multimodal arbitration framework for disaster damage assessment from street-view imagery</a></h3>
+              <p class="pub-authors">Yang, Y., Zou, L., Gong, W., Fu, K., Li, Z., Wang, S., <strong>Zhou, B.</strong>, Cai, H., &amp; Tian, H.</p>
+              <p class="pub-venue"><cite>arXiv:2603.14837</cite></p>
+            </li>
+            <li class="pub-record" data-type="preprint">
+              <span class="pub-type">Preprint</span>
+              <h3><a href="https://arxiv.org/abs/2601.15977">Predicting healthcare system visitation flow by integrating hospital attributes and population socioeconomics with human mobility data</a></h3>
+              <p class="pub-authors">Lin, B., Zou, L., Tian, H., Cai, H., Yang, Y., &amp; <strong>Zhou, B.</strong></p>
+              <p class="pub-venue"><cite>arXiv:2601.15977</cite> <a class="version-link" href="https://doi.org/10.1111/tgis.70432">Published article</a></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2025" aria-labelledby="year-2025">
+          <h2 id="year-2025">2025</h2>
+          <ul>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1080/15230406.2025.2567564">Where are GIScience faculty hired from? Analyzing faculty mobility and research themes through hiring networks</a></h3>
+              <p class="pub-authors">Chen, Y., Nelson, J. K., <strong>Zhou, B.</strong>, Zhou, R. Z., Ye, S., Liu, H., Gu, Z., Kar, A., Kwon, H., &amp; Kang, Y.</p>
+              <p class="pub-venue"><cite>Cartography and Geographic Information Science, 1–25</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1016/j.compenvurbsys.2025.102335">Hyperlocal disaster damage assessment using bi-temporal street-view imagery and pre-trained vision models</a></h3>
+              <p class="pub-authors">Yang, Y., Zou, L., <strong>Zhou, B.</strong>, Li, D., Lin, B., Abedin, J., &amp; Yang, M.</p>
+              <p class="pub-venue"><cite>Computers, Environment and Urban Systems, 121, 102335</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1111/tgis.13283">GISphere Knowledge Graph for Geography Education: Recommending Graduate Geographic Information System/Science Programs</a></h3>
+              <p class="pub-authors">Gu, Z., Li, W., <strong>Zhou, B.</strong>, Wang, Y., Chen, Y., Ye, S., Wang, K., Gu, H., &amp; Kang, Y.</p>
+              <p class="pub-venue"><cite>Transactions in GIS, 29(1), e13283</cite></p>
+            </li>
+            <li class="pub-record" data-type="conference">
+              <span class="pub-type">Conference paper</span>
+              <h3><a href="https://doi.org/10.1145/3748636.3764184">Leveraging reinforcement learning for maternity care resource reallocation: A case study in Florida</a></h3>
+              <p class="pub-authors">Qin, A., Kang, Y., Li, H., Wang, S., <strong>Zhou, B.</strong>, Wang, F., &amp; Hung, P.</p>
+              <p class="pub-venue"><cite>Proceedings of the 33rd ACM International Conference on Advances in Geographic Information Systems</cite></p>
+            </li>
+            <li class="pub-record" data-type="chapter">
+              <span class="pub-type">Book chapter</span>
+              <h3><a href="https://doi.org/10.1007/978-3-031-87421-5_4">Integrating natural language processing in human geography</a></h3>
+              <p class="pub-authors"><strong>Zhou, B.</strong>, Lin, B., Zou, L., Yang, M., Tian, H., &amp; Cai, H.</p>
+              <p class="pub-venue"><cite>GeoAI and Human Geography: The Dawn of a New Spatial Intelligence Era, pp. 43–61 · Springer</cite></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2024" aria-labelledby="year-2024">
+          <h2 id="year-2024">2024</h2>
+          <ul>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1080/19475683.2024.2418584">Progress in understanding human-COVID-19 dynamics using geospatial big data: A systematic review</a></h3>
+              <p class="pub-authors">Lin, B., Zou, L., Yang, M., <strong>Zhou, B.</strong>, Mandal, D., Abedin, J., Cai, H., &amp; Ning, N.</p>
+              <p class="pub-venue"><cite>Annals of GIS, 30(4), 513–533</cite> <a class="version-link" href="https://arxiv.org/abs/2404.10013">Preprint</a></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1016/j.compenvurbsys.2024.102197">PRIME: A CyberGIS platform for resilience inference measurement and enhancement</a></h3>
+              <p class="pub-authors">Mandal, D., Zou, L., Wilkho, R. S., Baig, F., Abedin, J., <strong>Zhou, B.</strong>, Cai, H., Gharaibeh, N., &amp; Lam, N.</p>
+              <p class="pub-venue"><cite>Computers, Environment and Urban Systems, 114, 102197</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1016/j.jenvman.2024.121665">Unveiling community adaptations to extreme heat events using mobile phone location data</a></h3>
+              <p class="pub-authors">Tian, H., Cai, H., Hu, L., Qiang, Y., <strong>Zhou, B.</strong>, Yang, M., &amp; Lin, B.</p>
+              <p class="pub-venue"><cite>Journal of Environmental Management, 366, 121665</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1016/j.scs.2024.105444">Deciphering spatial-temporal dynamics of flood exposure in the United States</a></h3>
+              <p class="pub-authors">Abedin, J., Zou, L., Yang, M., Rohli, R., Mandal, D., Qiang, Y., Akter, H., <strong>Zhou, B.</strong>, Lin, B., &amp; Cai, H.</p>
+              <p class="pub-venue"><cite>Sustainable Cities and Society, 108, 105444</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1016/j.ijdrr.2024.104339">Understanding the disparate impacts of the 2021 Texas winter storm and power outages through mobile phone location data and nighttime light images</a></h3>
+              <p class="pub-authors">Zhou, R. Z., Hu, Y., Zou, L., Cai, H., &amp; <strong>Zhou, B.</strong></p>
+              <p class="pub-venue"><cite>International Journal of Disaster Risk Reduction, 103, 104339</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1080/15230406.2024.2314547">Overlooked voices under strict lockdown: Mapping humanitarian needs in 2022 Shanghai COVID-19 outbreak</a></h3>
+              <p class="pub-authors"><strong>Zhou, B.</strong>, Zou, L., Yang, M., Lin, B., Mandal, D., &amp; Abedin, J.</p>
+              <p class="pub-venue"><cite>Cartography and Geographic Information Science, 51(3), 347–365</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1080/15230406.2024.2323489">Sensing the pulse of the pandemic: Unveiling the geographical and demographic disparities of public sentiment toward COVID-19 through social media</a></h3>
+              <p class="pub-authors">Lin, B., Zou, L., Zhao, B., Huang, X., Cai, H., Yang, M., &amp; <strong>Zhou, B.</strong></p>
+              <p class="pub-venue"><cite>Cartography and Geographic Information Science, 51(3), 366–384</cite> <a class="version-link" href="https://arxiv.org/abs/2304.06120">Preprint</a></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1080/15230406.2023.2286385">Algorithmic uncertainties in geolocating social media data for disaster management</a></h3>
+              <p class="pub-authors">Mandal, D., Zou, L., Abedin, J., <strong>Zhou, B.</strong>, Yang, M., Lin, B., &amp; Cai, H.</p>
+              <p class="pub-venue"><cite>Cartography and Geographic Information Science, 51(4), 565–582</cite></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2023" aria-labelledby="year-2023">
+          <h2 id="year-2023">2023</h2>
+          <ul>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1080/17538947.2023.2239794">TopoBERT: A plug and play toponym recognition module harnessing fine-tuned BERT</a></h3>
+              <p class="pub-authors"><strong>Zhou, B.</strong>, Zou, L., Hu, Y., Qiang, Y., &amp; Goldberg, D.</p>
+              <p class="pub-venue"><cite>International Journal of Digital Earth, 16(1), 3045–3063</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1111/tgis.13037">Choosing GIS graduate programs from afar: Chinese students’ perspectives</a></h3>
+              <p class="pub-authors">Wang, Y., Kang, Y., Liu, H., Hou, C., <strong>Zhou, B.</strong>, Ye, S., Liu, Y., Rao, J., Pei, Z., Ye, X., &amp; Gao, S.</p>
+              <p class="pub-venue"><cite>Transactions in GIS, 27(2), 450–475</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1016/j.ijdrr.2022.103513">Social media for emergency rescue: An analysis of rescue requests on Twitter during Hurricane Harvey</a></h3>
+              <p class="pub-authors">Zou, L., Liao, D., Lam, N., Meyer, M., Gharaibeh, N., Cai, H., <strong>Zhou, B.</strong>, &amp; Li, D.</p>
+              <p class="pub-venue"><cite>International Journal of Disaster Risk Reduction, 85, 103513</cite></p>
+            </li>
+            <li class="pub-record" data-type="chapter" data-search-alias="Empowering smart disaster response with GeoAI">
+              <span class="pub-type">Book chapter</span>
+              <h3><a href="https://doi.org/10.1201/9781003308423-14">GeoAI for Disaster Response</a></h3>
+              <p class="pub-authors">Zou, L., Mostafavi, A., <strong>Zhou, B.</strong>, Lin, B., Mandal, D., Yang, M., Abedin, J., &amp; Cai, H.</p>
+              <p class="pub-venue"><cite>Handbook of Geospatial Artificial Intelligence, pp. 287–304 · CRC Press</cite></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2022" aria-labelledby="year-2022">
+          <h2 id="year-2022">2022</h2>
+          <ul>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1016/j.compenvurbsys.2022.101824">VictimFinder: Harvesting rescue requests in disaster response from social media with BERT</a></h3>
+              <p class="pub-authors"><strong>Zhou, B.</strong>, Zou, L., Mostafavi, A., Lin, B., Yang, M., Gharaibeh, N., Cai, H., Abedin, J., &amp; Mandal, D.</p>
+              <p class="pub-venue"><cite>Computers, Environment and Urban Systems, 95, 101824</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.1080/17538947.2022.2070677">Revealing the linguistic and geographical disparities of public awareness to COVID-19 outbreak through social media</a></h3>
+              <p class="pub-authors">Lin, B., Zou, L., Duffield, N., Mostafavi, A., Cai, H., <strong>Zhou, B.</strong>, Tao, J., Yang, M., Mandal, D., &amp; Abedin, J.</p>
+              <p class="pub-venue"><cite>International Journal of Digital Earth, 15(1), 868–889</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.3390/rs14040896">Spatial–temporal land loss modeling and simulation in a vulnerable coast: A case study in coastal Louisiana</a></h3>
+              <p class="pub-authors">Yang, M., Zou, L., Cai, H., Qiang, Y., Lin, B., <strong>Zhou, B.</strong>, Abedin, J., &amp; Mandal, D.</p>
+              <p class="pub-venue"><cite>Remote Sensing, 14(4), 896</cite></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2021" aria-labelledby="year-2021">
+          <h2 id="year-2021">2021</h2>
+          <ul>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.3969/j.issn.1672-4623.2021.04.010">Application of RTK UAV in intertidal zone survey</a></h3>
+              <p class="pub-authors">Hu, Y., He, X., Xu, H., <strong>Zhou, B.</strong>, &amp; Wang, L.</p>
+              <p class="pub-venue"><cite>Geospatial Information, 19(4), 41–43</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://m.fx361.com/news/2021/0221/11855934.html">Intelligent extraction of ground features in transmission line corridors from multi-source remote sensing images based on deep learning</a></h3>
+              <p class="pub-authors">Chen, G., Liu, J., Yao, Y., Wu, X., Wang, L., <strong>Zhou, B.</strong>, Wang, X., Wang, L., &amp; Jiang, Q.</p>
+              <p class="pub-venue"><cite>Journal of Green Science and Technology</cite> <a class="version-link" href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=ehw9A-EAAAAJ&amp;citation_for_view=ehw9A-EAAAAJ:QIV2ME_5wuYC">Citation record</a></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2020" aria-labelledby="year-2020">
+          <h2 id="year-2020">2020</h2>
+          <ul>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.13500/j.dlkcsj.issn1671-9913.2020.S1.039">3D digital survey and design of distribution line based on Internet+, GIS, and typical design library</a></h3>
+              <p class="pub-authors">Chen, G., Cheng, Z., Yao, Y., Xu, H., Wang, L., <strong>Zhou, B.</strong>, &amp; Wang, X.</p>
+              <p class="pub-venue"><cite>Electric Power Survey and Design, z1, 211–215</cite></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2017" aria-labelledby="year-2017">
+          <h2 id="year-2017">2017</h2>
+          <ul>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://m.fx361.com/news/2018/0121/18792972.html">The stability monitoring of UHV convertor station using high resolution InSAR dataset</a></h3>
+              <p class="pub-authors">Cheng, Z., Hu, J., Lu, S., Xu, N., Zhang, J., &amp; <strong>Zhou, B.</strong></p>
+              <p class="pub-venue"><cite>Electric Power Survey and Design, 6, 5–8</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.13500/j.cnki.11-4908/tk.2017.s1.022">Application of InSAR in electric power transmission line projects</a></h3>
+              <p class="pub-authors">Cheng, Z., Lu, S., <strong>Zhou, B.</strong>, Chen, G., &amp; Xu, N.</p>
+              <p class="pub-venue"><cite>Electric Power Survey and Design, s1, 100–104</cite></p>
+            </li>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=ehw9A-EAAAAJ&amp;citation_for_view=ehw9A-EAAAAJ:4DMP91E08xMC">Application and accuracy analysis of control point free UAV in topological survey of power plants</a></h3>
+              <p class="pub-authors"><strong>Zhou, B.</strong>, Liu, J., &amp; Wu, X.</p>
+              <p class="pub-venue"><cite>Bulletin of Surveying and Mapping, S1, 188–191</cite></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2016" aria-labelledby="year-2016">
+          <h2 id="year-2016">2016</h2>
+          <ul>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.3969/j.issn.1672-7940.2016.05.021">Development of mobile data collecting system based on Windows Mobile</a></h3>
+              <p class="pub-authors"><strong>Zhou, B.</strong>, Xu, H., Cheng, Z., &amp; Pei, L.</p>
+              <p class="pub-venue"><cite>Chinese Journal of Engineering Geophysics, 13(5), 684–688</cite></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2015" aria-labelledby="year-2015">
+          <h2 id="year-2015">2015</h2>
+          <ul>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.13474/j.cnki.11-2246.2015.0666">Research on the critical techniques for the design of mobile mapping systems</a></h3>
+              <p class="pub-authors">Wang, Z., Yao, L., &amp; <strong>Zhou, B.</strong></p>
+              <p class="pub-venue"><cite>Bulletin of Surveying and Mapping, S1, 231–234</cite></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2014" aria-labelledby="year-2014">
+          <h2 id="year-2014">2014</h2>
+          <ul>
+            <li class="pub-record" data-type="chapter">
+              <span class="pub-type">Book chapter</span>
+              <h3><a href="https://doi.org/10.1007/978-3-319-04028-8_12">Development and tests of low cost MMS</a></h3>
+              <p class="pub-authors">Yao, L., &amp; <strong>Zhou, B.</strong></p>
+              <p class="pub-venue"><cite>Principle and Application Progress in Location-Based Services · Springer</cite></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2013" aria-labelledby="year-2013">
+          <h2 id="year-2013">2013</h2>
+          <ul>
+            <li class="pub-record" data-type="journal" data-search-alias="Development and implementation of realtime piling ship monitoring system based on Android">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="http://tb.chinasmp.com/EN/Y2013/V0/I12/97">Development and Implementation of Real Time Piling Monitoring System Based On Android</a></h3>
+              <p class="pub-authors"><strong>Zhou, B.</strong>, Yao, L., Xie, Y., &amp; Bian, S.</p>
+              <p class="pub-venue"><cite>Bulletin of Surveying and Mapping, 12, 97–100</cite></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2012" aria-labelledby="year-2012">
+          <h2 id="year-2012">2012</h2>
+          <ul>
+            <li class="pub-record" data-type="journal">
+              <span class="pub-type">Journal article</span>
+              <h3><a href="https://doi.org/10.3969/j.issn.1672-5867.2012.02.068">Research on new technologies in engineering survey</a></h3>
+              <p class="pub-authors"><strong>Zhou, B.</strong>, &amp; Xiao, J.</p>
+              <p class="pub-venue"><cite>Geomatics Spatial Information Technology, 35(2), 221–222</cite></p>
+            </li>
+          </ul>
+        </section>
+        <details class="pub-additional" id="pub-additional">
+          <summary>Additional works <span id="additional-count">(10)</span></summary>
+        <section class="pub-year" data-year="2025" aria-labelledby="additional-year-2025">
+          <h2 id="additional-year-2025">2025</h2>
+          <ul>
+            <li class="pub-record" data-type="abstract">
+              <span class="pub-type">Meeting abstract</span>
+              <h3><a href="https://doi.org/10.5194/ica-abs-10-325-2025">Geospatial Big Data and AI for Smart Humanitarian Mapping</a></h3>
+              <p class="pub-authors">Zou, L., <strong>Zhou, B.</strong>, &amp; Qiang, Y.</p>
+              <p class="pub-venue"><cite>Abstracts of the ICA, 10, 325</cite></p>
+            </li>
+            <li class="pub-record" data-type="abstract">
+              <span class="pub-type">Meeting abstract</span>
+              <h3><a href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=ehw9A-EAAAAJ&amp;citation_for_view=ehw9A-EAAAAJ:ZeXyd9-uunAC">Resilience in 4D: AI-Driven Geospatial Digital Twins for Urban Flood Simulation and Management</a></h3>
+              <p class="pub-authors">Zou, L., Mandal, D., <strong>Zhou, B.</strong>, Yang, Y., &amp; Yang, M.</p>
+              <p class="pub-venue"><cite>AGU Annual Meeting 2025</cite></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2024" aria-labelledby="additional-year-2024">
+          <h2 id="additional-year-2024">2024</h2>
+          <ul>
+            <li class="pub-record" data-type="conference">
+              <span class="pub-type">Conference paper</span>
+              <h3><a href="https://cartogis.org/docs/conferences/CaGIS_UCGIS_2024/Research%20Paper/CAGIS-UCGIS-2024_paper_46.pdf">Sleepless Cities under Social Isolation: Geographically and Temporally Revealing Circadian Rhythm Disorders through Social Media</a></h3>
+              <p class="pub-authors">Yang, M., Zou, L., Li, W., Cai, H., Lin, B., &amp; <strong>Zhou, B.</strong></p>
+              <p class="pub-venue"><cite>2024 CaGIS + UCGIS Symposium</cite></p>
+            </li>
+            <li class="pub-record" data-type="thesis">
+              <span class="pub-type">Dissertation</span>
+              <h3><a href="https://oaktrust.library.tamu.edu/items/d12641fe-4696-46e1-b27a-7c5628ab77c9">STEP Toward Responsible GIScience: Paradigms, Purposes, and Challenges</a></h3>
+              <p class="pub-authors"><strong>Zhou, B.</strong></p>
+              <p class="pub-venue"><cite>Doctoral dissertation · Texas A&amp;M University</cite></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2023" aria-labelledby="additional-year-2023">
+          <h2 id="additional-year-2023">2023</h2>
+          <ul>
+            <li class="pub-record" data-type="abstract">
+              <span class="pub-type">Meeting abstract</span>
+              <h3><a href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=ehw9A-EAAAAJ&amp;citation_for_view=ehw9A-EAAAAJ:KlAtU1dfN6UC">Smart Disaster Response with GeoAI and Big Data</a></h3>
+              <p class="pub-authors">Zou, L., <strong>Zhou, B.</strong>, Lin, B., Mandal, D., Yang, M., Abedin, J., &amp; Cai, H.</p>
+              <p class="pub-venue"><cite>AGU Fall Meeting Abstracts · NH21A-06</cite></p>
+            </li>
+            <li class="pub-record" data-type="abstract">
+              <span class="pub-type">Meeting abstract</span>
+              <h3><a href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=ehw9A-EAAAAJ&amp;citation_for_view=ehw9A-EAAAAJ:kNdYIx-mwKoC">Empowering Disaster Resilience through Cyberinfrastructure: A Multi-Scale Approach to Visualization and Management</a></h3>
+              <p class="pub-authors">Mandal, D., Zou, L., Wilkho, R. S., Abedin, J., <strong>Zhou, B.</strong>, &amp; Cai, H.</p>
+              <p class="pub-venue"><cite>AGU Fall Meeting Abstracts · GC21F-097</cite></p>
+            </li>
+            <li class="pub-record" data-type="abstract">
+              <span class="pub-type">Meeting abstract</span>
+              <h3><a href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=ehw9A-EAAAAJ&amp;citation_for_view=ehw9A-EAAAAJ:u5HHmVD_uO8C">A CyberGIS platform for resilience inference measurement and enhancement</a></h3>
+              <p class="pub-authors">Mandal, D., Zou, L., Wilkho, R. S. S., Abedin, J., &amp; <strong>Zhou, B.</strong></p>
+              <p class="pub-venue"><cite>AGU Fall Meeting Abstracts · NH23A-0676</cite></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2022" aria-labelledby="additional-year-2022">
+          <h2 id="additional-year-2022">2022</h2>
+          <ul>
+            <li class="pub-record" data-type="abstract">
+              <span class="pub-type">Meeting abstract</span>
+              <h3><a href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=ehw9A-EAAAAJ&amp;citation_for_view=ehw9A-EAAAAJ:5nxA0vEk-isC">Spatial-Temporal Changes of Flood Exposure in the United States</a></h3>
+              <p class="pub-authors">Abedin, J., Zou, L., Cai, H., Yang, M., Akter, H., Mandal, D., Lin, B., &amp; <strong>Zhou, B.</strong></p>
+              <p class="pub-venue"><cite>AGU Fall Meeting Abstracts · NH12A-07</cite></p>
+            </li>
+            <li class="pub-record" data-type="abstract">
+              <span class="pub-type">Meeting abstract</span>
+              <h3><a href="https://scholar.google.com/citations?view_op=view_citation&amp;hl=en&amp;user=ehw9A-EAAAAJ&amp;citation_for_view=ehw9A-EAAAAJ:YsMSGLbcyi4C">Evolving Geographical Disparities of Community Disaster Resilience in the United States</a></h3>
+              <p class="pub-authors">Mandal, D., Zou, L., Cai, H., Abedin, J., Yang, M., Lin, B., &amp; <strong>Zhou, B.</strong></p>
+              <p class="pub-venue"><cite>AGU Fall Meeting Abstracts · NH15C-0327</cite></p>
+            </li>
+          </ul>
+        </section>
+        <section class="pub-year" data-year="2021" aria-labelledby="additional-year-2021">
+          <h2 id="additional-year-2021">2021</h2>
+          <ul>
+            <li class="pub-record" data-type="abstract">
+              <span class="pub-type">Meeting abstract</span>
+              <h3><a href="https://doi.org/10.5194/ica-abs-3-192-2021">Visualizing and Evaluating the Geocoding Uncertainty in Social Sensing for Disaster Management</a></h3>
+              <p class="pub-authors">Mandal, D., Lin, B., <strong>Zhou, B.</strong>, &amp; Yang, M.</p>
+              <p class="pub-venue"><cite>Abstracts of the ICA, 3, 192</cite></p>
+            </li>
+          </ul>
+        </section>
+        </details>
+        <p class="pub-empty" id="pub-empty" hidden>No publications match these filters.</p>
+        <!-- /bibliography -->
       </div>
-
-      <div class="content-wrapper">
-
-        <!-- Filter buttons -->
-        <div class="pub-filter">
-          <button class="filter-btn active" data-filter="all">All</button>
-          <button class="filter-btn" data-filter="journal">Journal Articles</button>
-          <button class="filter-btn" data-filter="chapter">Book Chapters</button>
-        </div>
-
-        <!-- 2025 Journal Articles -->
-        <div class="pub-year-group" data-type="journal">
-          <h3 class="pub-year">Peer-Reviewed Journal Articles</h3>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2025</span>
-            <div class="pub-content">
-              <p class="pub-authors"><strong>Zhou, B.</strong>, Zou, L., Yang, M., Lin, B., Mandal, D., Abedin, J., … Tian, H. (2025).</p>
-              <p class="pub-title">Rapid Disaster Response and Damage Estimation with Social Media and Pretrained Large Language Models: Insights from Multiple Hurricanes.</p>
-              <p class="pub-journal"><em>Annals of the American Association of Geographers</em>, 1–23.</p>
-              <a href="https://doi.org/10.1080/24694452.2025.2560491" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2025</span>
-            <div class="pub-content">
-              <p class="pub-authors">Yang, Y., Zou, L., <strong>Zhou, B.</strong>, Li, D., Lin, B., Abedin, J., &amp; Yang, M. (2025).</p>
-              <p class="pub-title">Hyperlocal disaster damage assessment using bi-temporal street-view imagery and pre-trained vision models.</p>
-              <p class="pub-journal"><em>Computers, Environment and Urban Systems</em>, 121, 102335.</p>
-              <a href="https://doi.org/10.1016/j.compenvurbsys.2025.102335" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2025</span>
-            <div class="pub-content">
-              <p class="pub-authors">Chen, Y., Nelson, J. K., <strong>Zhou, B.</strong>, Zhou, R. Z., Ye, S., Liu, H., … Kang, Y. (2025).</p>
-              <p class="pub-title">Where are GIScience faculty hired from? Analyzing faculty mobility and research themes through hiring networks.</p>
-              <p class="pub-journal"><em>Cartography and Geographic Information Science</em>, 1–25.</p>
-              <a href="https://doi.org/10.1080/15230406.2025.2567564" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2025</span>
-            <div class="pub-content">
-              <p class="pub-authors">Gu, Z., Li, W., <strong>Zhou, B.</strong>, Wang, Y., Chen, Y., Ye, S., Wang, K., Gu, H., &amp; Kang, Y. (2025).</p>
-              <p class="pub-title">GISphere Knowledge Graph for Geography Education: Recommending Graduate GIS/Science Programs.</p>
-              <p class="pub-journal"><em>Transactions in GIS</em>, 29(1), e13283.</p>
-              <a href="https://doi.org/10.1111/tgis.13283" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2024</span>
-            <div class="pub-content">
-              <p class="pub-authors">Lin, B., Zou, L., Yang, M., <strong>Zhou, B.</strong>, Mandal, D., Abedin, J., … Ning, N. (2024).</p>
-              <p class="pub-title">Progress in understanding human-COVID-19 dynamics using geospatial big data: a systematic review.</p>
-              <p class="pub-journal"><em>Annals of GIS</em>, 1–21.</p>
-              <a href="https://doi.org/10.1080/19475683.2024.2418584" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2024</span>
-            <div class="pub-content">
-              <p class="pub-authors">Mandal, D., Zou, L., Wilkho, R. S., Baig, F., Abedin, J., <strong>Zhou, B.</strong>, Cai, H., Gharaibeh, N., &amp; Lam, N. (2024).</p>
-              <p class="pub-title">PRIME: A CyberGIS Platform for Resilience Inference Measurement and Enhancement.</p>
-              <p class="pub-journal"><em>Computers, Environment and Urban Systems</em>, 114, 102197.</p>
-              <a href="https://doi.org/10.1016/j.compenvurbsys.2024.102197" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2024</span>
-            <div class="pub-content">
-              <p class="pub-authors">Tian, H., Cai, H., Hu, L., Qiang, Y., <strong>Zhou, B.</strong>, Yang, M., &amp; Lin, B. (2024).</p>
-              <p class="pub-title">Unveiling community adaptations to extreme heat events using mobile phone location data.</p>
-              <p class="pub-journal"><em>Journal of Environmental Management</em>, 366, 121665.</p>
-              <a href="https://doi.org/10.1016/j.jenvman.2024.121665" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2024</span>
-            <div class="pub-content">
-              <p class="pub-authors">Abedin, J., Zou, L., Yang, M., Rohli, R., Mandal, D., Qiang, Y., Akter, H., <strong>Zhou, B.</strong>, Lin, B., &amp; Cai, H. (2024).</p>
-              <p class="pub-title">Deciphering spatial-temporal dynamics of flood exposure in the United States.</p>
-              <p class="pub-journal"><em>Sustainable Cities and Society</em>, 108, 105444.</p>
-              <a href="https://doi.org/10.1016/j.scs.2024.105444" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2024</span>
-            <div class="pub-content">
-              <p class="pub-authors">Zhou, R. Z., Hu, Y., Zou, L., Cai, H., <strong>Zhou, B.</strong> (2024).</p>
-              <p class="pub-title">Understanding the disparate impacts of the 2021 Texas winter storm and power outages through mobile phone location data and nighttime light images.</p>
-              <p class="pub-journal"><em>International Journal of Disaster Risk Reduction</em>, 103, 104339.</p>
-              <a href="https://doi.org/10.1016/j.ijdrr.2024.104339" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2023</span>
-            <div class="pub-content">
-              <p class="pub-authors"><strong>Zhou, B.</strong>, Zou, L., Yang, M., Lin, B., Mandal, D., Abedin, J. (2023).</p>
-              <p class="pub-title">Overlooked Voices under Strict Lockdown: Mapping Humanitarian Needs in 2022 Shanghai COVID-19 Outbreak.</p>
-              <p class="pub-journal"><em>Cartography and Geographic Information Science</em>.</p>
-              <a href="https://doi.org/10.1080/15230406.2024.2314547" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2023</span>
-            <div class="pub-content">
-              <p class="pub-authors"><strong>Zhou, B.</strong>, Zou, L., Hu, Y., Qiang, Y., Goldberg, D. (2023).</p>
-              <p class="pub-title">TopoBERT: a plug and play toponym recognition module harnessing fine-tuned BERT.</p>
-              <p class="pub-journal"><em>International Journal of Digital Earth</em>, 16(1), 3045–3063.</p>
-              <a href="https://doi.org/10.1080/17538947.2023.2239794" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2022</span>
-            <div class="pub-content">
-              <p class="pub-authors"><strong>Zhou, B.</strong>, Zou, L., Mostafavi, A., Lin, B., Yang, M., Gharaibeh, N., Cai, H., Abedin, J., Mandal, D. (2022).</p>
-              <p class="pub-title">VictimFinder: Harvesting rescue requests in disaster response from social media with BERT.</p>
-              <p class="pub-journal"><em>Computers, Environment and Urban Systems</em>, 95, 101824.</p>
-              <a href="https://doi.org/10.1016/j.compenvurbsys.2022.101824" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <!-- Additional 2022–2023 papers (collapsed) -->
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2023</span>
-            <div class="pub-content">
-              <p class="pub-authors">Lin, B., Zou, L., Zhao, B., Huang, X., Cai, H., Yang, M., <strong>Zhou, B.</strong> (2023).</p>
-              <p class="pub-title">Sensing the Pulse of the Pandemic: Geovisualizing the Demographic Disparities of Public Sentiment toward COVID-19 through Social Media.</p>
-              <p class="pub-journal"><em>Cartography and Geographic Information Science</em>.</p>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2023</span>
-            <div class="pub-content">
-              <p class="pub-authors">Mandal, D., Zou, L., Cai, H., Lin, B., <strong>Zhou, B.</strong>, Abedin, J., Yang, M. (2023).</p>
-              <p class="pub-title">Algorithmic Uncertainties in Geolocating Social Media Data for Disaster Management.</p>
-              <p class="pub-journal"><em>Cartography and Geographic Information Science</em>.</p>
-              <a href="https://doi.org/10.1080/15230406.2023.2286385" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2023</span>
-            <div class="pub-content">
-              <p class="pub-authors">Wang, Y., Kang, Y., Liu, H., Hou, C., <strong>Zhou, B.</strong>, Ye, S., Liu, Y., Rao, J., Pei, Z., Ye, X., &amp; Gao, S. (2023).</p>
-              <p class="pub-title">Choosing GIS graduate programs from afar: Chinese students' perspectives.</p>
-              <p class="pub-journal"><em>Transactions in GIS</em>.</p>
-              <a href="https://doi.org/10.1111/tgis.13037" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2022</span>
-            <div class="pub-content">
-              <p class="pub-authors">Zou, L., Liao, D., Lam, N., Meyer, M., Gharaibeh, N., Cai, H., <strong>Zhou, B.</strong>, Li, D. (2022).</p>
-              <p class="pub-title">Social media for emergency rescue: An analysis of rescue requests on Twitter during Hurricane Harvey.</p>
-              <p class="pub-journal"><em>International Journal of Disaster Risk Reduction</em>, 85, 103513.</p>
-              <a href="https://doi.org/10.1016/j.ijdrr.2022.103513" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2022</span>
-            <div class="pub-content">
-              <p class="pub-authors">Lin, B., Zou, L., Duffield, N., Mostafavi, A., Cai, H., <strong>Zhou, B.</strong>, et al. (2022).</p>
-              <p class="pub-title">Revealing the linguistic and geographical disparities of public awareness to Covid-19 outbreak through social media.</p>
-              <p class="pub-journal"><em>International Journal of Digital Earth</em>, 15(1), 868–889.</p>
-              <a href="https://doi.org/10.1080/17538947.2022.2070677" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="journal">
-            <span class="pub-year-badge">2022</span>
-            <div class="pub-content">
-              <p class="pub-authors">Yang, M., Zou, L., Cai, H., Qiang, Y., Lin, B., <strong>Zhou, B.</strong>, Abedin, J., Mandal, D. (2022).</p>
-              <p class="pub-title">Spatial–Temporal Land Loss Modeling and Simulation in a Vulnerable Coast: A Case Study in Coastal Louisiana.</p>
-              <p class="pub-journal"><em>Remote Sensing</em>, 14(4), 896.</p>
-              <a href="https://doi.org/10.3390/rs14040896" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-        </div>
-
-        <!-- Book Chapters -->
-        <div class="pub-year-group" data-type="chapter">
-          <h3 class="pub-year">Book Chapters</h3>
-
-          <div class="pub-card" data-type="chapter">
-            <span class="pub-year-badge">2024</span>
-            <div class="pub-content">
-              <p class="pub-authors"><strong>Zhou, B.</strong>, Lin, B., Zou, L., Yang, M., Tian, H., Cai, H. (2025).</p>
-              <p class="pub-title">Integrating Natural Language Processing in Human Geography.</p>
-              <p class="pub-journal"><em>GeoAI and Human Geography: The Dawn of a New Spatial Intelligence Era</em>. Cham: Springer Nature Switzerland, 43–61.</p>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="chapter">
-            <span class="pub-year-badge">2023</span>
-            <div class="pub-content">
-              <p class="pub-authors">Zou, L., Mostafavi, A., <strong>Zhou, B.</strong>, Lin, B., Mandal, D., Yang, M. (2023).</p>
-              <p class="pub-title">Empowering Smart Disaster Response with GeoAI.</p>
-              <p class="pub-journal"><em>Handbook of Geospatial Artificial Intelligence</em>. CRC Press.</p>
-              <a href="https://doi.org/10.1201/9781003308423" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-
-          <div class="pub-card" data-type="chapter">
-            <span class="pub-year-badge">2014</span>
-            <div class="pub-content">
-              <p class="pub-authors">Yao, L., <strong>Zhou, B.</strong> (2014).</p>
-              <p class="pub-title">Development and Tests of Low Cost MMS.</p>
-              <p class="pub-journal"><em>Principle and Application Progress in Location-Based Services</em>. Lecture Notes in Geoinformation and Cartography. Springer, Cham.</p>
-              <a href="https://doi.org/10.1007/978-3-319-04028-8_12" target="_blank" rel="noopener" class="pub-doi"><i class="fas fa-external-link-alt"></i> DOI</a>
-            </div>
-          </div>
-        </div>
-
-
-      </div>
+      <!-- /lab publications -->
     </section>
 
     <!-- ============================================================ TEACHING ============================================================ -->
@@ -578,38 +801,38 @@
         </blockquote>
 
         <div class="card">
-          <h2 class="card-title"><i class="fas fa-university"></i> Teaching Interests</h2>
+          <h2 class="card-title"><i class="fas fa-university" aria-hidden="true"></i> Teaching Interests</h2>
           <div class="interest-grid">
             <div class="interest-item sm">
-              <div class="interest-icon sm"><i class="fas fa-map"></i></div>
+              <div class="interest-icon sm"><i class="fas fa-map" aria-hidden="true"></i></div>
               <span>Introduction to GIS / Spatial Data Science</span>
             </div>
             <div class="interest-item sm">
-              <div class="interest-icon sm"><i class="fas fa-code"></i></div>
-              <span>GIS Programming</span>
+              <div class="interest-icon sm"><i class="fas fa-brain" aria-hidden="true"></i></div>
+              <span>Geospatial Artificial Intelligence</span>
             </div>
             <div class="interest-item sm">
-              <div class="interest-icon sm"><i class="fas fa-satellite"></i></div>
-              <span>Remote Sensing &amp; UAV</span>
+              <div class="interest-icon sm"><i class="fas fa-chart-bar" aria-hidden="true"></i></div>
+              <span>Quantitative Methods in Sociology</span>
             </div>
             <div class="interest-item sm">
-              <div class="interest-icon sm"><i class="fas fa-database"></i></div>
-              <span>Spatial Big Data Analytics</span>
+              <div class="interest-icon sm"><i class="fas fa-building" aria-hidden="true"></i></div>
+              <span>Urban Analytics</span>
             </div>
             <div class="interest-item sm">
-              <div class="interest-icon sm"><i class="fas fa-chart-line"></i></div>
-              <span>Visualization in GIS</span>
+              <div class="interest-icon sm"><i class="fas fa-map-marked-alt" aria-hidden="true"></i></div>
+              <span>Geovisualization</span>
             </div>
             <div class="interest-item sm">
-              <div class="interest-icon sm"><i class="fas fa-certificate"></i></div>
-              <span>GIS Online Certificate Program</span>
+              <div class="interest-icon sm"><i class="fas fa-satellite" aria-hidden="true"></i></div>
+              <span>Remote Sensing &amp; Environment</span>
             </div>
           </div>
         </div>
 
         <!-- UTK -->
         <div class="card">
-          <h2 class="card-title"><i class="fas fa-chalkboard-teacher"></i> Courses Taught</h2>
+          <h2 class="card-title"><i class="fas fa-chalkboard-teacher" aria-hidden="true"></i> Courses Taught</h2>
 
           <div class="teach-block">
             <div class="teach-inst">
@@ -621,19 +844,24 @@
             </div>
             <div class="course-list">
               <div class="course-item">
+                <span class="course-code">GEOG 311</span>
+                <span class="course-name">Intro to Geovisualization and GIS</span>
+                <span class="course-term">Fall 2026</span>
+              </div>
+              <div class="course-item">
                 <span class="course-code">GEOG 312</span>
                 <span class="course-name">First Step in GIS Programming</span>
                 <span class="course-term">Spring 2026</span>
               </div>
               <div class="course-item">
                 <span class="course-code">GEOG 411</span>
-                <span class="course-name">Introduction to Geographic Information Science</span>
+                <span class="course-name">Intermediate Geographic Information Science</span>
                 <span class="course-term">Spring 2026</span>
               </div>
               <div class="course-item">
                 <span class="course-code">GEOG 415</span>
                 <span class="course-name">Quantitative Methods in Geography</span>
-                <span class="course-term">Fall 2025</span>
+                <span class="course-term">Fall 2025, Fall 2026</span>
               </div>
             </div>
           </div>
@@ -655,7 +883,7 @@
               <div class="course-item">
                 <span class="course-code">GEOG 480</span>
                 <span class="course-name">Exploring Imagery and Elevation Data in GIS Applications</span>
-                <span class="course-term">Fall 2024; Spring 2025</span>
+                <span class="course-term">Fall 2024, Spring 2025</span>
               </div>
               <div class="course-item">
                 <span class="course-code">GEOG 589</span>
@@ -700,41 +928,62 @@
 
         <!-- Talks -->
         <div class="card">
-          <h2 class="card-title"><i class="fas fa-microphone-alt"></i> Invited Talks &amp; Guest Lectures</h2>
+          <h2 class="card-title"><i class="fas fa-microphone-alt" aria-hidden="true"></i> Invited Talks &amp; Guest Lectures</h2>
           <ul class="talk-list">
+            <li class="talk-item">
+              <span class="talk-year">2026</span>
+              <div>
+                <strong>GeoAI and Disaster Resilience</strong>
+                <span class="talk-venue">Invited talk · IGU Commission on Research Methods Webinar Series, International Geographical Union (virtual)</span>
+              </div>
+            </li>
             <li class="talk-item">
               <span class="talk-year">2025</span>
               <div>
                 <strong>Geospatial Data Science for Climate Resilience</strong>
-                <span class="talk-venue">Department of Geography and the Environment, University of Texas at Austin</span>
+                <span class="talk-venue">Guest lecture · Department of Geography and the Environment, University of Texas at Austin</span>
               </div>
             </li>
             <li class="talk-item">
               <span class="talk-year">2024</span>
               <div>
                 <strong>Rapid Disaster Damage Estimation with Social Media Data</strong>
-                <span class="talk-venue">Department of Environmental Science, Emory University</span>
+                <span class="talk-venue">Guest lecture · Department of Environmental Science, Emory University</span>
               </div>
             </li>
             <li class="talk-item">
               <span class="talk-year">2024</span>
               <div>
                 <strong>Capstones in GeoAI</strong>
-                <span class="talk-venue">GEOG 695 Frontiers in GIScience, Texas A&amp;M University</span>
+                <span class="talk-venue">Guest lecture · GEOG 695 Frontiers in GIScience, Texas A&amp;M University</span>
               </div>
             </li>
             <li class="talk-item">
               <span class="talk-year">2023</span>
               <div>
                 <strong>GeoAI in Natural Disaster Management and Application of Geodatabase</strong>
-                <span class="talk-venue">GEOG 659 Geodatabase, Texas A&amp;M University</span>
+                <span class="talk-venue">Guest lecture · GEOG 659 Geodatabase, Texas A&amp;M University</span>
               </div>
             </li>
             <li class="talk-item">
               <span class="talk-year">2022</span>
               <div>
                 <strong>Improving Disaster Management with Social Media and AI</strong>
-                <span class="talk-venue">Texas Sea Grant Community Outreach, Weslaco, Texas (Invited Talk)</span>
+                <span class="talk-venue">Invited talk · Texas Sea Grant Community Outreach, Weslaco, Texas</span>
+              </div>
+            </li>
+            <li class="talk-item">
+              <span class="talk-year">2022</span>
+              <div>
+                <strong>Spatial Thinking Matters</strong>
+                <span class="talk-venue">Guest lecture · GEOG 695 Frontiers in Geographic Information Science, Texas A&amp;M University</span>
+              </div>
+            </li>
+            <li class="talk-item">
+              <span class="talk-year">2022</span>
+              <div>
+                <strong>Application of Geospatial Data Science and Social Media for Disaster Management</strong>
+                <span class="talk-venue">Guest lecture · AAG Workshop on Natural Disasters</span>
               </div>
             </li>
           </ul>
@@ -742,243 +991,121 @@
 
         <!-- Mentorship -->
         <div class="card">
-          <h2 class="card-title"><i class="fas fa-user-graduate"></i> Student Mentorship</h2>
+          <h2 class="card-title"><i class="fas fa-user-graduate" aria-hidden="true"></i> Student Mentorship &amp; Thesis Committees</h2>
           <ul class="mentor-list">
             <li class="mentor-item">
-              <span class="mentor-year">2025–</span>
+              <span class="mentor-year">2026–present</span>
               <div>
-                <strong>Junbo Wang</strong> — Master Student
-                <span class="mentor-topic">Multimodal GenAI research</span>
+                <strong>Yuankun Jiao</strong> — Ph.D. student, University of Minnesota, Twin Cities
+                <span class="mentor-topic">Research assistant · Community impacts of wildfires and cascading disasters</span>
+              </div>
+            </li>
+            <li class="mentor-item">
+              <span class="mentor-year">2026–present</span>
+              <div>
+                <strong>Katie James</strong> — Undergraduate, Harvard CGA, Spatial Data Lab Internship Program
+                <span class="mentor-topic">Research mentor · How vision-language models understand geospatial concepts</span>
+              </div>
+            </li>
+            <li class="mentor-item">
+              <span class="mentor-year">2026–present</span>
+              <div>
+                <strong>Nikhila Ainala</strong> — Master’s student
+                <span class="mentor-topic">Research mentor · Effects of flooding on access to major infrastructure</span>
+              </div>
+            </li>
+            <li class="mentor-item">
+              <span class="mentor-year">2026–present</span>
+              <div>
+                <strong>Maitreyi Sinha</strong> — Master’s student
+                <span class="mentor-topic">Research mentor · How vision-language models understand geospatial concepts</span>
+              </div>
+            </li>
+            <li class="mentor-item">
+              <span class="mentor-year">2026–present</span>
+              <div>
+                <strong>Augie Brown</strong> — High school student, Harvard CGA, Spatial Data Lab Internship Program
+                <span class="mentor-topic">Research mentor · Extreme heat and changes in human behavior</span>
+              </div>
+            </li>
+            <li class="mentor-item">
+              <span class="mentor-year">2026–present</span>
+              <div>
+                <strong>Jacob Spier</strong> — Master’s student, Harvard CGA, Spatial Data Lab Internship Program
+                <span class="mentor-topic">Research mentor · Extreme heat and changes in human behavior</span>
+              </div>
+            </li>
+            <li class="mentor-item">
+              <span class="mentor-year">2026–present</span>
+              <div>
+                <strong>Feifei Yang</strong> — Ph.D. student, University of Tennessee, Knoxville
+                <span class="mentor-topic">Ph.D. student mentor · Environmental health</span>
+              </div>
+            </li>
+            <li class="mentor-item">
+              <span class="mentor-year">2026–present</span>
+              <div>
+                <strong>Zachary Dorminey</strong> — Ph.D. student, University of Tennessee, Knoxville
+                <span class="mentor-topic">Ph.D. thesis committee member</span>
+              </div>
+            </li>
+            <li class="mentor-item">
+              <span class="mentor-year">2026–present</span>
+              <div>
+                <strong>Dingkang Teng</strong> — Ph.D. student, University of Tennessee, Knoxville
+                <span class="mentor-topic">Ph.D. thesis committee member</span>
+              </div>
+            </li>
+            <li class="mentor-item">
+              <span class="mentor-year">2025–present</span>
+              <div>
+                <strong>Davis Collin</strong> — Master’s student, University of Tennessee, Knoxville
+                <span class="mentor-topic">M.S. thesis committee member</span>
+              </div>
+            </li>
+            <li class="mentor-item">
+              <span class="mentor-year">2025–present</span>
+              <div>
+                <strong>Nancy Nthiga</strong> — Ph.D. student, University of Tennessee, Knoxville
+                <span class="mentor-topic">Ph.D. thesis committee member</span>
+              </div>
+            </li>
+            <li class="mentor-item">
+              <span class="mentor-year">2025–present</span>
+              <div>
+                <strong>Junbo Wang</strong> — Master’s student, University of Tennessee, Knoxville
+                <span class="mentor-topic">M.S. student mentor · Multimodal generative AI</span>
               </div>
             </li>
             <li class="mentor-item">
               <span class="mentor-year">2025</span>
               <div>
-                <strong>Shelton Simmons</strong> — Penn State Online Program (GEOG600 Thesis)
-                <span class="mentor-topic">An Attention Model for Remote Sensing Landcover Classification</span>
+                <strong>Shelton Simmons</strong> — Master’s student, Pennsylvania State University (online program)
+                <span class="mentor-topic">GEOG 600 thesis mentor · An Attention Model for Remote Sensing Landcover Classification</span>
               </div>
             </li>
             <li class="mentor-item">
               <span class="mentor-year">2023</span>
               <div>
-                <strong>Jeffery Pike</strong> — Undergraduate Research Assistant, Texas A&amp;M
+                <strong>Jeffery Pike</strong> — Undergraduate, Texas A&amp;M University
+                <span class="mentor-topic">Undergraduate research assistant mentor</span>
               </div>
             </li>
             <li class="mentor-item">
               <span class="mentor-year">2023</span>
               <div>
-                <strong>Edward Zhao</strong> — High School Student (UCGIS Research Competition)
-                <span class="mentor-topic">Digital Footprints of the 2023 Turkey Earthquake: Evidence from Social Media — 2nd Prize</span>
+                <strong>Edward Zhao</strong> — High school student, UCGIS High School Research Competition
+                <span class="mentor-topic">Research mentor · Digital Footprints of the 2023 Turkey Earthquake: Evidence from Social Media (second prize)</span>
+              </div>
+            </li>
+            <li class="mentor-item">
+              <span class="mentor-year">2023</span>
+              <div>
+                <strong>Shubh Mamtora, Javier Camarillo, Jeffery Pike, and Dryden Castilleja</strong> — Undergraduate project team, Texas A&amp;M University
+                <span class="mentor-topic">Geodatabase course project mentor · Spatiotemporal analysis and optimization of campus bus routes</span>
               </div>
             </li>
           </ul>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ============================================================ FUNDING ============================================================ -->
-    <section class="tab-panel" id="tab-funding">
-      <div class="page-header">
-        <h1 class="page-title">Research Funding</h1>
-        <p class="page-subtitle">Grants, projects, and proposals</p>
-      </div>
-      <div class="content-wrapper">
-
-        <!-- Awards -->
-        <div class="card">
-          <h2 class="card-title"><i class="fas fa-trophy"></i> Selected Honors &amp; Awards</h2>
-          <div class="awards-list">
-            <div class="award-item">
-              <span class="award-year">2024</span>
-              <div class="award-body">
-                <strong>Geography Graduate Student Excellence in Research Award</strong>
-                <span class="award-source">Department of Geography, Texas A&amp;M University ($500)</span>
-              </div>
-            </div>
-            <div class="award-item">
-              <span class="award-year">2024</span>
-              <div class="award-body">
-                <strong>Graduate Student Research Travel Grant</strong>
-                <span class="award-source">Graduate and Professional School, Texas A&amp;M University ($750)</span>
-              </div>
-            </div>
-            <div class="award-item">
-              <span class="award-year">2024</span>
-              <div class="award-body">
-                <strong>AAG Spatial Analysis &amp; Modeling Specialty Group Travel Award</strong>
-                <span class="award-source">Association of American Geographers ($250)</span>
-              </div>
-            </div>
-            <div class="award-item">
-              <span class="award-year">2024</span>
-              <div class="award-body">
-                <strong>2nd Place – AAG GISS Specialty Group Student Paper Competition</strong>
-                <span class="award-source">Association of American Geographers (Co-author)</span>
-              </div>
-            </div>
-            <div class="award-item">
-              <span class="award-year">2023</span>
-              <div class="award-body">
-                <strong>International Cartographic Association (ICA) Scholarship</strong>
-                <span class="award-source">$1,500</span>
-              </div>
-            </div>
-            <div class="award-item">
-              <span class="award-year">2021</span>
-              <div class="award-body">
-                <strong>CaGIS Scholarship Award</strong>
-                <span class="award-source">Cartography and Geographic Information Society ($1,500; 1–2 awardees worldwide per year)</span>
-              </div>
-            </div>
-            <div class="award-item">
-              <span class="award-year">2021</span>
-              <div class="award-body">
-                <strong>1st Place – AAG GISS Specialty Group Student Paper Competition</strong>
-                <span class="award-source">Association of American Geographers ($750)</span>
-              </div>
-            </div>
-            <div class="award-item">
-              <span class="award-year">2021</span>
-              <div class="award-body">
-                <strong>Best Paper Award – International Symposium on Geospatial Approaches to Combating COVID-19</strong>
-                <span class="award-source">Co-author</span>
-              </div>
-            </div>
-            <div class="award-item">
-              <span class="award-year">2017</span>
-              <div class="award-body">
-                <strong>2nd Prize – Top UAV Pilots of China Electric Power Industry Contest</strong>
-                <span class="award-source">Top 0.01% nationally</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Under Review Proposals -->
-        <div class="card">
-          <h2 class="card-title"><i class="fas fa-file-alt"></i> Proposals Under Review (as PI)</h2>
-          <div class="funding-list">
-            <div class="funding-item pi">
-              <div class="funding-header">
-                <span class="funding-badge pi-badge">PI – Under Review</span>
-                <span class="funding-year">2026</span>
-              </div>
-              <p class="funding-title"><strong>HazardWeave: An AI-supported unified platform for smart disaster management</strong></p>
-              <p class="funding-source">AI-Tennessee THRIVE Program · $25,000</p>
-            </div>
-            <div class="funding-item pi">
-              <div class="funding-header">
-                <span class="funding-badge pi-badge">PI – Under Review</span>
-                <span class="funding-year">2026</span>
-              </div>
-              <p class="funding-title"><strong>CausalNet: A Human-AI Causal Inference System for Co-occurring Hazards Smart Decision Support</strong></p>
-              <p class="funding-source">UTK Ascent Program · $50,000</p>
-            </div>
-            <div class="funding-item pi">
-              <div class="funding-header">
-                <span class="funding-badge copi-badge">Co-PI – Under Review</span>
-                <span class="funding-year">2025</span>
-              </div>
-              <p class="funding-title"><strong>Does moving to areas with cleaner air slow cognitive decline? A longitudinal spatiotemporal study</strong></p>
-              <p class="funding-source">NIH R21 · PI: Ensheng Dong · $400,000</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Active Projects -->
-        <div class="card">
-          <h2 class="card-title"><i class="fas fa-project-diagram"></i> Active &amp; Completed Projects (as Co-PI)</h2>
-          <div class="funding-list">
-            <div class="funding-item copi">
-              <div class="funding-header">
-                <span class="funding-badge copi-badge">Co-PI</span>
-                <span class="funding-year">2022</span>
-              </div>
-              <p class="funding-title"><strong>Characterizing and Promoting Cartography and GIS Graduate Programs through Research Theme Discovery and Online Seminars</strong></p>
-              <p class="funding-source">CaGIS Rising Grant · Student PI: Yuhao Kang</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Participation Projects -->
-        <div class="card">
-          <h2 class="card-title"><i class="fas fa-users"></i> Research Participation Projects</h2>
-          <div class="funding-list">
-
-            <div class="funding-item">
-              <div class="funding-header">
-                <span class="funding-badge collab-badge">Research Assistant</span>
-                <span class="funding-year">2023–2026</span>
-              </div>
-              <p class="funding-title"><strong>Climate-LEAD: Climate effects on localized environmental health disparities in overburdened Texas communities</strong></p>
-              <p class="funding-source">NASEM Gulf Research Program · PI: Lei Zou · $1,499,990</p>
-            </div>
-
-            <div class="funding-item">
-              <div class="funding-header">
-                <span class="funding-badge collab-badge">Research Assistant</span>
-                <span class="funding-year">2023–2026</span>
-              </div>
-              <p class="funding-title"><strong>HNDS-I: A Cyberinfrastructure for multiscale human dynamics and resilience research</strong></p>
-              <p class="funding-source">NSF Human Networks and Data Science · PI: Nina Lam · $1,096,902</p>
-            </div>
-
-            <div class="funding-item">
-              <div class="funding-header">
-                <span class="funding-badge collab-badge">Research Assistant</span>
-                <span class="funding-year">2021–2023</span>
-              </div>
-              <p class="funding-title"><strong>EAGER: SAI-E: Synchronizing decision-support via human- and social-centered digital twin infrastructures for coastal communities</strong></p>
-              <p class="funding-source">NSF EAGER · PI: Xinyue Ye · $298,982</p>
-            </div>
-
-            <div class="funding-item">
-              <div class="funding-header">
-                <span class="funding-badge collab-badge">Research Assistant</span>
-                <span class="funding-year">2019–2022</span>
-              </div>
-              <p class="funding-title"><strong>Reducing the human impacts of flash floods: development of microdata and causal model</strong></p>
-              <p class="funding-source">NSF HDBE Program · PI: Nasir Gharaibeh · $350,000</p>
-            </div>
-
-            <div class="funding-item">
-              <div class="funding-header">
-                <span class="funding-badge collab-badge">Research Assistant</span>
-                <span class="funding-year">2020–2023</span>
-              </div>
-              <p class="funding-title"><strong>Disaster city digital twin: integrating machine and human intelligence to augment flood resilience</strong></p>
-              <p class="funding-source">TAMU-X Grant · PI: Ali Mostafavi · $1,000,000</p>
-            </div>
-
-            <div class="funding-item">
-              <div class="funding-header">
-                <span class="funding-badge collab-badge">Research Assistant</span>
-                <span class="funding-year">2022–2024</span>
-              </div>
-              <p class="funding-title"><strong>Leveraging geospatial big data and AI to enhance disaster resilience in vulnerable communities</strong></p>
-              <p class="funding-source">PVAMU &amp; TAMU Panther RISE Grant · PI: Lei Zou · $40,000</p>
-            </div>
-
-            <div class="funding-item">
-              <div class="funding-header">
-                <span class="funding-badge collab-badge">Research Assistant</span>
-                <span class="funding-year">2022–2023</span>
-              </div>
-              <p class="funding-title"><strong>AAG Summer Workshop Series: Spatial data science for social media analytics</strong></p>
-              <p class="funding-source">PI: Lei Zou · $1,750</p>
-            </div>
-
-            <div class="funding-item">
-              <div class="funding-header">
-                <span class="funding-badge collab-badge">Teaching Materials</span>
-                <span class="funding-year">2022–2023</span>
-              </div>
-              <p class="funding-title"><strong>Spatial data science: advances and applications (GeoAI section)</strong></p>
-              <p class="funding-source">TAMIDS Course Development Grant · PI: Heng Cai · $15,000</p>
-            </div>
-
-          </div>
         </div>
 
       </div>
@@ -991,142 +1118,210 @@
       </div>
       <div class="content-wrapper">
 
-        <!-- Editorial / Review -->
         <div class="card">
-          <h2 class="card-title"><i class="fas fa-edit"></i> Journal Peer Review</h2>
-          <p class="review-intro">Reviewer of <strong>&gt;30 manuscripts</strong> for the following journals:</p>
+          <h2 class="card-title"><i class="fas fa-edit" aria-hidden="true"></i> Editorship</h2>
+          <ul class="service-list">
+            <li class="service-item">
+              <span class="service-years">2026–present</span>
+              <div>
+                <strong>Associate Editor</strong>
+                <span class="service-detail">Applied Spatial Analysis and Policy</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title"><i class="fas fa-handshake" aria-hidden="true"></i> Committee &amp; Leadership Service</h2>
+          <ul class="service-list">
+            <li class="service-item">
+              <span class="service-years">2026–present</span>
+              <div>
+                <strong>Special Event Committee</strong> — University of Tennessee, Knoxville
+                <span class="service-detail">Organize departmental special events.</span>
+              </div>
+            </li>
+            <li class="service-item">
+              <span class="service-years">2026–present</span>
+              <div>
+                <strong>Space Committee</strong> — University of Tennessee, Knoxville
+                <span class="service-detail">Review classroom and office space conditions.</span>
+              </div>
+            </li>
+            <li class="service-item">
+              <span class="service-years">2026–present</span>
+              <div>
+                <strong>Interdisciplinary Graduate Minor in Computational Science (IGMCS) Representative</strong> — University of Tennessee, Knoxville
+                <span class="service-detail">Help develop and promote the graduate minor.</span>
+              </div>
+            </li>
+            <li class="service-item">
+              <span class="service-years">2024–2025</span>
+              <div>
+                <strong>Graduate Selection Committee Member</strong> — Penn State GEOINT
+                <span class="service-detail">Evaluated graduate program applicants.</span>
+              </div>
+            </li>
+            <li class="service-item">
+              <span class="service-years">2023–2025</span>
+              <div>
+                <strong>Board of Directors Member</strong> — AAG Spatial Analysis and Modeling Specialty Group
+                <span class="service-detail">Organized the Student Travel Award, participated in board meetings, and maintained the group’s website.</span>
+              </div>
+            </li>
+            <li class="service-item">
+              <span class="service-years">2021–2025</span>
+              <div>
+                <strong>Chair and Board of Directors Member</strong> — <a href="https://gisphere.info/">GISphere Project</a>
+                <span class="service-detail">Coordinated the nonprofit’s GIS education work, board meetings, research collaborations, funding partnerships, and outreach.</span>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title"><i class="fas fa-edit" aria-hidden="true"></i> Journal Peer Review</h2>
+          <p class="review-intro">I have reviewed <strong>more than 60 manuscripts</strong> for journals in GIScience, remote sensing, urban studies, and related fields.</p>
           <div class="journal-chips">
             <span class="journal-chip">Computational Urban Science</span>
-            <span class="journal-chip">Int. J. Applied Earth Observation</span>
+            <span class="journal-chip">International Journal of Applied Earth Observation and Geoinformation</span>
             <span class="journal-chip">Transactions in GIS</span>
             <span class="journal-chip">Annals of GIS</span>
             <span class="journal-chip">IEEE Access</span>
             <span class="journal-chip">Scientific Reports</span>
             <span class="journal-chip">PLOS One</span>
             <span class="journal-chip">Geoinformatics</span>
-            <span class="journal-chip">Int. J. Disaster Risk Reduction</span>
+            <span class="journal-chip">International Journal of Disaster Risk Reduction</span>
             <span class="journal-chip">Computers, Environment and Urban Systems</span>
-            <span class="journal-chip">Information Processing &amp; Management</span>
+            <span class="journal-chip">Information Processing and Management</span>
             <span class="journal-chip">Transportation Research Part D</span>
             <span class="journal-chip">Network: Computation in Neural Systems</span>
             <span class="journal-chip">Cities</span>
             <span class="journal-chip">Pervasive and Mobile Computing</span>
-            <span class="journal-chip">Earth's Future</span>
+            <span class="journal-chip">Earth’s Future</span>
             <span class="journal-chip">Geomatics, Natural Hazards and Risk</span>
             <span class="journal-chip">Applied Soft Computing</span>
+            <span class="journal-chip">Professional Geographer</span>
+            <span class="journal-chip">AGU GeoHealth</span>
+            <span class="journal-chip">International Journal of Geographic Information Science</span>
+            <span class="journal-chip">Travel Behavior and Society</span>
+            <span class="journal-chip">Geo-spatial Information Science</span>
+            <span class="journal-chip">Transactions in Urban Data, Science, and Technology</span>
+            <span class="journal-chip">Sustainable Cities and Society</span>
+            <span class="journal-chip">ISPRS Journal of Photogrammetry and Remote Sensing</span>
           </div>
         </div>
 
-        <!-- Conference Review -->
         <div class="card">
-          <h2 class="card-title"><i class="fas fa-tasks"></i> Conference &amp; Program Review</h2>
+          <h2 class="card-title"><i class="fas fa-tasks" aria-hidden="true"></i> Conference Peer Review</h2>
           <ul class="review-list">
-            <li>TRB Annual Meeting</li>
+            <li>Transportation Research Board (TRB) Annual Meeting</li>
             <li>University Consortium for Geographic Information Science (UCGIS)</li>
+            <li>ACM SIGSPATIAL</li>
           </ul>
         </div>
 
-        <!-- Session Organization -->
         <div class="card">
-          <h2 class="card-title"><i class="fas fa-users-cog"></i> Organized Conference Sessions</h2>
+          <h2 class="card-title"><i class="fas fa-users-cog" aria-hidden="true"></i> Organized Conference Sessions &amp; Symposia</h2>
           <div class="session-list">
-
             <div class="session-item">
               <span class="session-year">2026</span>
               <div>
                 <strong>Co-Chair</strong> — GISER Symposium: Ethics in GIScience
-                <span class="session-venue">AAG 2026 Annual Meeting, San Francisco, CA</span>
+                <span class="session-venue">AAG 2026 Annual Meeting, San Francisco, CA · March 17–21</span>
+                <span class="session-venue">Organizers: Yue Lin, Hongyu Zhang, Bing Zhou</span>
               </div>
             </div>
             <div class="session-item">
               <span class="session-year">2026</span>
               <div>
                 <strong>Co-Chair</strong> — GISER Symposium: AI &amp; Ethics in Geography Education
-                <span class="session-venue">AAG 2026 Annual Meeting, San Francisco, CA</span>
+                <span class="session-venue">AAG 2026 Annual Meeting, San Francisco, CA · March 17–21</span>
+                <span class="session-venue">Organizers: Hongyu Zhang, Yue Lin, Bing Zhou, Yuhao Kang</span>
               </div>
             </div>
             <div class="session-item">
               <span class="session-year">2026</span>
               <div>
-                <strong>Co-Chair</strong> — GeoAI &amp; Deep Learning Symposium: AI Ethics and Spatial Equity
-                <span class="session-venue">AAG 2026 Annual Meeting, San Francisco, CA</span>
+                <strong>Co-Chair</strong> — GeoAI and Deep Learning Symposium: AI Ethics and Spatial Equity
+                <span class="session-venue">AAG 2026 Annual Meeting, San Francisco, CA · March 17–21</span>
+                <span class="session-venue">Organizers: Hongyu Zhang, Yue Lin, Bing Zhou, Yuhao Kang</span>
               </div>
             </div>
             <div class="session-item">
               <span class="session-year">2026</span>
               <div>
                 <strong>Chair</strong> — GeoAI and Deep Learning Symposium: GeoAI for Disaster Resilience
-                <span class="session-venue">AAG 2026 Annual Meeting, San Francisco, CA</span>
+                <span class="session-venue">AAG 2026 Annual Meeting, San Francisco, CA · March 17–21</span>
+                <span class="session-venue">Organizers: Bing Zhou, Yifan Yang, Lei Zou, Yingjie Hu, Qunying Huang, Manzhu Yu, Yi Qiang, Morteza Karimzadeh</span>
               </div>
             </div>
             <div class="session-item">
               <span class="session-year">2025</span>
               <div>
-                <strong>Chair</strong> — GeoAI &amp; Deep Learning Symposium: GeoAI for Disaster Resilience
-                <span class="session-venue">AAG 2025 Annual Meeting, Detroit, MI</span>
+                <strong>Chair</strong> — GeoAI and Deep Learning Symposium: GeoAI for Disaster Resilience
+                <span class="session-venue">AAG 2025 Annual Meeting, Detroit, MI · March 24–28</span>
+                <span class="session-venue">Organizers: Bing Zhou, Ryan Zhenqi Zhou, Lei Zou, Yingjie Hu, Qunying Huang, Manzhu Yu, Yi Qiang, Morteza Karimzadeh</span>
               </div>
             </div>
             <div class="session-item">
               <span class="session-year">2025</span>
               <div>
-                <strong>Organizer</strong> — GeoAI Symposium: Spatial Data Science and GeoAI Ethics: Bridging Research and Education
-                <span class="session-venue">AAG 2025 Annual Meeting, Detroit, MI</span>
+                <strong>Organizer</strong> — GeoAI and Deep Learning Symposium: Spatial Data Science and GeoAI Ethics: Bridging Research and Education
+                <span class="session-venue">AAG 2025 Annual Meeting, Detroit, MI · March 24–28</span>
+                <span class="session-venue">Organizers: Yue Lin, Hongyu Zhang, Bing Zhou</span>
               </div>
             </div>
             <div class="session-item">
               <span class="session-year">2025</span>
               <div>
-                <strong>Chair</strong> — Community Resilience Research: Challenges, Opportunities, and Lessons Learned (Panel)
-                <span class="session-venue">AAG 2025 Annual Meeting, Detroit, MI</span>
+                <strong>Chair</strong> — Community Resilience Research of Past, Current, and Future: A Panel Discussion on Challenges, Opportunities, and Lessons Learned
+                <span class="session-venue">AAG 2025 Annual Meeting, Detroit, MI · March 24–28</span>
+                <span class="session-venue">Organizers: Kejin Wang, Bing Zhou, Lei Zou, Heng Cai, Siu Ngan Nina Lam, Volodymyr Mihunov</span>
               </div>
             </div>
             <div class="session-item">
               <span class="session-year">2024</span>
               <div>
-                <strong>Chair</strong> — GeoAI &amp; Deep Learning Symposium: GeoAI for Disaster Resilience; Chair — GISphere Special Session
-                <span class="session-venue">AAG 2024 Annual Meeting, Honolulu, HI</span>
+                <strong>Chair</strong> — GeoAI and Deep Learning Symposium: GeoAI for Disaster Resilience
+                <span class="session-venue">AAG 2024 Annual Meeting, Honolulu, HI · April 16–20</span>
+                <span class="session-venue">Organizers: Bing Zhou, Lei Zou, Yingjie Hu, Qunying Huang, Manzhu Yu, Yi Qiang, Marcela Suarez, Morteza Karimzadeh</span>
+              </div>
+            </div>
+            <div class="session-item">
+              <span class="session-year">2024</span>
+              <div>
+                <strong>Chair</strong> — GISphere: Facilitating Global Connections in Geographic Information Science (GIScience) Education, Research, and Practice
+                <span class="session-venue">AAG 2024 Annual Meeting, Honolulu, HI · April 16–20</span>
+                <span class="session-venue">Organizers: Armita Kar, Yuhao Kang, Hoeyun Kwon, Bing Zhou, Kejin Wang, Yanbing Chen, Heng Cai</span>
               </div>
             </div>
             <div class="session-item">
               <span class="session-year">2023</span>
               <div>
-                <strong>Chair</strong> — GeoAI &amp; Deep Learning Symposium: GeoAI for Disaster Resilience
-                <span class="session-venue">AAG 2023 Annual Meeting, Denver, CO</span>
+                <strong>Chair</strong> — GeoAI and Deep Learning Symposium: GeoAI for Disaster Resilience
+                <span class="session-venue">AAG 2023 Annual Meeting, Denver, CO · March 23–27</span>
+                <span class="session-venue">Organizers: Bing Zhou, Lei Zou, Yingjie Hu, Marcela Suarez</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Committee Service -->
         <div class="card">
-          <h2 class="card-title"><i class="fas fa-handshake"></i> Committee &amp; Leadership Service</h2>
+          <h2 class="card-title"><i class="fas fa-microphone-alt" aria-hidden="true"></i> Invited Panelist</h2>
           <ul class="service-list">
             <li class="service-item">
-              <span class="service-years">2024–2025</span>
+              <span class="service-years">2025</span>
               <div>
-                <strong>Committee Member</strong> — Penn State GEOINT Graduate Selection Committee
-                <span class="service-detail">Evaluate graduate program applicants</span>
-              </div>
-            </li>
-            <li class="service-item">
-              <span class="service-years">2023–2025</span>
-              <div>
-                <strong>BOD Member</strong> — AAG Spatial Analysis &amp; Modeling Specialty Group
-                <span class="service-detail">Attending BOD meetings; organizing Student Travel Award; website updates</span>
-              </div>
-            </li>
-            <li class="service-item">
-              <span class="service-years">2021–2025</span>
-              <div>
-                <strong>Chair &amp; BOD Member</strong> — <a href="https://gisphere.info/" target="_blank" rel="noopener">GISphere Project</a>
-                <span class="service-detail">Non-profit organization empowering GIS education; coordination, funding, research collaboration</span>
+                <strong>GeoAI and Deep Learning Symposium: Spatial Data Science and GeoAI Ethics: Bridging Research and Education</strong>
+                <span class="service-detail">AAG Annual Meeting, Detroit, MI</span>
               </div>
             </li>
             <li class="service-item">
               <span class="service-years">2022</span>
               <div>
-                <strong>Invited Panelist</strong> — AutoCarto 2022
-                <span class="service-detail"><em>Student Success in Empowering Social Goods with Cartography and GIScience</em></span>
+                <strong>Student Success in Empowering Social Goods with Cartography and GIScience</strong>
+                <span class="service-detail">AutoCarto 2022</span>
               </div>
             </li>
           </ul>
@@ -1135,301 +1330,45 @@
       </div>
     </section>
 
-    <!-- ============================================================ CONTACT ============================================================ -->
-    <section class="tab-panel" id="tab-contact">
-      <div class="page-header">
-        <h1 class="page-title">Contact</h1>
-      </div>
-      <div class="content-wrapper contact-grid">
-
-        <div class="card contact-main">
-          <h2 class="card-title"><i class="fas fa-map-pin"></i> Office</h2>
-          <div class="contact-info">
-            <div class="contact-row">
-              <i class="fas fa-building"></i>
-              <div>
-                <strong>Room 207, Burchfiel Geography Building</strong><br />
-                Department of Geography and Sustainability<br />
-                College of Arts and Sciences<br />
-                1000 Phillip Fulmer Way<br />
-                Knoxville, TN 37996
-              </div>
-            </div>
-            <div class="contact-row">
-              <i class="fas fa-university"></i>
-              <div>University of Tennessee, Knoxville</div>
-            </div>
-            <div class="contact-row">
-              <i class="fas fa-envelope"></i>
-              <div><a href="mailto:bzhou11@utk.edu">bzhou11@utk.edu</a></div>
-            </div>
-            <div class="contact-row">
-              <i class="fas fa-phone"></i>
-              <div>+1 (979) 255-0199</div>
-            </div>
-          </div>
+    <!-- Wanderlust -->
+    <section class="tab-panel" id="tab-wanderlust" aria-labelledby="atlas-title">
+      <div class="journey-atlas" id="journey-atlas" data-route="data/wanderlust.kml">
+        <div class="atlas-surface" id="atlas-surface">
+          <canvas id="route-sketch" tabindex="0" role="group" aria-label="Route overview map. Drag or use the arrow keys to pan and plus or minus to zoom."></canvas>
+          <div id="journey-map" class="journey-map" aria-label="Interactive travel map" aria-hidden="true" inert></div>
         </div>
-
-        <div class="card">
-          <h2 class="card-title"><i class="fas fa-share-alt"></i> Online Profiles</h2>
-          <div class="social-links">
-            <a href="mailto:bzhou11@utk.edu" class="social-btn email">
-              <i class="fas fa-envelope"></i>
-              <div><strong>Email</strong><span>bzhou11@utk.edu</span></div>
-            </a>
-            <a href="https://scholar.google.com/citations?user=ehw9A-EAAAAJ&hl=en&oi=sra" target="_blank" rel="noopener" class="social-btn scholar">
-              <i class="fas fa-graduation-cap"></i>
-              <div><strong>Google Scholar</strong><span>Academic publications</span></div>
-            </a>
-            <a href="https://www.linkedin.com/in/bing-zhou-a90b98239/" target="_blank" rel="noopener" class="social-btn linkedin">
-              <i class="fab fa-linkedin"></i>
-              <div><strong>LinkedIn</strong><span>bing-zhou-a90b98239</span></div>
-            </a>
-            <a href="https://gisphere.info/" target="_blank" rel="noopener" class="social-btn gisphere">
-              <i class="fas fa-globe"></i>
-              <div><strong>GISphere</strong><span>GIS education platform</span></div>
-            </a>
-            <a href="https://github.com/bzbarrett" target="_blank" rel="noopener" class="social-btn github">
-              <i class="fab fa-github"></i>
-              <div><strong>GitHub</strong><span>bzbarrett</span></div>
-            </a>
-          </div>
+        <header class="atlas-heading"><h1 id="atlas-title">Wanderlust</h1></header>
+        <div class="atlas-tools" role="group" aria-label="Map controls">
+          <button type="button" id="atlas-zoom-in" aria-label="Zoom in" title="Zoom in">+</button>
+          <button type="button" id="atlas-zoom-out" aria-label="Zoom out" title="Zoom out">−</button>
+          <button type="button" id="atlas-expand" aria-label="Expand map" title="Expand map"><span class="expand-mark" aria-hidden="true"></span></button>
         </div>
-
-        <div class="card map-card">
-          <h2 class="card-title"><i class="fas fa-map"></i> Find Us</h2>
-          <div class="map-wrapper">
-            <iframe
-              title="Burchfiel Geography Building, University of Tennessee Knoxville"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3232.6!2d-83.9246!3d35.9540!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x885c17c3a3b9e3e3%3A0x3f3f3f3f3f3f3f3f!2sBurchfiel%20Geography%20Building%2C%201000%20Phillip%20Fulmer%20Way%2C%20Knoxville%2C%20TN%2037996!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
-              width="100%"
-              height="340"
-              style="border:0; border-radius: 8px; display:block;"
-              allowfullscreen=""
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
+        <section class="route-card" aria-labelledby="route-title">
+          <p class="route-type" id="route-type">Route</p>
+          <button id="itinerary-toggle" type="button" aria-expanded="true" aria-controls="itinerary-details" aria-label="Collapse itinerary" title="Collapse itinerary"><span aria-hidden="true">⌄</span></button>
+          <h2 id="route-title">Loading route…</h2>
+          <div id="itinerary-details">
+            <p class="route-notes" id="route-notes" aria-live="polite"></p>
+            <fieldset id="route-controls" disabled>
+              <legend class="sr-only">Explore this route</legend>
+              <div class="stop-picker">
+                <label for="route-stop" class="sr-only">Route stop</label>
+                <select id="route-stop"><option value="-1">Route overview</option></select>
+                <button id="route-prev" type="button" aria-label="Previous stop" title="Previous stop">←</button>
+                <button id="route-next" type="button" aria-label="Next stop" title="Next stop">→</button>
+              </div>
+              <div class="route-actions">
+                <button id="route-play" class="tour-button" type="button">Play tour</button>
+                <button id="route-fit" type="button">Fit route</button>
+              </div>
+            </fieldset>
           </div>
+        </section>
+        <div class="atlas-credit">
+          <span id="atlas-status" role="status">Loading map…</span>
+          <button id="atlas-retry" type="button" hidden>Retry</button>
+          <span id="atlas-sources" hidden><a href="https://openfreemap.org/" target="_blank" rel="noopener">OpenFreeMap</a> · <a href="https://openmaptiles.org/" target="_blank" rel="noopener">© OpenMapTiles</a> · <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a><span id="terrain-credit" hidden> · <a href="https://mapterhorn.com/attribution/" target="_blank" rel="noopener">© Mapterhorn</a></span></span>
         </div>
-
-        <div class="card full-width">
-          <h2 class="card-title"><i class="fas fa-paper-plane"></i> Send a Message</h2>
-          <form class="contact-form" onsubmit="handleContactForm(event)">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="fname">Name</label>
-                <input type="text" id="fname" placeholder="Your name" required />
-              </div>
-              <div class="form-group">
-                <label for="femail">Email</label>
-                <input type="email" id="femail" placeholder="your@email.com" required />
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="fsubject">Subject</label>
-              <input type="text" id="fsubject" placeholder="Subject" required />
-            </div>
-            <div class="form-group">
-              <label for="fmessage">Message</label>
-              <textarea id="fmessage" rows="5" placeholder="Your message..." required></textarea>
-            </div>
-            <button type="submit" class="submit-btn">
-              <i class="fas fa-paper-plane"></i> Send Message
-            </button>
-            <p id="form-status" class="form-status"></p>
-          </form>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- ============================================================ MYSTERY CONTENTS ============================================================ -->
-    <section class="tab-panel" id="tab-mystery">
-
-      <!-- Poster Hero -->
-      <div class="aag-hero">
-        <div class="aag-hero-bg"></div>
-        <div class="aag-deco aag-deco-1"></div>
-        <div class="aag-deco aag-deco-2"></div>
-        <div class="aag-deco aag-deco-3"></div>
-        <div class="aag-hero-content">
-          <p class="aag-conf-label"><i class="fas fa-globe-americas"></i> Association of American Geographers Annual Meeting</p>
-          <h1 class="aag-conf-title">AAG 2026</h1>
-          <p class="aag-conf-location"><i class="fas fa-map-marker-alt"></i> San Francisco, California &nbsp;·&nbsp; March 17–21, 2026</p>
-          <div class="aag-legend">
-            <span class="aag-role-pill chair">Chair</span>
-            <span class="aag-role-pill organizer">Organizer</span>
-            <span class="aag-role-pill presenter">Presenter</span>
-            <span class="aag-role-pill coauthor">Co-author</span>
-          </div>
-        </div>
-      </div>
-
-      <!-- Sessions by Day -->
-      <div class="aag-body">
-
-        <!-- ── Day 1: Mar 17 ── -->
-        <div class="aag-day-block">
-          <div class="aag-day-label">
-            <span class="aag-day-name">Tuesday</span>
-            <span class="aag-day-date">March 17</span>
-          </div>
-          <div class="aag-sessions">
-
-            <div class="aag-card">
-              <div class="aag-card-accent organizer-accent"></div>
-              <div class="aag-card-inner">
-                <div class="aag-card-top">
-                  <span class="aag-role-pill organizer">Organizer</span>
-                  <span class="aag-type-tag"><i class="fas fa-file-alt"></i> Paper</span>
-                </div>
-                <h3 class="aag-session-title">GISER Symposium: AI &amp; Ethics in Geography Education</h3>
-                <div class="aag-meta">
-                  <span><i class="fas fa-clock"></i> 2:30 PM – 3:50 PM</span>
-                  <span><i class="fas fa-door-open"></i> Nikko I, 3rd Floor, Nikko</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="aag-card">
-              <div class="aag-card-accent coauthor-accent"></div>
-              <div class="aag-card-inner">
-                <div class="aag-card-top">
-                  <span class="aag-role-pill coauthor">Co-author</span>
-                  <span class="aag-type-tag"><i class="fas fa-file-alt"></i> Paper</span>
-                  <span class="aag-hybrid-tag"><i class="fas fa-wifi"></i> Hybrid</span>
-                </div>
-                <h3 class="aag-session-title">AAG GISS Specialty Group – Honors Competition for Student Papers 1</h3>
-                <div class="aag-meta">
-                  <span><i class="fas fa-clock"></i> 2:30 PM – 3:50 PM</span>
-                  <span><i class="fas fa-door-open"></i> Imperial B, Ballroom Level, Hilton</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="aag-card">
-              <div class="aag-card-accent coauthor-accent"></div>
-              <div class="aag-card-inner">
-                <div class="aag-card-top">
-                  <span class="aag-role-pill coauthor">Co-author</span>
-                  <span class="aag-type-tag"><i class="fas fa-file-alt"></i> Paper</span>
-                  <span class="aag-hybrid-tag"><i class="fas fa-wifi"></i> Hybrid</span>
-                </div>
-                <h3 class="aag-session-title">GeoAI and Deep Learning Symposium: Social Sensing and GeoAI for Public Health</h3>
-                <div class="aag-meta">
-                  <span><i class="fas fa-clock"></i> 4:10 PM – 5:30 PM</span>
-                  <span><i class="fas fa-door-open"></i> Peninsula, 25th Floor, Nikko</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- ── Day 2: Mar 18 ── -->
-        <div class="aag-day-block">
-          <div class="aag-day-label">
-            <span class="aag-day-name">Wednesday</span>
-            <span class="aag-day-date">March 18</span>
-          </div>
-          <div class="aag-sessions">
-
-            <div class="aag-card featured">
-              <div class="aag-card-accent chair-accent"></div>
-              <div class="aag-card-inner">
-                <div class="aag-card-top">
-                  <span class="aag-role-pill chair">Chair</span>
-                  <span class="aag-type-tag"><i class="fas fa-file-alt"></i> Paper</span>
-                </div>
-                <h3 class="aag-session-title">GeoAI and Deep Learning Symposium: GeoAI for Disaster Resilience</h3>
-                <div class="aag-meta">
-                  <span><i class="fas fa-clock"></i> 12:50 PM – 2:10 PM</span>
-                  <span><i class="fas fa-door-open"></i> Peninsula, 25th Floor, Nikko</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- ── Day 3: Mar 19 ── -->
-        <div class="aag-day-block">
-          <div class="aag-day-label">
-            <span class="aag-day-name">Thursday</span>
-            <span class="aag-day-date">March 19</span>
-          </div>
-          <div class="aag-sessions">
-
-            <div class="aag-card">
-              <div class="aag-card-accent organizer-accent"></div>
-              <div class="aag-card-inner">
-                <div class="aag-card-top">
-                  <span class="aag-role-pill organizer">Organizer</span>
-                  <span class="aag-type-tag"><i class="fas fa-users"></i> Panel</span>
-                </div>
-                <h3 class="aag-session-title">GISER Symposium: Ethics in GIScience</h3>
-                <div class="aag-meta">
-                  <span><i class="fas fa-clock"></i> 10:10 AM – 11:30 AM</span>
-                  <span><i class="fas fa-door-open"></i> Golden Gate, 25th Floor, Nikko</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="aag-card featured">
-              <div class="aag-card-accent presenter-accent"></div>
-              <div class="aag-card-inner">
-                <div class="aag-card-top">
-                  <span class="aag-role-pill presenter">Presenter</span>
-                  <span class="aag-type-tag"><i class="fas fa-file-alt"></i> Paper</span>
-                  <span class="aag-hybrid-tag"><i class="fas fa-wifi"></i> Hybrid</span>
-                </div>
-                <h3 class="aag-session-title">GeoAI and Deep Learning Symposium: The Convergence of Generative AI and GIScience: Benchmarking, Fine-Tuning, and Evaluation</h3>
-                <div class="aag-meta">
-                  <span><i class="fas fa-clock"></i> 2:30 PM – 3:50 PM</span>
-                  <span><i class="fas fa-door-open"></i> Peninsula, 25th Floor, Nikko</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- ── Day 4: Mar 20 ── -->
-        <div class="aag-day-block">
-          <div class="aag-day-label">
-            <span class="aag-day-name">Friday</span>
-            <span class="aag-day-date">March 20</span>
-          </div>
-          <div class="aag-sessions">
-
-            <div class="aag-card">
-              <div class="aag-card-accent organizer-accent"></div>
-              <div class="aag-card-inner">
-                <div class="aag-card-top">
-                  <span class="aag-role-pill organizer">Organizer</span>
-                  <span class="aag-type-tag"><i class="fas fa-file-alt"></i> Paper</span>
-                </div>
-                <h3 class="aag-session-title">GeoAI and Deep Learning Symposium: AI Ethics and Spatial Equity</h3>
-                <div class="aag-meta">
-                  <span><i class="fas fa-clock"></i> 2:30 PM – 3:50 PM</span>
-                  <span><i class="fas fa-door-open"></i> Peninsula, 25th Floor, Nikko</span>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Summary strip -->
-        <div class="aag-summary">
-          <div class="aag-sum-item"><span class="aag-sum-num">7</span><span class="aag-sum-label">Sessions</span></div>
-          <div class="aag-sum-item"><span class="aag-sum-num">4</span><span class="aag-sum-label">Days</span></div>
-          <div class="aag-sum-item"><span class="aag-sum-num">1</span><span class="aag-sum-label">Chair</span></div>
-          <div class="aag-sum-item"><span class="aag-sum-num">3</span><span class="aag-sum-label">Organizer</span></div>
-          <div class="aag-sum-item"><span class="aag-sum-num">1</span><span class="aag-sum-label">Presenter</span></div>
-          <div class="aag-sum-item"><span class="aag-sum-num">2</span><span class="aag-sum-label">Co-author</span></div>
-        </div>
-
       </div>
     </section>
 
@@ -1443,5 +1382,9 @@
   </footer>
 
   <script src="js/main.js"></script>
+  <script src="js/portrait.js" defer></script>
+  <script src="js/publications.js" defer></script>
+  <script src="js/pursuits.js" defer></script>
+  <script type="module" src="js/wanderlust.js"></script>
 </body>
 </html>

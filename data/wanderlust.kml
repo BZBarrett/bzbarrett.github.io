@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kml xmlns="http://www.opengis.net/kml/2.2">
+  <Document>
+    <name>Across the Smokies</name>
+    <description>Four stops between Tennessee and North Carolina, from the forests at Sugarlands to the Oconaluftee River.</description>
+    <ExtendedData><Data name="sample"><value>true</value></Data></ExtendedData>
+    <!-- An illustrative line between landmarks. Replace this file with the recorded route. -->
+    <Placemark>
+      <name>Across the Smokies</name>
+      <LineString><tessellate>1</tessellate><coordinates>
+        -83.5365,35.6850 -83.5320,35.6808 -83.5228,35.6801 -83.5160,35.6737
+        -83.5092,35.6680 -83.5018,35.6609 -83.4984,35.6516 -83.4925,35.6465
+        -83.4818,35.6361 -83.4680,35.6344 -83.4632,35.6352 -83.4601,35.6268
+        -83.4500,35.6222 -83.4402,35.6168 -83.4345,35.6158 -83.4250,35.6110
+        -83.4197,35.6075 -83.4117,35.6060 -83.4032,35.6028 -83.3971,35.5967
+        -83.3837,35.5951 -83.3790,35.5889 -83.3718,35.5855 -83.3610,35.5842
+        -83.3528,35.5806 -83.3458,35.5775 -83.3358,35.5710 -83.3264,35.5690
+        -83.3228,35.5628 -83.3116,35.5565 -83.3090,35.5522 -83.3095,35.5468
+        -83.3180,35.5401 -83.3171,35.5355 -83.3112,35.5304 -83.3104,35.5211
+        -83.3062,35.5135
+      </coordinates></LineString>
+    </Placemark>
+    <Placemark><name>Sugarlands</name><description>The northern end of the crossing, near Gatlinburg, Tennessee.</description><Point><coordinates>-83.5365,35.6850</coordinates></Point></Placemark>
+    <Placemark><name>Newfound Gap</name><description>The route crosses the Tennessee–North Carolina line at the gap.</description><Point><coordinates>-83.4250,35.6110</coordinates></Point></Placemark>
+    <Placemark><name>Smokemont</name><description>On the North Carolina side, the route turns into the Oconaluftee valley.</description><Point><coordinates>-83.3116,35.5565</coordinates></Point></Placemark>
+    <Placemark><name>Oconaluftee</name><description>The southern stop is at the visitor center near Cherokee.</description><Point><coordinates>-83.3062,35.5135</coordinates></Point></Placemark>
+  </Document>
+</kml>

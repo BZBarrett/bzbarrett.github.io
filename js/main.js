@@ -1,90 +1,47 @@
-// ── Tab navigation ──────────────────────────────────────────────────
-const navLinks = document.querySelectorAll('.nav-link[data-tab]');
-const panels   = document.querySelectorAll('.tab-panel');
+const nav = document.getElementById('mainNav');
+const menuButton = document.getElementById('hamburger');
+const navLinks = [...nav.querySelectorAll('[data-tab]')];
+const panels = document.querySelectorAll('.tab-panel');
+const main = document.getElementById('main-content');
 
-const validTabs = [...navLinks].map(l => l.dataset.tab);
-
-function activateTab(tabId, updateHash = true) {
-  navLinks.forEach(l => l.classList.toggle('active', l.dataset.tab === tabId));
-  panels.forEach(p => p.classList.toggle('active', p.id === 'tab-' + tabId));
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  // Close mobile nav
-  document.getElementById('mainNav').classList.remove('open');
-  if (updateHash) history.replaceState(null, '', '#' + tabId);
+function setMenu(open) {
+  nav.classList.toggle('open', open);
+  menuButton.setAttribute('aria-expanded', String(open));
 }
 
-navLinks.forEach(link => {
-  link.addEventListener('click', e => {
-    e.preventDefault();
-    activateTab(link.dataset.tab);
-  });
-});
-
-// Load correct tab from URL hash on page load
-const initialHash = window.location.hash.slice(1);
-activateTab(validTabs.includes(initialHash) ? initialHash : 'home', false);
-
-// Browser back/forward navigation
-window.addEventListener('hashchange', () => {
-  const tab = window.location.hash.slice(1);
-  if (validTabs.includes(tab)) activateTab(tab, false);
-});
-
-// ── Hamburger ────────────────────────────────────────────────────────
-document.getElementById('hamburger').addEventListener('click', () => {
-  document.getElementById('mainNav').classList.toggle('open');
-});
-
-// ── Publication filter ───────────────────────────────────────────────
-const filterBtns = document.querySelectorAll('.filter-btn');
-const pubCards   = document.querySelectorAll('.pub-card');
-const pubGroups  = document.querySelectorAll('.pub-year-group');
-
-filterBtns.forEach(btn => {
-  btn.addEventListener('click', () => {
-    filterBtns.forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const f = btn.dataset.filter;
-    pubCards.forEach(card => {
-      card.style.display = (f === 'all' || card.dataset.type === f) ? '' : 'none';
-    });
-    pubGroups.forEach(group => {
-      const hasVisible = [...group.querySelectorAll('.pub-card')].some(c => c.style.display !== 'none');
-      group.style.display = hasVisible ? '' : 'none';
-    });
-  });
-});
-
-// ── Contact form (mailto fallback) ───────────────────────────────────
-function handleContactForm(e) {
-  e.preventDefault();
-  const name    = document.getElementById('fname').value;
-  const email   = document.getElementById('femail').value;
-  const subject = document.getElementById('fsubject').value;
-  const message = document.getElementById('fmessage').value;
-
-  const mailto = `mailto:bzhou11@utk.edu?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent('From: ' + name + ' <' + email + '>\n\n' + message)}`;
-  window.location.href = mailto;
-
-  const status = document.getElementById('form-status');
-  status.textContent = 'Opening your email client...';
-  setTimeout(() => { status.textContent = ''; }, 4000);
+function showTab(moveFocus = false) {
+  const hash = location.hash.slice(1);
+  if (hash === 'main-content') return;
+  if (hash === 'mystery') {
+    location.replace(new URL('aag-2026-giser.html', document.querySelector('.lab-return').href).href);
+    return;
+  }
+  const tab = navLinks.find(link => link.dataset.tab === hash) || navLinks[0];
+  for (const link of navLinks) {
+    if (link === tab) link.setAttribute('aria-current', 'page');
+    else link.removeAttribute('aria-current');
+  }
+  for (const panel of panels) panel.classList.toggle('active', panel.id === 'tab-' + tab.dataset.tab);
+  setMenu(false);
+  if (moveFocus) {
+    main.focus({preventScroll: true});
+    window.scrollTo({top: 0, behavior: 'instant'});
+  }
 }
 
-// ── Intersection Observer: fade-in cards ────────────────────────────
-const observer = new IntersectionObserver(
-  entries => entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.style.opacity = '1';
-      entry.target.style.transform = 'translateY(0)';
-    }
-  }),
-  { threshold: 0.08 }
-);
-
-document.querySelectorAll('.card, .pub-card, .timeline-item').forEach(el => {
-  el.style.opacity = '0';
-  el.style.transform = 'translateY(16px)';
-  el.style.transition = 'opacity 0.4s ease, transform 0.4s ease, box-shadow 0.25s ease';
-  observer.observe(el);
+showTab();
+window.addEventListener('hashchange', () => showTab(true));
+menuButton.addEventListener('click', () => setMenu(menuButton.getAttribute('aria-expanded') !== 'true'));
+nav.addEventListener('click', () => setMenu(false));
+document.addEventListener('pointerdown', event => {
+  if (!event.target.closest('.site-header')) setMenu(false);
+});
+document.addEventListener('keydown', event => {
+  if (event.key === 'Escape' && menuButton.getAttribute('aria-expanded') === 'true') {
+    setMenu(false);
+    menuButton.focus();
+  }
+});
+matchMedia('(min-width: 1181px)').addEventListener('change', event => {
+  if (event.matches) setMenu(false);
 });

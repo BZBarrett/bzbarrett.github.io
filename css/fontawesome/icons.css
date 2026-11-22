@@ -1,0 +1,67 @@
+/*!
+ * Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com
+ * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
+ * Copyright 2024 Fonticons, Inc.
+ */
+@font-face {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-style: normal;
+  font-display: block;
+  src: url("fa-solid-900.woff2") format("woff2");
+}
+.fas { font-family: "Font Awesome 6 Free"; font-weight: 900; }
+@font-face {
+  font-family: "Font Awesome 6 Brands";
+  font-weight: 400;
+  font-style: normal;
+  font-display: block;
+  src: url("fa-brands-400.woff2") format("woff2");
+}
+.fab { font-family: "Font Awesome 6 Brands"; font-weight: 400; }
+.fas, .fab { display: inline-block; font-style: normal; line-height: 1; -webkit-font-smoothing: antialiased; }
+.fa-arrow-right::before { content: "\f061"; }
+.fa-brain::before { content: "\f5dc"; }
+.fa-briefcase::before { content: "\f0b1"; }
+.fa-building::before { content: "\f1ad"; }
+.fa-certificate::before { content: "\f0a3"; }
+.fa-chalkboard-teacher::before { content: "\f51c"; }
+.fa-chart-bar::before { content: "\f080"; }
+.fa-chart-line::before { content: "\f201"; }
+.fa-clock::before { content: "\f017"; }
+.fa-code::before { content: "\f121"; }
+.fa-database::before { content: "\f1c0"; }
+.fa-door-open::before { content: "\f52b"; }
+.fa-edit::before { content: "\f044"; }
+.fa-envelope::before { content: "\f0e0"; }
+.fa-external-link-alt::before { content: "\f35d"; }
+.fa-file-alt::before { content: "\f15c"; }
+.fa-flask::before { content: "\f0c3"; }
+.fa-github::before { content: "\f09b"; }
+.fa-globe::before { content: "\f0ac"; }
+.fa-globe-americas::before { content: "\f57d"; }
+.fa-graduation-cap::before { content: "\f19d"; }
+.fa-handshake::before { content: "\f2b5"; }
+.fa-house-damage::before { content: "\f6f1"; }
+.fa-leaf::before { content: "\f06c"; }
+.fa-linkedin::before { content: "\f08c"; }
+.fa-map::before { content: "\f279"; }
+.fa-map-marked-alt::before { content: "\f5a0"; }
+.fa-map-marker-alt::before { content: "\f3c5"; }
+.fa-map-pin::before { content: "\f276"; }
+.fa-microphone-alt::before { content: "\f3c9"; }
+.fa-newspaper::before { content: "\f1ea"; }
+.fa-paper-plane::before { content: "\f1d8"; }
+.fa-phone::before { content: "\f095"; }
+.fa-project-diagram::before { content: "\f542"; }
+.fa-satellite::before { content: "\f7bf"; }
+.fa-share-alt::before { content: "\f1e0"; }
+.fa-shield-alt::before { content: "\f3ed"; }
+.fa-tasks::before { content: "\f0ae"; }
+.fa-trophy::before { content: "\f091"; }
+.fa-university::before { content: "\f19c"; }
+.fa-user::before { content: "\f007"; }
+.fa-user-graduate::before { content: "\f501"; }
+.fa-users::before { content: "\f0c0"; }
+.fa-users-cog::before { content: "\f509"; }
+.fa-wifi::before { content: "\f1eb"; }
