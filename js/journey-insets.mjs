@@ -1,0 +1,32 @@
+import {t} from './journey-i18n.mjs';
+const el=id=>document.getElementById(id),clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+export function insetBox(box,spec){const w=Math.round(box.w*spec.size/100),h=Math.round(Math.min(w*.8,box.h*.43)),gap=28;return {x:box.x+(spec.position.endsWith('right')?box.w-w-gap:gap),y:box.y+(spec.position.startsWith('bottom')?box.h-h-gap:gap),w,h};}
+export function setupInsets({getCamera,onChange,onStructure}){
+  const specs=[];let serial=0;
+  function update(id,patch){const spec=specs.find(s=>s.id===id);if(!spec)return;Object.assign(spec,patch);spec.lon=clamp(spec.lon,-180,180);spec.lat=clamp(spec.lat,-85,85);spec.zoom=clamp(spec.zoom,0,16);refreshValues();onChange(spec);}
+  function refreshValues(){for(const spec of specs){const row=el('inset-list').querySelector('[data-inset-id="'+spec.id+'"]');if(!row)continue;for(const key of ['lon','lat','zoom']){const input=row.querySelector('[data-field='+key+']');if(document.activeElement!==input)input.value=String(key==='zoom'?Math.round(spec[key]*10)/10:Math.round(spec[key]*1e5)/1e5);}row.querySelector('output').value=spec.zoom.toFixed(1);}}
+  function render(){
+    el('add-inset').disabled=specs.length>=3;el('inset-list').replaceChildren();
+    for(const spec of specs){
+      const row=document.createElement('fieldset');row.className='inset-card';row.dataset.insetId=spec.id;
+      const legend=document.createElement('legend');legend.textContent=t('Inset map');row.append(legend);
+      const field=(key,label,type='text')=>{const wrap=document.createElement('label'),span=document.createElement('span'),input=document.createElement('input');span.textContent=t(label);input.type=type;input.value=spec[key];input.dataset.field=key;input.setAttribute('aria-label',t(label));wrap.append(span,input);row.append(wrap);return input;};
+      const name=field('label','Inset title');name.maxLength=50;name.addEventListener('input',()=>update(spec.id,{label:name.value}));
+      const presets=document.createElement('select');presets.setAttribute('aria-label',t('Inset region'));for(const [value,label]of [['','Choose region…'],['current','Current map view'],['alaska','Alaska'],['hawaii','Hawaii'],['usa','Contiguous United States']]){const o=document.createElement('option');o.value=value;o.textContent=t(label);presets.append(o);}presets.addEventListener('change',()=>{const c=getCamera(),p={current:[...c.center,c.zoom],alaska:[-152,64,3.5],hawaii:[-157,20.8,5],usa:[-98,39,3]}[presets.value];if(p)update(spec.id,{lon:p[0],lat:p[1],zoom:p[2]});});row.append(presets);
+      for(const [key,label,min,max]of [['lon','Longitude',-180,180],['lat','Latitude',-85,85]]){const input=field(key,label,'number');input.min=min;input.max=max;input.step='0.00001';input.addEventListener('change',()=>{if(input.value&&input.checkValidity())update(spec.id,{[key]:Number(input.value)});});}
+      const zoom=field('zoom','Inset zoom','range');zoom.min=0;zoom.max=16;zoom.step=.1;const out=document.createElement('output');zoom.parentElement.append(out);zoom.addEventListener('input',()=>update(spec.id,{zoom:Number(zoom.value)}));
+      const position=document.createElement('select');position.setAttribute('aria-label',t('Inset position'));for(const key of ['bottom-right','bottom-left','top-right','top-left']){const o=document.createElement('option');o.value=key;o.textContent=t({'bottom-right':'Bottom right','bottom-left':'Bottom left','top-right':'Top right','top-left':'Top left'}[key]);position.append(o);}position.value=spec.position;position.addEventListener('change',()=>update(spec.id,{position:position.value}));row.append(position);
+      const size=field('size','Inset size','range');size.min=22;size.max=42;size.step=1;size.addEventListener('input',()=>{spec.size=Number(size.value);onStructure();});
+      const remove=document.createElement('button');remove.type='button';remove.className='text-button';remove.textContent=t('Remove inset');remove.addEventListener('click',()=>{specs.splice(specs.indexOf(spec),1);render();onStructure();});row.append(remove);el('inset-list').append(row);
+    }refreshValues();
+  }
+  el('add-inset').addEventListener('click',()=>{if(specs.length>=3)return;const camera=getCamera();const positions=['bottom-right','bottom-left','top-right','top-left'];specs.push({id:'inset-'+(++serial),label:t('Inset {number}',{number:serial}),lon:camera.center[0],lat:camera.center[1],zoom:camera.zoom,size:30,position:positions.find(p=>!specs.some(s=>s.position===p))});render();onStructure();});
+  function bindPreview(viewport,canvas,getRenderer){
+    const hit=event=>{if(viewport.dataset.interaction!=='compose')return null;const r=canvas.getBoundingClientRect(),x=(event.clientX-r.x)/r.width,y=(event.clientY-r.y)/r.height;return (canvas._insetFrames||[]).findLast(f=>x>=f.x&&x<=f.x+f.w&&y>=f.y&&y<=f.y+f.h);};let drag;
+    viewport.addEventListener('pointerdown',event=>{const frame=hit(event);if(!frame||event.button!==0||getRenderer()?.exporting)return;event.preventDefault();event.stopImmediatePropagation();viewport.setPointerCapture(event.pointerId);drag={id:frame.id,pointer:event.pointerId,x:event.clientX,y:event.clientY,frame};viewport.classList.add('dragging');},true);
+    viewport.addEventListener('pointermove',event=>{if(!drag||drag.pointer!==event.pointerId)return;event.preventDefault();event.stopImmediatePropagation();const r=canvas.getBoundingClientRect(),patch=getRenderer()?.panInset(drag.id,(event.clientX-drag.x)/(r.width*drag.frame.w),(event.clientY-drag.y)/(r.height*drag.frame.h));drag.x=event.clientX;drag.y=event.clientY;if(patch)update(drag.id,patch);},true);
+    for(const event of ['pointerup','pointercancel','lostpointercapture'])viewport.addEventListener(event,e=>{if(drag?.pointer===e.pointerId){drag=null;viewport.classList.remove('dragging');e.stopImmediatePropagation();}},true);
+    viewport.addEventListener('wheel',event=>{const frame=hit(event);if(!frame||getRenderer()?.exporting)return;event.preventDefault();event.stopImmediatePropagation();const spec=specs.find(s=>s.id===frame.id);if(spec)update(spec.id,{zoom:spec.zoom-Math.max(-500,Math.min(500,event.deltaY*(event.deltaMode===1?16:1)))*.004});}, {capture:true,passive:false});
+  }
+  return {specs,refresh:render,bindPreview,setLocked(value){for(const control of el('inset-list').querySelectorAll('input,select,button'))control.disabled=value;el('add-inset').disabled=value||specs.length>=3;}};
+}

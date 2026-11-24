@@ -66,6 +66,9 @@ body:has(.journey-atlas.atlas-expanded) { overflow: hidden; }
   text-shadow: 0 2px 14px #faf8f2d9;
 }
 .atlas-heading h1::after { content: '.'; color: #cc6420; }
+.studio-link { display: inline-flex; align-items: center; gap: .6rem; min-height: 44px; margin-top: 1.15rem; padding: .55rem .9rem; border: 1px solid #294737; border-radius: 3px; background: #19382e; color: #fff9eb; font-size: .9rem; font-weight: 600; text-decoration: none; pointer-events: auto; box-shadow: 0 3px 15px #19382e18; }
+.studio-link:hover { background: #2a5142; }
+.studio-link:focus-visible { outline-color: #be581d; }
 .atlas-tools {
   position: absolute; z-index: 3; top: clamp(1rem, 2.6vw, 2.6rem); right: max(3vw, 1rem);
   display: grid; overflow: hidden; border: 1px solid #abb5a7; border-radius: 4px; box-shadow: 0 3px 16px #263d2e22;

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <g stroke-linecap="round" stroke-linejoin="round">
+    <path d="m31 40-9 14-7 4m17-18 7 7 5 11" fill="none" stroke="#fffaf0" stroke-width="9"/>
+    <path d="m31 40-9 14-7 4m17-18 7 7 5 11" fill="none" stroke="#2b6260" stroke-width="6"/>
+    <path d="M12 58h8m21 1h9" stroke="#29414a" stroke-width="4"/>
+    <path d="m49 31-3 29" stroke="#fffaf0" stroke-width="4"/>
+    <path d="m49 31-3 29" stroke="#806954" stroke-width="2"/>
+    <path d="m36 26 5 9 8-3" fill="none" stroke="#fffaf0" stroke-width="8"/>
+    <path d="m36 26 5 9 8-3" fill="none" stroke="#e6b48d" stroke-width="5"/>
+    <path d="m29 20 9 3-3 21-11-2Z" fill="#e69b4e" stroke="#fffaf0" stroke-width="1.5"/>
+    <rect x="18" y="22" width="11" height="18" rx="4" transform="rotate(12 23 31)" fill="#bd623d" stroke="#fffaf0" stroke-width="1.5"/>
+    <path d="M21 27h5m-5 5h4" stroke="#efb86d" stroke-width="2"/>
+    <path d="m29 25-2 10 6 3" fill="none" stroke="#e6b48d" stroke-width="4"/>
+    <path d="M30 9h12v8c0 5-10 7-12 1Z" fill="#e6b48d" stroke="#fffaf0" stroke-width="1.5"/>
+    <path d="M27 11c0-6 4-8 8-8s7 3 7 8l4 2H26Z" fill="#315b56" stroke="#fffaf0" stroke-width="1.5"/>
+    <path d="M29 9h11" stroke="#e6b065" stroke-width="2"/>
+  </g>
+</svg>

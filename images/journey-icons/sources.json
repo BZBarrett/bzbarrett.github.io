@@ -1,0 +1,15 @@
+{
+  "icons": {
+    "family": "Phosphor Icons, duotone",
+    "license": "MIT",
+    "repository": "https://github.com/phosphor-icons/core",
+    "files": {
+      "car.svg": "assets/duotone/car-duotone.svg",
+      "train.svg": "assets/duotone/train-duotone.svg",
+      "plane.svg": "assets/duotone/airplane-duotone.svg",
+      "walk.svg": "assets/duotone/person-simple-walk-duotone.svg"
+    },
+    "modification": "Paths unchanged. Foreground #254d46; duotone fill #e6aa58 at 0.48 opacity.",
+    "licenseFile": "LICENSE.txt"
+  }
+}

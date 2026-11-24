@@ -1,0 +1,21 @@
+{
+  "family": "Journey Brand",
+  "originalFamily": "LXGW Marker Gothic (霞鹜漫黑)",
+  "version": "v1.012",
+  "license": "SIL Open Font License 1.1",
+  "source": "https://github.com/lxgw/LxgwMarkerGothic/releases/download/v1.012/LxgwMarkerGothic-v1.012.zip",
+  "originalFile": "LxgwMarkerGothic-v1.012/fonts/ttf/LXGWMarkerGothic-Regular.ttf",
+  "modification": "Subset to brand characters; converted to WOFF2; family names changed to Journey Brand.",
+  "characters": "玩嘚儿了~",
+  "unicode": [
+    "U+73A9",
+    "U+561A",
+    "U+513F",
+    "U+4E86",
+    "U+007E"
+  ],
+  "cmapVerified": true,
+  "licenseFile": "OFL-LXGW-Marker-Gothic.txt",
+  "rejectedCandidate": "ZCOOL KuaiLe: U+561A 嘚 absent from official font cmap.",
+  "sha256": "f391006d33863efd3929a16a6122e4a08efaaebc191dc186c51938d7727e7170"
+}

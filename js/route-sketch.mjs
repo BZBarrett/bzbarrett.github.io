@@ -8,7 +8,7 @@ export class RouteSketch {
     this.padding = padding;
     this.route = route;
     this.paths = route.lines.map(line => line.points.map(mercator));
-    this.stops = route.stops.map(stop => ({name: stop.name, point: mercator(stop.point)}));
+    this.stops = route.stops.map(stop => ({name: stop.name, point: mercator(stop.point), color: stop.color}));
     this.area = route.bounds.map(mercator);
     this.selected = -1;
     this.free = false;
@@ -126,7 +126,8 @@ export class RouteSketch {
   draw() {
     const ctx = this.ctx, w = this.w, h = this.h;
     ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
-    ctx.fillStyle = this.land.length ? '#bdd4d1' : '#e5e7d8';
+    const dark=this.theme==='dark',minimal=this.theme==='positron';
+    ctx.fillStyle = dark?'#1c2b39':minimal?'#e4e8eb':this.land.length ? '#bdd4d1' : '#e5e7d8';
     ctx.fillRect(0, 0, w, h);
     const west = this.center[0] - this.origin[0] / this.scale, north = this.center[1] - this.origin[1] / this.scale;
     const east = west + w / this.scale, south = north + h / this.scale;
@@ -142,7 +143,7 @@ export class RouteSketch {
       ctx.beginPath();
       for (const ring of rings) { trace(ring, shift); ctx.closePath(); }
       if (kind === 'land') {
-        ctx.fillStyle = '#e6e8d9'; ctx.fill('evenodd');
+        ctx.fillStyle = dark?'#324351':minimal?'#fafafa':'#e6e8d9'; ctx.fill('evenodd');
         ctx.setLineDash([]); ctx.strokeStyle = '#a9b9a4'; ctx.lineWidth = .8;
       } else {
         ctx.setLineDash([6, 5]); ctx.strokeStyle = '#95a387'; ctx.lineWidth = 1;
@@ -168,19 +169,27 @@ export class RouteSketch {
       }
     }
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    ctx.beginPath();
-    for (const line of this.paths) trace(line);
-    ctx.strokeStyle = '#faf6e4'; ctx.lineWidth = 8; ctx.stroke();
-    ctx.strokeStyle = '#b64e1b'; ctx.lineWidth = 3.6; ctx.stroke();
+    this.paths.forEach((path,index)=>{
+      if(this.playbackTripId&&((this.playbackTripIds||[this.playbackTripId]).includes(this.route.lines[index]?.tripId)||this.route.lines[index]?.option))return;
+      ctx.setLineDash(this.route.lines[index]?.mode==='plane'?[12,12]:[]);
+      ctx.beginPath();trace(path);if(this.route.lines[index]?.selected){ctx.strokeStyle='#ffb32faa';ctx.lineWidth=15;ctx.stroke();}ctx.strokeStyle=dark?'#10212a':'#faf6e4';ctx.lineWidth=8;ctx.stroke();
+      ctx.strokeStyle=this.route.lines[index]?.color||'#b64e1b';ctx.lineWidth=3.6;ctx.stroke();
+    });
 
+    ctx.setLineDash([]);
     const labels = [];
+    if(this.showNationalParks)for(const park of this.parkMarkers||[]){
+      const point=[...park.point];point[0]+=Math.round(this.center[0]-point[0]);const [x,y]=this.pixel(point);if(x< -20||x>w+20||y< -20||y>h+20)continue;
+      ctx.save();ctx.translate(x,y);ctx.beginPath();ctx.arc(0,0,11,0,Math.PI*2);ctx.fillStyle='#fffdf1';ctx.fill();ctx.strokeStyle='#b8c9af';ctx.lineWidth=1;ctx.stroke();
+      ctx.beginPath();ctx.moveTo(0,-8);ctx.lineTo(6,1);ctx.lineTo(3,1);ctx.lineTo(7,6);ctx.lineTo(2,6);ctx.lineTo(2,10);ctx.lineTo(-2,10);ctx.lineTo(-2,6);ctx.lineTo(-7,6);ctx.lineTo(-3,1);ctx.lineTo(-6,1);ctx.closePath();ctx.fillStyle='#35774c';ctx.fill();ctx.restore();
+    }
     const order = this.stops.map((_, i) => i).sort((a, b) => Number(b === this.selected) - Number(a === this.selected));
     for (const i of order) {
       const stop = this.stops[i], [x, y] = this.pixel(stop.point);
       if (x < -10 || x > w + 10 || y < -10 || y > h + 10) continue;
-      const active = i === this.selected;
+      const active = i === this.selected||stop.selected;
       ctx.beginPath(); ctx.arc(x, y, active ? 8 : 5.5, 0, 2 * Math.PI);
-      ctx.fillStyle = active ? '#cc571c' : '#234738'; ctx.strokeStyle = '#fff9e7'; ctx.lineWidth = 2.8; ctx.fill(); ctx.stroke();
+      ctx.fillStyle = stop.color || (active ? '#cc571c' : '#234738'); ctx.strokeStyle = stop.selected?'#ffae20':'#fff9e7'; ctx.lineWidth = stop.selected?6:2.8; ctx.fill(); ctx.stroke();
       ctx.font = (active ? 'bold ' : '') + '13px Arial, sans-serif';
       const left = x + 12, top = y - 11, right = left + ctx.measureText(stop.name).width;
       if (labels.some(b => b[0] < right && left < b[2] && b[1] < top + 16 && top < b[3])) continue;
@@ -188,5 +197,6 @@ export class RouteSketch {
       ctx.lineWidth = 3.5; ctx.strokeStyle = '#f6f6e8'; ctx.strokeText(stop.name, left, y + 4);
       ctx.fillStyle = '#263e32'; ctx.fillText(stop.name, left, y + 4);
     }
+    this.onDraw?.();
   }
 }

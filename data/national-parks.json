@@ -1,0 +1,647 @@
+{
+  "updated": "2026-11-23",
+  "source": "https://www.nps.gov/aboutus/national-park-system.htm",
+  "coordinateSource": "https://services1.arcgis.com/fBc8EJBxQRMcHlei/ArcGIS/rest/services/NPS_MonitoringNetworks_forNWMapsRepublish/FeatureServer/1",
+  "parks": [
+    {
+      "id": "acad",
+      "name": "Acadia",
+      "state": "Maine",
+      "coordinates": [
+        -68.290782,
+        44.310474
+      ],
+      "url": "https://www.nps.gov/acad/siteindex.htm"
+    },
+    {
+      "id": "npsa",
+      "name": "American Samoa",
+      "state": "American Samoa",
+      "coordinates": [
+        -169.926576,
+        -14.244949
+      ],
+      "url": "https://www.nps.gov/npsa/index.htm"
+    },
+    {
+      "id": "arch",
+      "name": "Arches",
+      "state": "Utah",
+      "coordinates": [
+        -109.586378,
+        38.722624
+      ],
+      "url": "https://www.nps.gov/arch/index.htm"
+    },
+    {
+      "id": "badl",
+      "name": "Badlands",
+      "state": "South Dakota",
+      "coordinates": [
+        -102.482952,
+        43.685856
+      ],
+      "url": "https://www.nps.gov/badl/index.htm"
+    },
+    {
+      "id": "bibe",
+      "name": "Big Bend",
+      "state": "Texas",
+      "coordinates": [
+        -103.229379,
+        29.297785
+      ],
+      "url": "https://www.nps.gov/bibe/index.htm"
+    },
+    {
+      "id": "bisc",
+      "name": "Biscayne",
+      "state": "Florida",
+      "coordinates": [
+        -80.210241,
+        25.490592
+      ],
+      "url": "https://www.nps.gov/bisc/index.htm"
+    },
+    {
+      "id": "blca",
+      "name": "Black Canyon of the Gunnison",
+      "state": "Colorado",
+      "coordinates": [
+        -107.724444,
+        38.578033
+      ],
+      "url": "https://www.nps.gov/blca/index.htm"
+    },
+    {
+      "id": "brca",
+      "name": "Bryce Canyon",
+      "state": "Utah",
+      "coordinates": [
+        -112.18268,
+        37.583997
+      ],
+      "url": "https://www.nps.gov/brca/index.htm"
+    },
+    {
+      "id": "cany",
+      "name": "Canyonlands",
+      "state": "Utah",
+      "coordinates": [
+        -109.880173,
+        38.245564
+      ],
+      "url": "https://www.nps.gov/cany/index.htm"
+    },
+    {
+      "id": "care",
+      "name": "Capitol Reef",
+      "state": "Utah",
+      "coordinates": [
+        -111.176804,
+        38.178611
+      ],
+      "url": "https://www.nps.gov/care/index.htm"
+    },
+    {
+      "id": "cave",
+      "name": "Carlsbad Caverns",
+      "state": "New Mexico",
+      "coordinates": [
+        -104.552978,
+        32.1409
+      ],
+      "url": "https://www.nps.gov/cave/index.htm"
+    },
+    {
+      "id": "chis",
+      "name": "Channel Islands",
+      "state": "California",
+      "coordinates": [
+        -119.911286,
+        33.986806
+      ],
+      "url": "https://www.nps.gov/chis/index.htm"
+    },
+    {
+      "id": "chir",
+      "name": "Chiricahua",
+      "state": "Arizona",
+      "coordinates": [
+        -109.341617,
+        32.012151
+      ],
+      "url": "https://www.nps.gov/chir/index.htm"
+    },
+    {
+      "id": "cong",
+      "name": "Congaree",
+      "state": "South Carolina",
+      "coordinates": [
+        -80.747769,
+        33.791646
+      ],
+      "url": "https://www.nps.gov/cong/index.htm"
+    },
+    {
+      "id": "crla",
+      "name": "Crater Lake",
+      "state": "Oregon",
+      "coordinates": [
+        -122.13276,
+        42.941232
+      ],
+      "url": "https://www.nps.gov/crla/index.htm"
+    },
+    {
+      "id": "cuva",
+      "name": "Cuyahoga Valley",
+      "state": "Ohio",
+      "coordinates": [
+        -81.571001,
+        41.259201
+      ],
+      "url": "https://www.nps.gov/cuva/index.htm"
+    },
+    {
+      "id": "deva",
+      "name": "Death Valley",
+      "state": "California and Nevada",
+      "coordinates": [
+        -117.131583,
+        36.481934
+      ],
+      "url": "https://www.nps.gov/deva/index.htm"
+    },
+    {
+      "id": "dena",
+      "name": "Denali",
+      "state": "Alaska",
+      "coordinates": [
+        -151.052681,
+        63.297776
+      ],
+      "url": "https://www.nps.gov/dena/index.htm"
+    },
+    {
+      "id": "drto",
+      "name": "Dry Tortugas",
+      "state": "Florida",
+      "coordinates": [
+        -82.871783,
+        24.648851
+      ],
+      "url": "https://www.nps.gov/drto/index.htm"
+    },
+    {
+      "id": "ever",
+      "name": "Everglades",
+      "state": "Florida",
+      "coordinates": [
+        -80.881659,
+        25.375829
+      ],
+      "url": "https://www.nps.gov/ever/index.htm"
+    },
+    {
+      "id": "gaar",
+      "name": "Gates of the Arctic",
+      "state": "Alaska",
+      "coordinates": [
+        -153.291805,
+        67.759617
+      ],
+      "url": "https://www.nps.gov/gaar/index.htm"
+    },
+    {
+      "id": "jeff",
+      "name": "Gateway Arch",
+      "state": "Missouri and Illinois",
+      "coordinates": [
+        -90.184928,
+        38.624661
+      ],
+      "url": "https://www.nps.gov/jeff/index.htm"
+    },
+    {
+      "id": "glac",
+      "name": "Glacier",
+      "state": "Montana",
+      "coordinates": [
+        -113.800941,
+        48.684384
+      ],
+      "url": "https://www.nps.gov/glac/index.htm"
+    },
+    {
+      "id": "glba",
+      "name": "Glacier Bay",
+      "state": "Alaska",
+      "coordinates": [
+        -136.840668,
+        58.800834
+      ],
+      "url": "https://www.nps.gov/glba/index.htm"
+    },
+    {
+      "id": "grca",
+      "name": "Grand Canyon",
+      "state": "Arizona",
+      "coordinates": [
+        -112.683702,
+        36.172775
+      ],
+      "url": "https://www.nps.gov/grca/index.htm"
+    },
+    {
+      "id": "grte",
+      "name": "Grand Teton",
+      "state": "Wyoming",
+      "coordinates": [
+        -110.705478,
+        43.818542
+      ],
+      "url": "https://www.nps.gov/grte/index.htm"
+    },
+    {
+      "id": "grba",
+      "name": "Great Basin",
+      "state": "Nevada",
+      "coordinates": [
+        -114.25799,
+        38.94618
+      ],
+      "url": "https://www.nps.gov/grba/index.htm"
+    },
+    {
+      "id": "grsa",
+      "name": "Great Sand Dunes",
+      "state": "Colorado",
+      "coordinates": [
+        -105.591952,
+        37.792597
+      ],
+      "url": "https://www.nps.gov/grsa/index.htm"
+    },
+    {
+      "id": "grsm",
+      "name": "Great Smoky Mountains",
+      "state": "North Carolina and Tennessee",
+      "coordinates": [
+        -83.508183,
+        35.601164
+      ],
+      "url": "https://www.nps.gov/grsm/index.htm"
+    },
+    {
+      "id": "gumo",
+      "name": "Guadalupe Mountains",
+      "state": "Texas",
+      "coordinates": [
+        -104.885536,
+        31.92305
+      ],
+      "url": "https://www.nps.gov/gumo/index.htm"
+    },
+    {
+      "id": "hale",
+      "name": "Haleakalā",
+      "state": "Hawaii",
+      "coordinates": [
+        -156.159192,
+        20.706934
+      ],
+      "url": "https://www.nps.gov/hale/index.htm"
+    },
+    {
+      "id": "havo",
+      "name": "Hawai'i Volcanoes",
+      "state": "Hawaii",
+      "coordinates": [
+        -155.463912,
+        19.338632
+      ],
+      "url": "https://www.nps.gov/havo/index.htm"
+    },
+    {
+      "id": "hosp",
+      "name": "Hot Springs",
+      "state": "Arkansas",
+      "coordinates": [
+        -93.063344,
+        34.524123
+      ],
+      "url": "https://www.nps.gov/hosp/index.htm"
+    },
+    {
+      "id": "indu",
+      "name": "Indiana Dunes",
+      "state": "Indiana",
+      "coordinates": [
+        -87.097052,
+        41.637253
+      ],
+      "url": "https://www.nps.gov/indu/index.htm"
+    },
+    {
+      "id": "isro",
+      "name": "Isle Royale",
+      "state": "Michigan",
+      "coordinates": [
+        -88.827888,
+        48.011492
+      ],
+      "url": "https://www.nps.gov/isro/index.htm"
+    },
+    {
+      "id": "jotr",
+      "name": "Joshua Tree",
+      "state": "California",
+      "coordinates": [
+        -115.842473,
+        33.915261
+      ],
+      "url": "https://www.nps.gov/jotr/index.htm"
+    },
+    {
+      "id": "katm",
+      "name": "Katmai",
+      "state": "Alaska",
+      "coordinates": [
+        -155.012527,
+        58.622179
+      ],
+      "url": "https://www.nps.gov/katm/index.htm"
+    },
+    {
+      "id": "kefj",
+      "name": "Kenai Fjords",
+      "state": "Alaska",
+      "coordinates": [
+        -150.106062,
+        59.818484
+      ],
+      "url": "https://www.nps.gov/kefj/index.htm"
+    },
+    {
+      "id": "kica",
+      "name": "Kings Canyon",
+      "state": "California",
+      "coordinates": [
+        -118.598179,
+        36.892175
+      ],
+      "url": "https://www.nps.gov/seki/index.htm"
+    },
+    {
+      "id": "kova",
+      "name": "Kobuk Valley",
+      "state": "Alaska",
+      "coordinates": [
+        -159.200257,
+        67.356313
+      ],
+      "url": "https://www.nps.gov/kova/index.htm"
+    },
+    {
+      "id": "lacl",
+      "name": "Lake Clark",
+      "state": "Alaska",
+      "coordinates": [
+        -153.555219,
+        60.573974
+      ],
+      "url": "https://www.nps.gov/lacl/index.htm"
+    },
+    {
+      "id": "lavo",
+      "name": "Lassen Volcanic",
+      "state": "California",
+      "coordinates": [
+        -121.407187,
+        40.493824
+      ],
+      "url": "https://www.nps.gov/lavo/index.htm"
+    },
+    {
+      "id": "maca",
+      "name": "Mammoth Cave",
+      "state": "Kentucky",
+      "coordinates": [
+        -86.130582,
+        37.197756
+      ],
+      "url": "https://www.nps.gov/maca/index.htm"
+    },
+    {
+      "id": "meve",
+      "name": "Mesa Verde",
+      "state": "Colorado",
+      "coordinates": [
+        -108.462404,
+        37.239089
+      ],
+      "url": "https://www.nps.gov/meve/index.htm"
+    },
+    {
+      "id": "mora",
+      "name": "Mount Rainier",
+      "state": "Washington",
+      "coordinates": [
+        -121.705657,
+        46.861086
+      ],
+      "url": "https://www.nps.gov/mora/index.htm"
+    },
+    {
+      "id": "neri",
+      "name": "New River Gorge",
+      "state": "West Virginia",
+      "coordinates": [
+        -81.001381,
+        37.872275
+      ],
+      "url": "https://www.nps.gov/neri/index.htm"
+    },
+    {
+      "id": "noca",
+      "name": "North Cascades",
+      "state": "Washington",
+      "coordinates": [
+        -121.205943,
+        48.711982
+      ],
+      "url": "https://www.nps.gov/noca/index.htm"
+    },
+    {
+      "id": "olym",
+      "name": "Olympic",
+      "state": "Washington",
+      "coordinates": [
+        -123.6664,
+        47.803933
+      ],
+      "url": "https://www.nps.gov/olym/index.htm"
+    },
+    {
+      "id": "pefo",
+      "name": "Petrified Forest",
+      "state": "Arizona",
+      "coordinates": [
+        -109.787763,
+        34.983899
+      ],
+      "url": "https://www.nps.gov/pefo/index.htm"
+    },
+    {
+      "id": "pinn",
+      "name": "Pinnacles",
+      "state": "California",
+      "coordinates": [
+        -121.181183,
+        36.490425
+      ],
+      "url": "https://www.nps.gov/pinn/index.htm"
+    },
+    {
+      "id": "redw",
+      "name": "Redwood",
+      "state": "California",
+      "coordinates": [
+        -124.033649,
+        41.43392
+      ],
+      "url": "https://www.nps.gov/redw/index.htm"
+    },
+    {
+      "id": "romo",
+      "name": "Rocky Mountain",
+      "state": "Colorado",
+      "coordinates": [
+        -105.697296,
+        40.355698
+      ],
+      "url": "https://www.nps.gov/romo/index.htm"
+    },
+    {
+      "id": "sagu",
+      "name": "Saguaro",
+      "state": "Arizona",
+      "coordinates": [
+        -110.758741,
+        32.208957
+      ],
+      "url": "https://www.nps.gov/sagu/index.htm"
+    },
+    {
+      "id": "sequ",
+      "name": "Sequoia",
+      "state": "California",
+      "coordinates": [
+        -118.575214,
+        36.507858
+      ],
+      "url": "https://www.nps.gov/seki/index.htm"
+    },
+    {
+      "id": "shen",
+      "name": "Shenandoah",
+      "state": "Virginia",
+      "coordinates": [
+        -78.469052,
+        38.492377
+      ],
+      "url": "https://www.nps.gov/shen/index.htm"
+    },
+    {
+      "id": "thro",
+      "name": "Theodore Roosevelt",
+      "state": "North Dakota",
+      "coordinates": [
+        -103.429762,
+        47.178362
+      ],
+      "url": "https://www.nps.gov/thro/index.htm"
+    },
+    {
+      "id": "viis",
+      "name": "Virgin Islands",
+      "state": "Virgin Islands",
+      "coordinates": [
+        -64.745238,
+        18.342572
+      ],
+      "url": "https://www.nps.gov/viis/index.htm"
+    },
+    {
+      "id": "voya",
+      "name": "Voyageurs",
+      "state": "Minnesota",
+      "coordinates": [
+        -92.838302,
+        48.483716
+      ],
+      "url": "https://www.nps.gov/voya/index.htm"
+    },
+    {
+      "id": "whsa",
+      "name": "White Sands",
+      "state": "New Mexico",
+      "coordinates": [
+        -106.32535,
+        32.778395
+      ],
+      "url": "https://www.nps.gov/whsa/index.htm"
+    },
+    {
+      "id": "wica",
+      "name": "Wind Cave",
+      "state": "South Dakota",
+      "coordinates": [
+        -103.439481,
+        43.580131
+      ],
+      "url": "https://www.nps.gov/wica/index.htm"
+    },
+    {
+      "id": "wrst",
+      "name": "Wrangell-St. Elias",
+      "state": "Alaska",
+      "coordinates": [
+        -142.853255,
+        61.556862
+      ],
+      "url": "https://www.nps.gov/wrst/index.htm"
+    },
+    {
+      "id": "yell",
+      "name": "Yellowstone",
+      "state": "Idaho, Montana, and Wyoming",
+      "coordinates": [
+        -110.547182,
+        44.598251
+      ],
+      "url": "https://www.nps.gov/yell/index.htm"
+    },
+    {
+      "id": "yose",
+      "name": "Yosemite",
+      "state": "California",
+      "coordinates": [
+        -119.5572,
+        37.848838
+      ],
+      "url": "https://www.nps.gov/yose/index.htm"
+    },
+    {
+      "id": "zion",
+      "name": "Zion",
+      "state": "Utah",
+      "coordinates": [
+        -113.026525,
+        37.298398
+      ],
+      "url": "https://www.nps.gov/zion/index.htm"
+    }
+  ]
+}
