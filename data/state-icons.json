@@ -1,0 +1,205 @@
+{
+  "version": 1,
+  "icons": {
+    "01": {
+      "src": "images/state-badges/01.webp",
+      "source": "01-alabama.png"
+    },
+    "02": {
+      "src": "images/state-badges/02.webp",
+      "source": "02-alaska.png"
+    },
+    "04": {
+      "src": "images/state-badges/04.webp",
+      "source": "03-arizona.png"
+    },
+    "08": {
+      "src": "images/state-badges/08.webp",
+      "source": "06-colorado.png"
+    },
+    "12": {
+      "src": "images/state-badges/12.webp",
+      "source": "09-florida.png"
+    },
+    "13": {
+      "src": "images/state-badges/13.webp",
+      "source": "10-georgia.png"
+    },
+    "18": {
+      "src": "images/state-badges/18.webp",
+      "source": "14-indiana.png"
+    },
+    "20": {
+      "src": "images/state-badges/20.webp",
+      "source": "16-kansas.png"
+    },
+    "23": {
+      "src": "images/state-badges/23.webp",
+      "source": "19-maine.png"
+    },
+    "25": {
+      "src": "images/state-badges/25.webp",
+      "source": "21-massachusetts.png"
+    },
+    "27": {
+      "src": "images/state-badges/27.webp",
+      "source": "23-minnesota.png"
+    },
+    "34": {
+      "src": "images/state-badges/34.webp",
+      "source": "30-new-jersey.png"
+    },
+    "37": {
+      "src": "images/state-badges/37.webp",
+      "source": "33-north-carolina.png"
+    },
+    "38": {
+      "src": "images/state-badges/38.webp",
+      "source": "34-north-dakota.png"
+    },
+    "40": {
+      "src": "images/state-badges/40.webp",
+      "source": "36-oklahoma.png"
+    },
+    "42": {
+      "src": "images/state-badges/42.webp",
+      "source": "38-pennsylvania.png"
+    },
+    "46": {
+      "src": "images/state-badges/46.webp",
+      "source": "41-south-dakota.png"
+    },
+    "48": {
+      "src": "images/state-badges/48.webp",
+      "source": "43-texas.png"
+    },
+    "56": {
+      "src": "images/state-badges/56.webp",
+      "source": "50-wyoming.png"
+    },
+    "09": {
+      "src": "images/state-badges/09.webp",
+      "source": "07-connecticut.png"
+    },
+    "29": {
+      "src": "images/state-badges/29.webp",
+      "source": "25-missouri.png"
+    },
+    "54": {
+      "src": "images/state-badges/54.webp",
+      "source": "48-west-virginia.png"
+    },
+    "17": {
+      "src": "images/state-badges/17.webp",
+      "source": "13-illinois.png"
+    },
+    "35": {
+      "src": "images/state-badges/35.webp",
+      "source": "31-new-mexico.png"
+    },
+    "05": {
+      "src": "images/state-badges/05.webp",
+      "source": "04-arkansas.png"
+    },
+    "06": {
+      "src": "images/state-badges/06.webp",
+      "source": "05-california.png"
+    },
+    "10": {
+      "src": "images/state-badges/10.webp",
+      "source": "08-delaware.png"
+    },
+    "15": {
+      "src": "images/state-badges/15.webp",
+      "source": "11-hawaii.png"
+    },
+    "19": {
+      "src": "images/state-badges/19.webp",
+      "source": "15-iowa.png"
+    },
+    "21": {
+      "src": "images/state-badges/21.webp",
+      "source": "17-kentucky.png"
+    },
+    "24": {
+      "src": "images/state-badges/24.webp",
+      "source": "20-maryland.png"
+    },
+    "26": {
+      "src": "images/state-badges/26.webp",
+      "source": "22-michigan.png"
+    },
+    "28": {
+      "src": "images/state-badges/28.webp",
+      "source": "24-mississippi.png"
+    },
+    "30": {
+      "src": "images/state-badges/30.webp",
+      "source": "26-montana.png"
+    },
+    "33": {
+      "src": "images/state-badges/33.webp",
+      "source": "29-new-hampshire.png"
+    },
+    "36": {
+      "src": "images/state-badges/36.webp",
+      "source": "32-new-york.png"
+    },
+    "39": {
+      "src": "images/state-badges/39.webp",
+      "source": "35-ohio.png"
+    },
+    "41": {
+      "src": "images/state-badges/41.webp",
+      "source": "37-oregon.png"
+    },
+    "47": {
+      "src": "images/state-badges/47.webp",
+      "source": "42-tennessee.png"
+    },
+    "49": {
+      "src": "images/state-badges/49.webp",
+      "source": "44-utah.png"
+    },
+    "51": {
+      "src": "images/state-badges/51.webp",
+      "source": "46-virginia.png"
+    },
+    "53": {
+      "src": "images/state-badges/53.webp",
+      "source": "47-washington.png"
+    },
+    "55": {
+      "src": "images/state-badges/55.webp",
+      "source": "49-wisconsin.png"
+    },
+    "31": {
+      "src": "images/state-badges/31.webp",
+      "source": "27-nebraska.png"
+    },
+    "45": {
+      "src": "images/state-badges/45.webp",
+      "source": "40-south-carolina.png"
+    },
+    "16": {
+      "src": "images/state-badges/16.webp",
+      "source": "12-idaho.png"
+    },
+    "32": {
+      "src": "images/state-badges/32.webp",
+      "source": "28-nevada.png"
+    },
+    "50": {
+      "src": "images/state-badges/50.webp",
+      "source": "45-vermont.png"
+    },
+    "22": {
+      "src": "images/state-badges/22.webp",
+      "source": "18-louisiana.png"
+    },
+    "44": {
+      "src": "images/state-badges/44.webp",
+      "source": "39-rhode-island.png"
+    }
+  }
+}

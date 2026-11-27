@@ -1,5 +1,6 @@
 let language='en';
 const zh={
+'Video title':'视频标题','Video title (defaults to journey name)':'视频标题（留空时使用行程名称）',
 'Car model / name (optional)':'车型 / 车名（可选）','e.g. Subaru Outback / My road-trip car':'例如：Subaru Outback / 我的小车',
 'Route playback':'路线动画','Play journey':'播放行程','Pause journey':'暂停播放','Resume journey':'继续播放','Replay journey':'重播行程','Replay from the start':'从头重播','Playback progress':'播放进度','Follow on map':'地图跟随','Speed':'速度','Animation speed':'动画速度','Ready to play':'准备播放','Playing':'正在播放','Paused':'已暂停','Finished':'播放结束','Segment {index} of {total}':'路段 {index} / {total}',
 
@@ -40,6 +41,8 @@ Object.assign(zh,{
 });
 Object.assign(zh,{"Import KML, KMZ or GeoJSON": "导入 KML、KMZ 或 GeoJSON", "Export KMZ": "导出 KMZ", "Export GeoJSON": "导出 GeoJSON", "File format": "文件格式", "Choose a KML, KMZ or GeoJSON file.": "请选择 KML、KMZ 或 GeoJSON 文件。", "Please import a file smaller than 10 MB.": "请导入小于 10 MB 的文件。", "This file is not valid GeoJSON.": "此文件不是有效的 GeoJSON。", "This file is not a readable KMZ archive.": "无法读取此 KMZ 压缩文件。", "This KMZ expands beyond the 50 MB limit.": "此 KMZ 解压后超过 50 MB 限制。", "No KML document was found in this KMZ.": "此 KMZ 中没有 KML 文档。", "GeoJSON must use WGS84 longitude and latitude.": "GeoJSON 必须使用 WGS84 经纬度坐标。", "This file contains invalid or out-of-range coordinates.": "此文件包含无效或超出范围的坐标。", "No editable points or line routes were found in this file.": "此文件中没有可编辑的点或路径。", "File imported as a new journey. Your other journeys are preserved.": "文件已作为新行程导入，其他行程已保留。", "Journey file exported.": "行程文件已导出。", "Select at least one itinerary item.": "请至少选择一个行程条目。", "0 selected": "已选 0 项", "{count} selected": "已选 {count} 项", "Clear": "清除", "Select {name}": "选择 {name}", "Hide {name} on map": "在地图上隐藏 {name}", "Hide on map": "在地图上隐藏", "Export {name}": "导出 {name}", "Export selected items": "导出所选条目", "Exit playback": "退出播放模式", "Pick starting point on map": "在地图上选择起点", "Pick destination on map": "在地图上选择终点", "Endpoint selected on the map.": "已在地图上选择起终点位置。", "Inset maps": "子地图", "Inset map": "子地图", "+ Add inset": "+ 添加子地图", "Add up to three detail maps. Drag or scroll inside an inset to adjust its view.": "最多添加三个子地图。在子地图内拖拽或滚动可调整视野。", "Inset title": "子地图标题", "Inset region": "子地图区域", "Choose region…": "选择区域…", "Alaska": "阿拉斯加", "Hawaii": "夏威夷", "Contiguous United States": "美国本土", "Inset zoom": "子地图缩放", "Inset position": "子地图位置", "Bottom right": "右下", "Bottom left": "左下", "Top right": "右上", "Top left": "左上", "Inset size": "子地图大小", "Remove inset": "删除子地图", "Inset {number}": "子地图 {number}"});
 Object.assign(zh,{"Play checked journeys by date": "按时间连续播放已勾选行程", "Play checked journeys by route dates, then dates in names. Undated journeys play last.": "连续播放已勾选行程：优先按路段时间，其次按名称中的日期；无日期的行程最后播放。", "Itinerary items": "行程条目", "Journey {index} of {total}": "行程 {index} / {total}"});
+Object.assign(zh,{"Countries & regions": "国家与地区", "The World Bucket List": "世界旅行心愿清单", "Find a country or region": "查找国家或地区", "Search names or country codes": "搜索中英文名称或国家代码", "Countries and regions, including small islands. Visited places are colored on the world map.": "涵盖全球国家与地区及小型岛屿；世界地图以彩色标示已到访地点。", "Map & checklist sources": "地图与清单来源", "Try again":"重试","Loading countries and regions…": "正在加载国家与地区…", "The world map could not be loaded. Please try again.": "世界地图加载失败，请重试。", "Clear all visited countries and regions from this Bucket List?": "清除心愿清单中所有已到访的国家与地区？", "{count} of {total} countries & regions explored": "已探索 {count} / {total} 个国家与地区", "Africa": "非洲", "Asia": "亚洲", "Europe": "欧洲", "North America": "北美洲", "South America": "南美洲", "Oceania": "大洋洲", "Antarctica": "南极洲"});
+Object.assign(zh,{"Show my location": "显示当前位置", "Finding your location…": "正在获取当前位置…", "Current location · accuracy about {distance}": "当前位置 · 定位精度约 {distance}", "Location permission was denied. Allow location access in your browser settings and try again.": "定位权限被拒绝，请在浏览器设置中允许定位后重试。", "Your location is unavailable. Check your device location services and try again.": "暂时无法获取位置，请检查设备定位服务后重试。", "Finding your location timed out. Please try again.": "获取位置超时，请重试。", "Location needs HTTPS or localhost.": "定位需要使用 HTTPS 或 localhost。", "This browser does not support location access.": "当前浏览器不支持定位。", "Route list beside map": "在地图旁显示路线清单", "Hidden": "隐藏", "Right side": "右侧", "Left side": "左侧", "Too many routes for the side list. Choose fewer journeys or hide the route list.": "路线过多，无法完整放入侧边清单。请选择较少的行程，或隐藏路线清单。"});
 const patterns=Object.entries(zh).filter(([key])=>key.includes('{')).map(([key,value])=>{
  const names=[];const pattern=key.split(/(\{\w+\})/).map(part=>{if(/^\{/.test(part)){names.push(part.slice(1,-1));return '(.*?)';}return part.replace(/[.*+?^${}()|[\]\\]/g,'\\$&');}).join('');return {regex:new RegExp('^'+pattern+'$'),names,value};
 });
@@ -62,3 +65,89 @@ export function captureStaticTranslations(root=document.body){
 }
 export function translatedStatus(node,message){node.dataset.message=message;node.textContent=t(message);}
 export function refreshStatuses(){for(const node of document.querySelectorAll('[data-message]'))node.textContent=t(node.dataset.message);}
+
+Object.assign(zh,{"Your travels, beautifully collected.":"把足迹，收藏成画。","Park Passport":"山野徽章","Collect the park badges":"收藏国家公园徽章","The park icons could not be loaded. Please select the template again to retry.":"公园图标加载失败，请重新选择此模板重试。"});
+
+Object.assign(zh,{
+  "YOUR JOURNEY IN MOTION": "让旅程动起来",
+  "Export animation video": "导出动画视频",
+  "Close video export": "关闭视频导出",
+  "Video orientation": "视频方向",
+  "Animation video preview": "动画视频预览",
+  "Preview position": "预览位置",
+  "Video export progress": "视频导出进度",
+  "Export MP4": "导出 MP4",
+  "Cancel export": "取消导出",
+  "Download MP4 again": "再次下载 MP4",
+  "Back to preview": "返回预览",
+  "Fixed camera": "固定视角",
+  "Checked journeys play in chronological order. Hidden segments are skipped. The current map theme, view, speed and Follow setting are used.": "已勾选的行程按时间顺序播放，跳过隐藏路段。沿用当前地图主题、视角、速度与跟随设置。",
+  "To change the framing or speed, close this window and adjust the map or player.": "如需调整构图或速度，请关闭此窗口，在地图或播放器中修改。",
+  "Select at least one journey with a visible route to export.": "请至少勾选一个包含可见路段的行程。",
+  "Wait for the current map to finish loading, then try again.": "请等待当前地图加载完成后重试。",
+  "Preparing video preview…": "正在准备视频预览…",
+  "Preview and video use the same framing.": "预览与导出视频使用相同的构图。",
+  "MP4 encoding is not available in this browser. Try the latest desktop Chrome or Edge.": "此浏览器不支持 MP4 编码。请使用最新桌面版 Chrome 或 Edge。",
+  "This video needs more temporary storage. Free up browser storage or choose a faster playback speed.": "此视频需要更多临时存储空间，请清理浏览器存储或提高播放速度。",
+  "{count} journeys · {segments} segments · {rate}× · {duration}": "{count} 个行程 · {segments} 段路线 · {rate}× · {duration}",
+  "Rendering video… {percent}%": "正在生成视频… {percent}%",
+  "Your MP4 is ready.": "MP4 已生成，可以播放预览或再次下载。",
+  "Video export cancelled.": "已取消视频导出。"
+});
+
+Object.assign(zh,{'Preparing your MP4 download…':'正在准备 MP4 下载…'});
+
+Object.assign(zh,{
+  'Resolution':'分辨率','Frame rate':'帧率',
+  'MP4 encoding is not available for these settings. Choose a lower resolution or frame rate, or try desktop Chrome or Edge.':'当前设置不支持 MP4 编码，请降低分辨率或帧率，或使用桌面版 Chrome / Edge。',
+  'State Passport':'五十州徽章','Parks & States Passport':'公园与州徽章',
+  'Collect the state badges':'收藏五十州徽章','Collect park and state badges':'收藏公园与州徽章',
+  'The state icons could not be loaded. Please select the template again to retry.':'州图标加载失败，请重新选择此模板重试。'
+});
+
+Object.assign(zh,{
+  'Departure date':'出发日期','Arrival date':'到达日期','Visit / start date':'到访 / 开始日期','Start date':'开始日期','End date (optional)':'结束日期（可选）',
+  'Year and month':'年月','Day (optional)':'日（可选）','YYYY-MM':'年-月',
+  'Year and month are enough; the day is optional.':'只需填写年月，具体日期可选。',
+  'Enter a valid year and month, with an optional day.':'请输入有效的年月，日可不填；填写时需为有效日期。',
+  'Choose a year and month before adding a day.':'请先填写年月，再填写日。',
+  'The end date must not be before the start date.':'结束日期不能早于开始日期。'
+});
+
+Object.assign(zh,{'Enter MM-YYYY; the day is optional. Dates carry forward within this journey.':'输入 MM-YYYY，日可选。同一 Journey 的后续条目会沿用所选日期。'});
+
+Object.assign(zh,{
+  'Export checked journeys':'导出已勾选行程','Close batch export':'关闭批量导出',
+  'Includes all routes and places in checked journeys, even hidden items.':'导出已勾选行程中的全部路段和地点，包括已隐藏的条目。',
+  'Empty journeys have no routes or places to export and are skipped.':'空行程没有可导出的路段或地点，将自动跳过。',
+  'Files':'文件组织方式','One file per journey (ZIP)':'每个行程单独成文件（ZIP 打包）','One combined file':'合并为一个文件',
+  'Download ZIP':'下载 ZIP','Preparing files…':'正在准备文件…','Journey files exported.':'行程文件已导出。',
+  '{count} journeys · {items} items':'{count} 个行程 · {items} 个条目','{count} items':'{count} 个条目',
+  'Could not export {name}: {message}':'无法导出 {name}：{message}'
+});
+
+Object.assign(zh,{
+ 'Import one or more KML, KMZ or GeoJSON files':'导入一个或多个 KML、KMZ 或 GeoJSON 文件',
+ 'Importing {index} of {total}: {name}':'正在导入 {index}/{total}：{name}',
+ 'Imported {count} files as separate journeys.':'已将 {count} 个文件导入为独立行程。',
+ 'No journeys were imported.':'没有导入任何行程。',
+ '{count} file(s) could not be imported.':'{count} 个文件导入失败。'
+});
+
+Object.assign(zh,{
+  "Import one or more KML, KMZ, GeoJSON or ZIP files": "导入一个或多个 KML、KMZ、GeoJSON 或 ZIP 文件",
+  "Please import a ZIP smaller than 50 MB.": "请导入小于 50 MB 的 ZIP 文件。",
+  "This file is not a readable ZIP archive.": "无法读取此 ZIP 压缩文件。",
+  "This ZIP contains more than 1,000 files.": "此 ZIP 包含超过 1,000 个文件。",
+  "This ZIP expands beyond the 50 MB limit.": "此 ZIP 解压后超过 50 MB 限制。",
+  "This ZIP contains no KML, KMZ or GeoJSON files.": "此 ZIP 中没有 KML、KMZ 或 GeoJSON 文件。",
+  "Public": "公共交通",
+  "Public transport": "公共交通",
+  "Transport speeds": "交通方式速度",
+  "Car is the 1× reference. Set each transport’s animation speed relative to the car. These settings also apply to exported videos.": "汽车为 1× 基准。其他交通方式的动画速度按汽车的倍数设置，并同步应用于导出视频。",
+  "Base speed": "基准速度",
+  "× car": "× 汽车",
+  "Reset transport speeds": "恢复默认速度",
+  "Geographic sketch; public transport routes and schedules are not verified. Import a route file for exact geometry.": "公共交通规划示意线，不代表实际线路或时刻表。可导入路线文件以使用准确路径。",
+  "Public transport sketch ready. Import an existing route for exact geometry.": "公共交通示意线已准备好，可导入现有路线以使用准确路径。"
+});

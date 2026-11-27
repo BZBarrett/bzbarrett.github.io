@@ -37,3 +37,11 @@ US topographic tiles use the USGS National Map `USGSTopo/MapServer/tile/{z}/{y}/
 ## KMZ handling
 
 `js/vendor/jszip-3.10.1.js` bundles JSZip 3.10.1, used under its MIT license (included as `js/vendor/JSZIP-LICENSE.md`). It was copied from the installed local runtime package. KMZ packaging and source backups run entirely in the browser; no uploaded travel data is sent to a conversion service.
+
+## World countries and regions
+
+See [WORLD_COUNTRIES_SOURCES.md](WORLD_COUNTRIES_SOURCES.md) for the 249-entry ISO-based checklist, Natural Earth geography, Unicode CLDR names, preprocessing and licensing. `images/poster-templates/world-*.webp` are locally rendered previews of those assets using Journey Studio’s four world-poster templates.
+
+## Supplied park badge illustrations
+
+See [PARK_ICON_SOURCES.md](PARK_ICON_SOURCES.md) for the owner-supplied 64 park illustrations, original filenames, reproducible WebP preparation and the Park Passport poster thumbnail.

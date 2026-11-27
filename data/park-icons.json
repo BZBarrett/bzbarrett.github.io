@@ -1,0 +1,261 @@
+{
+  "version": 1,
+  "icons": {
+    "acad": {
+      "src": "images/park-badges/acad.webp",
+      "source": "01-acadia.png"
+    },
+    "npsa": {
+      "src": "images/park-badges/npsa.webp",
+      "source": "02-american-samoa.png"
+    },
+    "arch": {
+      "src": "images/park-badges/arch.webp",
+      "source": "03-arches.png"
+    },
+    "badl": {
+      "src": "images/park-badges/badl.webp",
+      "source": "04-badlands.png"
+    },
+    "bibe": {
+      "src": "images/park-badges/bibe.webp",
+      "source": "05-big-bend.png"
+    },
+    "bisc": {
+      "src": "images/park-badges/bisc.webp",
+      "source": "06-biscayne.png"
+    },
+    "blca": {
+      "src": "images/park-badges/blca.webp",
+      "source": "07-black-canyon-of-the-gunnison.png"
+    },
+    "brca": {
+      "src": "images/park-badges/brca.webp",
+      "source": "08-bryce-canyon.png"
+    },
+    "cany": {
+      "src": "images/park-badges/cany.webp",
+      "source": "09-canyonlands.png"
+    },
+    "care": {
+      "src": "images/park-badges/care.webp",
+      "source": "10-capitol-reef.png"
+    },
+    "cave": {
+      "src": "images/park-badges/cave.webp",
+      "source": "11-carlsbad-caverns.png"
+    },
+    "chis": {
+      "src": "images/park-badges/chis.webp",
+      "source": "12-channel-islands.png"
+    },
+    "chir": {
+      "src": "images/park-badges/chir.webp",
+      "source": "13-chiricahua.png"
+    },
+    "cong": {
+      "src": "images/park-badges/cong.webp",
+      "source": "14-congaree.png"
+    },
+    "crla": {
+      "src": "images/park-badges/crla.webp",
+      "source": "15-crater-lake.png"
+    },
+    "cuva": {
+      "src": "images/park-badges/cuva.webp",
+      "source": "16-cuyahoga-valley.png"
+    },
+    "deva": {
+      "src": "images/park-badges/deva.webp",
+      "source": "17-death-valley.png"
+    },
+    "dena": {
+      "src": "images/park-badges/dena.webp",
+      "source": "18-denali.png"
+    },
+    "drto": {
+      "src": "images/park-badges/drto.webp",
+      "source": "19-dry-tortugas.png"
+    },
+    "ever": {
+      "src": "images/park-badges/ever.webp",
+      "source": "20-everglades.png"
+    },
+    "gaar": {
+      "src": "images/park-badges/gaar.webp",
+      "source": "21-gates-of-the-arctic.png"
+    },
+    "jeff": {
+      "src": "images/park-badges/jeff.webp",
+      "source": "22-gateway-arch.png"
+    },
+    "glac": {
+      "src": "images/park-badges/glac.webp",
+      "source": "23-glacier.png"
+    },
+    "glba": {
+      "src": "images/park-badges/glba.webp",
+      "source": "24-glacier-bay.png"
+    },
+    "grca": {
+      "src": "images/park-badges/grca.webp",
+      "source": "25-grand-canyon.png"
+    },
+    "grte": {
+      "src": "images/park-badges/grte.webp",
+      "source": "26-grand-teton.png"
+    },
+    "grba": {
+      "src": "images/park-badges/grba.webp",
+      "source": "27-great-basin.png"
+    },
+    "grsa": {
+      "src": "images/park-badges/grsa.webp",
+      "source": "28-great-sand-dunes.png"
+    },
+    "grsm": {
+      "src": "images/park-badges/grsm.webp",
+      "source": "29-great-smoky-mountains.png"
+    },
+    "gumo": {
+      "src": "images/park-badges/gumo.webp",
+      "source": "30-guadalupe-mountains.png"
+    },
+    "hale": {
+      "src": "images/park-badges/hale.webp",
+      "source": "31-haleakala.png"
+    },
+    "havo": {
+      "src": "images/park-badges/havo.webp",
+      "source": "32-hawaii-volcanoes.png"
+    },
+    "hosp": {
+      "src": "images/park-badges/hosp.webp",
+      "source": "33-hot-springs-v2.png"
+    },
+    "indu": {
+      "src": "images/park-badges/indu.webp",
+      "source": "34-indiana-dunes.png"
+    },
+    "isro": {
+      "src": "images/park-badges/isro.webp",
+      "source": "35-isle-royale.png"
+    },
+    "jotr": {
+      "src": "images/park-badges/jotr.webp",
+      "source": "36-joshua-tree.png"
+    },
+    "katm": {
+      "src": "images/park-badges/katm.webp",
+      "source": "37-katmai.png"
+    },
+    "kefj": {
+      "src": "images/park-badges/kefj.webp",
+      "source": "38-kenai-fjords.png"
+    },
+    "kica": {
+      "src": "images/park-badges/kica.webp",
+      "source": "39-kings-canyon.png"
+    },
+    "kova": {
+      "src": "images/park-badges/kova.webp",
+      "source": "40-kobuk-valley.png"
+    },
+    "lacl": {
+      "src": "images/park-badges/lacl.webp",
+      "source": "41-lake-clark.png"
+    },
+    "lavo": {
+      "src": "images/park-badges/lavo.webp",
+      "source": "42-lassen-volcanic.png"
+    },
+    "maca": {
+      "src": "images/park-badges/maca.webp",
+      "source": "43-mammoth-cave.png"
+    },
+    "meve": {
+      "src": "images/park-badges/meve.webp",
+      "source": "44-mesa-verde.png"
+    },
+    "mora": {
+      "src": "images/park-badges/mora.webp",
+      "source": "45-mount-rainier.png"
+    },
+    "neri": {
+      "src": "images/park-badges/neri.webp",
+      "source": "46-new-river-gorge.png"
+    },
+    "noca": {
+      "src": "images/park-badges/noca.webp",
+      "source": "47-north-cascades.png"
+    },
+    "olym": {
+      "src": "images/park-badges/olym.webp",
+      "source": "48-olympic.png"
+    },
+    "pefo": {
+      "src": "images/park-badges/pefo.webp",
+      "source": "49-petrified-forest.png"
+    },
+    "pinn": {
+      "src": "images/park-badges/pinn.webp",
+      "source": "50-pinnacles.png"
+    },
+    "redw": {
+      "src": "images/park-badges/redw.webp",
+      "source": "51-redwood.png"
+    },
+    "romo": {
+      "src": "images/park-badges/romo.webp",
+      "source": "52-rocky-mountain.png"
+    },
+    "sagu": {
+      "src": "images/park-badges/sagu.webp",
+      "source": "53-saguaro.png"
+    },
+    "sequ": {
+      "src": "images/park-badges/sequ.webp",
+      "source": "54-sequoia.png"
+    },
+    "shen": {
+      "src": "images/park-badges/shen.webp",
+      "source": "55-shenandoah.png"
+    },
+    "thro": {
+      "src": "images/park-badges/thro.webp",
+      "source": "56-theodore-roosevelt.png"
+    },
+    "viis": {
+      "src": "images/park-badges/viis.webp",
+      "source": "57-virgin-islands.png"
+    },
+    "voya": {
+      "src": "images/park-badges/voya.webp",
+      "source": "58-voyageurs.png"
+    },
+    "whsa": {
+      "src": "images/park-badges/whsa.webp",
+      "source": "59-white-sands.png"
+    },
+    "wica": {
+      "src": "images/park-badges/wica.webp",
+      "source": "60-wind-cave.png"
+    },
+    "wrst": {
+      "src": "images/park-badges/wrst.webp",
+      "source": "61-wrangell-st-elias.png"
+    },
+    "yell": {
+      "src": "images/park-badges/yell.webp",
+      "source": "62-yellowstone.png"
+    },
+    "yose": {
+      "src": "images/park-badges/yose.webp",
+      "source": "63-yosemite.png"
+    },
+    "zion": {
+      "src": "images/park-badges/zion.webp",
+      "source": "64-zion.png"
+    }
+  }
+}

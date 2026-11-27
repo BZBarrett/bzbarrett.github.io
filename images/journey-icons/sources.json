@@ -1,15 +1,15 @@
 {
   "icons": {
-    "family": "Phosphor Icons, duotone",
-    "license": "MIT",
-    "repository": "https://github.com/phosphor-icons/core",
-    "files": {
-      "car.svg": "assets/duotone/car-duotone.svg",
-      "train.svg": "assets/duotone/train-duotone.svg",
-      "plane.svg": "assets/duotone/airplane-duotone.svg",
-      "walk.svg": "assets/duotone/person-simple-walk-duotone.svg"
-    },
-    "modification": "Paths unchanged. Foreground #254d46; duotone fill #e6aa58 at 0.48 opacity.",
-    "licenseFile": "LICENSE.txt"
+    "family": "Journey Studio transport outline icons",
+    "files": [
+      "car.svg",
+      "train.svg",
+      "plane.svg",
+      "walk.svg",
+      "transit.svg"
+    ],
+    "description": "Original local SVG artwork on a 32px grid, with consistent rounded 1.8px strokes and subtle sage accents. Separate playback illustrations live in the playback folder.",
+    "legacyLicenseFile": "LICENSE.txt",
+    "legacyNote": "The retained MIT notice covers the previously used Phosphor assets."
   }
 }

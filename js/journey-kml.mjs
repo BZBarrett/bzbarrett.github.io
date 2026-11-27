@@ -1,15 +1,25 @@
+import {isTransportMode} from './journey-transport.mjs';
 export const uid = () => crypto.randomUUID();
 export const escapeXML = value => String(value ?? '').replace(/[<>&"']/g, c => ({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&apos;'}[c]));
 export const validCoordinate = p => Array.isArray(p) && p.length >= 2 && p.every(Number.isFinite) && Math.abs(p[0]) <= 180 && Math.abs(p[1]) <= 90;
 export function validTime(value) {
   if (!value) return true;
+  if (/^\d{4}-(0[1-9]|1[0-2])$/.test(value)) return Number(value.slice(0,4))>0;
   if (!/^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})?)?$/.test(value)) return false;
   const date = value.slice(0,10), parsed = new Date(date + 'T00:00:00Z');
   return Number.isFinite(Date.parse(value)) && Number.isFinite(+parsed) && parsed.toISOString().slice(0,10) === date;
 }
 export function validateTimes(start, end) {
-  if (!validTime(start) || !validTime(end)) throw new Error('Use a valid ISO date or date/time, such as 2026-11-23 or 2026-11-23T09:00:00-05:00.');
-  if (start && end && Date.parse(end) < Date.parse(start)) throw new Error('The end time must be after the start time.');
+  if (!validTime(start) || !validTime(end)) throw new Error('Enter a valid year and month, with an optional day.');
+  if(start&&end){
+    // Month-only dates represent an unspecified day within that month.
+    // Reject only ranges that are definitely reversed; never store an invented day.
+    const first=Date.parse(start.length===7?start+'-01':start);
+    let last=Date.parse(end);
+    if(end.length===7){const next=new Date(end+'-01T00:00:00Z');next.setUTCMonth(next.getUTCMonth()+1);last=+next-1;}
+    else if(end.length===10)last=Date.parse(end+'T00:00:00Z')+86400000-1;
+    if(last<first)throw new Error('The end date must not be before the start date.');
+  }
 }
 const tag = (name, text) => `<${name}>${escapeXML(text)}</${name}>`;
 const timeXML = item => item.end ? `<TimeSpan>${item.start ? tag('begin',item.start) : ''}${tag('end',item.end)}</TimeSpan>` : item.start ? `<TimeStamp>${tag('when',item.start)}</TimeStamp>` : '';
@@ -39,9 +49,9 @@ export function exportKML(trip) {
     }
   }
   const hex=/^#[0-9a-f]{6}$/i.test(trip.color||'')?trip.color.slice(1):null,journeyColor=hex?'ff'+hex.slice(4,6)+hex.slice(2,4)+hex.slice(0,2):null;
-  const styles = [['car',journeyColor||'ff2960be'],['train',journeyColor||'ff93603b'],['plane',journeyColor||'ff995e7f'],['walk',journeyColor||'ff61852c']].map(([id,color]) => `<Style id="${id}"><LineStyle><color>${color}</color><width>4</width></LineStyle></Style>`).join('') +
+  const styles = [['car',journeyColor||'ff2960be'],['train',journeyColor||'ff93603b'],['plane',journeyColor||'ff995e7f'],['walk',journeyColor||'ff61852c'],['transit',journeyColor||'ff957731']].map(([id,color]) => `<Style id="${id}"><LineStyle><color>${color}</color><width>4</width></LineStyle></Style>`).join('') +
     '<Style id="place"><IconStyle><color>ff386624</color><scale>1</scale><Icon><href>https://maps.google.com/mapfiles/kml/paddle/wht-circle.png</href></Icon></IconStyle></Style><Style id="important"><IconStyle><color>ff0082ff</color><scale>1.3</scale><Icon><href>https://maps.google.com/mapfiles/kml/paddle/wht-stars.png</href></Icon></IconStyle></Style>';
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2"><Document>${tag('name',trip.name)}${extended({journeyColor:trip.color})}${styles}<Folder><name>Route segments</name>${routeMarks.join('\n')}</Folder><Folder><name>Saved places</name>${pointMarks.join('\n')}</Folder></Document></kml>`;
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<kml xmlns="http://www.opengis.net/kml/2.2" xmlns:gx="http://www.google.com/kml/ext/2.2"><Document>${tag('name',trip.name)}${extended({journeyColor:trip.color,journeyVideoTitle:trip.videoTitle||''})}${styles}<Folder><name>Route segments</name>${routeMarks.join('\n')}</Folder><Folder><name>Saved places</name>${pointMarks.join('\n')}</Folder></Document></kml>`;
 }
 const children = (node,name) => [...node.getElementsByTagNameNS('*',name)];
 const first = (node,name) => children(node,name)[0];
@@ -81,7 +91,7 @@ export function importKML(text, fallbackName = 'Imported journey') {
       const id = extra.studioId && !usedIDs.has(extra.studioId) ? extra.studioId : uid(); usedIDs.add(id);
       const item = {...common,id,kind,coordinates:kind === 'point' ? coords[0] : coords,altitudeMode:content(geometry,'altitudeMode') || 'clampToGround'};
       if (kind === 'point') item.important = extra.important === 'true' || content(mark,'styleUrl') === '#important';
-      else Object.assign(item,{vehicle:String(extra.vehicle||'').slice(0,160),mode:['car','train','plane','walk'].includes(extra.mode) ? extra.mode : 'car',startNode:nodeMeta('startNode') || {name:'Start',coordinates:coords[0],important:false},endNode:nodeMeta('endNode') || {name:'Destination',coordinates:coords.at(-1),important:false},routeSource:extra.routeSource || 'Imported KML',routeLabel:extra.routeLabel || 'Imported geometry',trackTimes:geometry.localName === 'Track' ? children(geometry,'when').map(n=>n.textContent) : parseObject('trackTimes')});
+      else Object.assign(item,{vehicle:String(extra.vehicle||'').slice(0,160),mode:isTransportMode(extra.mode) ? extra.mode : 'car',startNode:nodeMeta('startNode') || {name:'Start',coordinates:coords[0],important:false},endNode:nodeMeta('endNode') || {name:'Destination',coordinates:coords.at(-1),important:false},routeSource:extra.routeSource || 'Imported KML',routeLabel:extra.routeLabel || 'Imported geometry',trackTimes:geometry.localName === 'Track' ? children(geometry,'when').map(n=>n.textContent) : parseObject('trackTimes')});
       items.push(item);
     }
   }
@@ -92,8 +102,8 @@ export function importKML(text, fallbackName = 'Imported journey') {
   }
   if (!items.length) throw new Error('No editable points or line routes were found in this KML.');
   const documentNode=first(xml,'Document'),colorData=[...(documentNode?.children||[])].find(n=>n.localName==='ExtendedData'),colorValue=colorData?[...children(colorData,'Data')].find(n=>n.getAttribute('name')==='journeyColor'):null;
-  const color=colorValue?content(colorValue,'value'):'';
-  return {trip:{id:uid(),...(/^#[0-9a-f]{6}$/i.test(color)?{color}:{}),name:direct(first(xml,'Document') || xml.documentElement,'name') || fallbackName,items,updatedAt:Date.now()},warnings:[...new Set(warnings)]};
+  const color=colorValue?content(colorValue,'value'):'',titleValue=colorData?[...children(colorData,'Data')].find(n=>n.getAttribute('name')==='journeyVideoTitle'):null,videoTitle=titleValue?content(titleValue,'value').slice(0,240):'';
+  return {trip:{id:uid(),videoTitle,...(/^#[0-9a-f]{6}$/i.test(color)?{color}:{}),name:direct(first(xml,'Document') || xml.documentElement,'name') || fallbackName,items,updatedAt:Date.now()},warnings:[...new Set(warnings)]};
 }
 export function downloadFile(blob,name) {
   const url = URL.createObjectURL(blob), link = document.createElement('a'); link.href=url; link.download=name; document.body.append(link); link.click(); link.remove(); setTimeout(()=>URL.revokeObjectURL(url),30000);

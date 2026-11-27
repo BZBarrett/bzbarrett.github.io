@@ -1,4 +1,6 @@
 import {downloadFile, safeFilename} from './journey-kml.mjs';
+import {countryAssets,countryChecklist,worldProjector} from './journey-countries.mjs';
+import {parkIconAssets,stateIconAssets,paintParkPassport,passportLayout} from './journey-park-passport.mjs';
 export const EXPORT_SCALE = 2;
 
 let assets;
@@ -148,11 +150,11 @@ function background(ctx, theme, template, mode, title, count, total, layout, cop
     text(ctx,copy.tagline,144,335,'24px Arial',theme.muted);
     text(ctx,description,144,402,'italic 31px Georgia',theme.accent);
     line(ctx,140,455,W-140,455,theme.accent,4);
-    ctx.setLineDash([9,9]);ctx.strokeStyle='#b3b99d';ctx.lineWidth=2;ctx.strokeRect(105,490,landscape?1820:2190,landscape?1490:1295);ctx.setLineDash([]);
+    ctx.setLineDash([9,9]);ctx.strokeStyle='#b3b99d';ctx.lineWidth=2;ctx.strokeRect(105,490,mode==='countries'?W-210:landscape?1820:2190,mode==='countries'?layout.worldMap.h+40:landscape?1490:1295);ctx.setLineDash([]);
   } else {
     ctx.fillStyle=theme.ink;ctx.fillRect(0,0,48,H);
     text(ctx,copy.atlas,145,128,'600 25px Arial',theme.ink);
-    text(ctx,mode==='mixed'?(copy.zh?'国家公园 + 美国五十州':'NATIONAL PARKS + FIFTY STATES'):copy.zh?(mode==='states'?'美国五十州 / 50':'国家公园 / '+total):(mode==='states'?'UNITED STATES / 50':'NATIONAL PARKS / '+total),right,128,'22px Arial',theme.muted,'right');
+    text(ctx,mode==='countries'?(copy.zh?'国家与地区 / '+total:'COUNTRIES & REGIONS / '+total):mode==='mixed'?(copy.zh?'国家公园 + 美国五十州':'NATIONAL PARKS + FIFTY STATES'):copy.zh?(mode==='states'?'美国五十州 / 50':'国家公园 / '+total):(mode==='states'?'UNITED STATES / 50':'NATIONAL PARKS / '+total),right,128,'22px Arial',theme.muted,'right');
     line(ctx,145,170,right,170,theme.ink,2);
     fitText(ctx,title,140,296,W-270,111,'Arial',theme.ink,'left','bold');
     text(ctx,subject,145,364,'23px Arial',theme.muted);
@@ -161,7 +163,7 @@ function background(ctx, theme, template, mode, title, count, total, layout, cop
     text(ctx,copy.zh?'已探索':'EXPLORED',right-320,421,'19px Arial',theme.muted,'right');
     ctx.save();ctx.translate(99,1370);ctx.rotate(-Math.PI/2);text(ctx,copy.atlasNote,0,0,'18px Arial',theme.muted);ctx.restore();
   }
-  if(landscape) {
+  if(landscape&&mode!=='countries') {
     line(ctx,175,2045,1850,2045,theme.border,1);
     text(ctx,copy.headings[template],1010,2120,template==='atlas'?'bold 28px Arial':'italic 35px Georgia',theme.ink,'center');
     text(ctx,copy.zh?'收藏沿途的风景，也收藏出发时的自己。':'Collect the places. Remember the moments.',1010,2180,'22px Arial',theme.muted,'center');
@@ -313,32 +315,114 @@ function mixedChecklist(ctx,parks,states,selected,theme,template,layout,copy) {
   group(states,copy.zh?'美国各州':'THE FIFTY STATES',end+37,landscape?2:5,landscape?22:23,false);
 }
 
+function worldLayout(orientation){
+  const layout=posterLayout(orientation);
+  return {...layout,worldMap:layout.landscape?{x:155,y:505,w:2690,h:850}:{x:155,y:515,w:2090,h:1015},legendX:layout.width/2,legendY:layout.landscape?1415:1585,
+    list:layout.landscape?{left:155,right:2845,top:1470,bottom:2240,startY:1580}:{left:155,right:2245,top:1640,bottom:2860,startY:1760}};
+}
+function worldMap(ctx,geography,items,selected,theme,layout){
+  const project=worldProjector(layout.worldMap),outline=[];
+  for(let lat=-90;lat<=90;lat+=2)outline.push(project([-180,lat]));
+  for(let lat=90;lat>=-90;lat-=2)outline.push(project([180,lat]));
+  ctx.beginPath();outline.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.closePath();ctx.fillStyle=theme.ocean;ctx.fill();ctx.strokeStyle=theme.border;ctx.lineWidth=1;ctx.stroke();
+  ctx.strokeStyle=theme.border+'66';ctx.lineWidth=.65;
+  for(let lon=-150;lon<180;lon+=30){ctx.beginPath();for(let lat=-90;lat<=90;lat+=3){const [x,y]=project([lon,lat]);lat===-90?ctx.moveTo(x,y):ctx.lineTo(x,y);}ctx.stroke();}
+  for(let lat=-60;lat<=60;lat+=30){ctx.beginPath();for(let lon=-180;lon<=180;lon+=3){const [x,y]=project([lon,lat]);lon===-180?ctx.moveTo(x,y):ctx.lineTo(x,y);}ctx.stroke();}
+  const areas=new Map();
+  for(const feature of geography.features){
+    if(!feature.geometry||!['Polygon','MultiPolygon'].includes(feature.geometry.type))continue;
+    const id=feature.id||feature.properties.id,done=selected.has(id);let area=0;
+    for(const polygon of polygonsFor(feature)){
+      geometryPath(ctx,polygon,project);ctx.fillStyle=done?theme.visited:theme.land;ctx.fill('evenodd');ctx.strokeStyle=theme.border;ctx.lineWidth=.8;ctx.stroke();
+      const ring=polygon[0].map(project);area+=Math.abs(ring.reduce((sum,p,i)=>{const q=ring[(i+1)%ring.length];return sum+p[0]*q[1]-q[0]*p[1];},0)/2);
+    }
+    areas.set(id,(areas.get(id)||0)+area);
+  }
+  // Small countries/islands remain visible at poster scale, including cases
+  // where a boundary is too small to distinguish at the fitted preview zoom.
+  const small=items.filter(item=>!areas.has(item.id)||areas.get(item.id)<65).sort((a,b)=>Number(selected.has(a.id))-Number(selected.has(b.id)));
+  for(const item of small){if(!Array.isArray(item.coordinates))continue;const [x,y]=project(item.coordinates),done=selected.has(item.id);ctx.beginPath();ctx.arc(x,y,done?5:3.2,0,Math.PI*2);ctx.fillStyle=done?theme.visited:theme.gray;ctx.strokeStyle=theme.paper;ctx.lineWidth=1.2;ctx.fill();ctx.stroke();}
+}
+function worldChecklist(ctx,items,selected,theme,template,layout,copy){
+  const {left,right,top,bottom,startY}=layout.list,columns=layout.landscape?8:6,rows=Math.ceil(items.length/columns),columnWidth=(right-left)/columns,rowHeight=(bottom-startY-22)/rows;
+  ctx.fillStyle=theme.list;ctx.fillRect(left-20,top,right-left+40,bottom-top);line(ctx,left-20,top,right+20,top,theme.accent,4);
+  const count=items.filter(item=>selected.has(item.id)).length;
+  text(ctx,copy.zh?'世界很大，慢慢走遍':'A WORLD OF PLACES TO REMEMBER',left+5,top+50,'bold 26px Arial','#294139');
+  text(ctx,copy.count(count,items.length),right-5,top+50,'20px Arial','#477252','right');
+  items.forEach((item,index)=>{
+    const x=left+Math.floor(index/rows)*columnWidth,y=startY+(index%rows)*rowHeight,done=selected.has(item.id),size=Math.min(20,rowHeight*.8),name=item.displayName||item.name;
+    ctx.strokeStyle=done?treeColor:'#8a9082';ctx.lineWidth=1;ctx.strokeRect(x+2,y-11,11,11);
+    if(done){ctx.fillStyle=treeColor;ctx.fillRect(x+2,y-11,11,11);line(ctx,x+4,y-6,x+7,y-3,'#fff',1.5);line(ctx,x+7,y-3,x+11,y-9,'#fff',1.5);}
+    let fontSize=size;ctx.font=family(`${done?'bold ':''}${fontSize}px Arial`,name);while(ctx.measureText(name).width>columnWidth-32&&fontSize>10){fontSize-=.5;ctx.font=family(`${done?'bold ':''}${fontSize}px Arial`,name);}
+    ctx.textAlign='left';ctx.fillStyle=done?treeColor:unvisitedInk;ctx.fillText(name,x+22,y);
+  });
+}
+
 export async function renderPoster(canvas, visited, title, {mode = 'parks', template = 'fieldnotes', orientation = 'portrait', language = 'en',pixelRatio=1} = {}) {
-  const [data,states] = await parkAssets();
-  mode = ['states','mixed'].includes(mode) ? mode : 'parks';
+  mode = ['states','mixed','countries'].includes(mode) ? mode : 'parks';
+  const world=mode==='countries',[data,states]=await (world?countryAssets():parkAssets());
+  if(template==='passport'&&!world) {
+    const stateItems=stateChecklist(states),entries=mode==='states'?stateItems:data.parks;
+    const [images,stateImages]=await Promise.all([mode==='states'?null:parkIconAssets(data.parks),mode==='parks'?null:stateIconAssets(stateItems)]);
+    const layout=passportLayout(orientation,mode,entries.length,stateItems.length),copy=posterCopy(language,mode);
+    const selected=new Set(mode==='mixed'?[...(visited?.parks||[]),...(visited?.states||[])]:visited||[]);
+    const ctx=canvas.getContext('2d');if(!ctx)throw new Error('This browser cannot render the poster.');
+    canvas.width=layout.width*pixelRatio;canvas.height=layout.height*pixelRatio;ctx.setTransform(pixelRatio,0,0,pixelRatio,0,0);
+    title=String(title||copy.defaultTitle).slice(0,100);
+    paintParkPassport(ctx,{parks:data.parks,states:stateItems,selected,images,stateImages,title,orientation,mode,language,drawMap:(ctx,box)=>{
+      const scale=Math.min(box.w/2200,box.h/1330),mapLayout=posterLayout('portrait'),regions=regionsFor(mode==='states'?'states':'parks',mapLayout,copy);
+      ctx.save();ctx.translate(box.x+(box.w-2200*scale)/2,box.y);ctx.scale(scale,scale);ctx.translate(-100,-490);
+      const theme={land:'#527663',border:'#8da28d',muted:'#cad8c3',ink:'#e6e5c9',visited:'#b19a69'};
+      mapRegions(ctx,states,regions,selected,mode,theme,'passport',mapLayout);
+      for(const park of mode==='states'?[]:data.parks) {
+        const point=park.coordinates,key=point[1]<0?'samoa':point[0]>-66?'virgin':point[1]>50?'alaska':point[0]<-150?'hawaii':'main';
+        const [x,y]=regions.find(r=>r.key===key).project(point),done=selected.has(park.id);
+        ctx.beginPath();ctx.arc(x,y,done?11:7,0,Math.PI*2);ctx.fillStyle=done?'#f4c37d':'#9aaf9b';ctx.fill();
+      }
+      ctx.restore();
+    }});
+    text(ctx,copy.zh?'地图：美国人口普查局 · 附图采用不同比例尺':'Map: US Census Bureau · Insets are not to a common scale',layout.width/2,layout.height-22,'14px Arial','#788275','center');
+    canvas._posterRender={visited:structuredClone(visited),title,options:{mode,template,orientation,language}};
+    const count=entries.filter(entry=>selected.has(entry.id)).length,stateCount=stateItems.filter(entry=>selected.has(entry.id)).length;
+    canvas.setAttribute('aria-label',copy.zh
+      ? `${mode==='states'?'五十州':'国家公园'}徽章海报：已探索 ${count} / ${entries.length}。已到访显示彩色图标，未到访显示灰色图标。${mode==='mixed'?`附50州徽章，已探索 ${stateCount} / 50 州。`:''}`
+      : `${mode==='states'?'State':'Park'} Passport: ${count} of ${entries.length} explored. Visited icons in color, unvisited in grayscale.${mode==='mixed'?` All fifty state badges included: ${stateCount} of 50 states explored.`:''}`);
+
+    return data;
+  }
   template = Object.hasOwn(themes,template) ? template : 'fieldnotes';
-  const layout=posterLayout(orientation),copy=posterCopy(language,mode);
-  const mixed=mode==='mixed',stateItems=stateChecklist(states),theme={...themes[template],...(mixed?{visited:template==='midnight'?'#7c6f4c':'#dfbc83'}:{})};
-  const items=mode==='states'?stateItems:mixed?[...data.parks,...stateItems]:data.parks,selected=new Set(mixed?[...(visited?.parks||[]),...(visited?.states||[])]:visited||[]);
+  const layout=world?worldLayout(orientation):posterLayout(orientation),copy=posterCopy(language,mode);
+  const mixed=mode==='mixed',stateItems=world?[]:stateChecklist(states),theme={...themes[template],...(mixed?{visited:template==='midnight'?'#7c6f4c':'#dfbc83'}:{})};
+  const items=world?countryChecklist(data,language):mode==='states'?stateItems:mixed?[...data.parks,...stateItems]:data.parks,selected=new Set(mixed?[...(visited?.parks||[]),...(visited?.states||[])]:visited||[]);
   if(mixed){
     const parkCount=data.parks.filter(p=>selected.has(p.id)).length,stateCount=stateItems.filter(p=>selected.has(p.id)).length;
     copy.subject=copy.zh?'美国国家公园与五十州':'THE NATIONAL PARKS & FIFTY STATES';
     copy.description=()=>copy.zh?`已探索 ${parkCount} / ${data.parks.length} 座公园 · ${stateCount} / 50 个州`:`${parkCount} / ${data.parks.length} parks · ${stateCount} / 50 states explored`;
     copy.defaultTitle=copy.zh?'山野与城市，都是足迹':'Parks, states & stories';
   }
+  if(world){
+    copy.subject=copy.zh?'世界国家与地区旅行清单':'COUNTRIES & REGIONS OF THE WORLD';
+    copy.description=(count,total)=>copy.zh?`已探索 ${count} / ${total} 个国家与地区 · 让足迹遍布世界`:`${count} / ${total} countries & regions explored · a world of possibilities`;
+    copy.defaultTitle=copy.zh?'把世界，走成回忆':'A world of memories';copy.tagline=copy.zh?'每一次出发，都有新的故事。':'ONE WORLD. COUNTLESS STORIES.';
+    copy.source=()=>copy.zh?'国家与地区清单 · 小型区域辅以圆点标记':'Countries & regions · small areas also shown as dots';
+    copy.attribution=copy.zh?'地图：Natural Earth · 名称：Unicode CLDR · Equal Earth 投影':'Map: Natural Earth · Names: Unicode CLDR · Equal Earth projection';
+  }
   const count=items.filter(item=>selected.has(item.id)).length,ctx=canvas.getContext('2d');
   if(!ctx)throw new Error(copy.zh?'此浏览器无法生成海报。':'This browser cannot render the poster.');
   canvas.width=layout.width*pixelRatio;canvas.height=layout.height*pixelRatio;ctx.setTransform(pixelRatio,0,0,pixelRatio,0,0);
   title=String(title||copy.defaultTitle).slice(0,100);
   background(ctx,theme,template,mode,title,count,items.length,layout,copy);
+  if(world){worldMap(ctx,states,items,selected,theme,layout);legend(ctx,mode,theme,layout,copy);worldChecklist(ctx,items,selected,theme,template,layout,copy);}
+  else {
   const regions=regionsFor(mode,layout,copy);mapRegions(ctx,states,regions,selected,mode,theme,template,layout);
   if(mode!=='states')parkMarkers(ctx,data.parks,regions,selected,theme);
   legend(ctx,mode,theme,layout,copy);
   if(mixed)mixedChecklist(ctx,data.parks,stateItems,selected,theme,template,layout,copy);
   else checklist(ctx,items,selected,mode,theme,template,layout,copy);
+  }
   text(ctx,`${copy.source(data.updated)}  /  ${copy.attribution}`,layout.width/2,layout.height-88,'17px Arial',theme.muted,'center');
   canvas._posterRender={visited:structuredClone(visited),title,options:{mode,template,orientation,language}};
-  canvas.setAttribute('aria-label',mixed?(copy.zh?'美国国家公园与50州混合海报，包含公园树图标、已到访州填色，以及两份完整清单。':'Combined parks and states poster, with park tree markers, visited state shading and both complete checklists.'):copy.zh
+  canvas.setAttribute('aria-label',world?(copy.zh?`世界旅行海报：已探索 ${count} / ${items.length} 个国家与地区。彩色表示已到访地点，并附完整清单。`:`World travel poster: ${count} of ${items.length} countries and regions explored. Visited places are colored; full checklist included.`):mixed?(copy.zh?'美国国家公园与50州混合海报，包含公园树图标、已到访州填色，以及两份完整清单。':'Combined parks and states poster, with park tree markers, visited state shading and both complete checklists.'):copy.zh
     ? (mode==='parks'?`国家公园海报：已探索 ${count} 座，共 ${items.length} 座。绿色树标记已去过的公园，灰色树标记未去过的公园，并附完整编号清单。`:`美国五十州海报：已探索 ${count} 州。彩色区域表示去过的州，阿拉斯加和夏威夷单独展示，并附完整清单。`)
     : mode==='parks'?`National Parks poster: ${count} of ${items.length} explored. Green trees show visited parks; gray trees show unvisited parks. Full numbered checklist included.`
       :`United States poster: ${count} of 50 states explored. Colored states are visited. Alaska and Hawaii have separate insets. Full checklist included.`);

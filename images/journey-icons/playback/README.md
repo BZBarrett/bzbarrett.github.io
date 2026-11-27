@@ -1,3 +1,4 @@
-Original SVG artwork for Journey Studio route playback. The vehicle artwork points
-up so it can follow the route heading without rotating a front-facing UI symbol.
-These assets are separate from the Phosphor icons used by the transport picker.
+Original SVG artwork for Journey Studio route playback. Car, train, public transport and walking
+artwork uses an upright side view, facing right and mirrored for leftward travel.
+The airplane points up and rotates with its route heading. The unused carriage
+asset is retained for compatibility. The transport picker uses separate compact outline icons in the parent folder.

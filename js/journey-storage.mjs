@@ -1,29 +1,35 @@
+import {normalizeTransportSpeeds} from './journey-transport.mjs';
 import {colorJourneys,palettes,validColor} from './journey-palettes.mjs';
-import {exportKML,validCoordinate} from './journey-kml.mjs';
+import {exportKML,validCoordinate,validTime} from './journey-kml.mjs';
 const KEY='wanderlust-studio-v1';
 export function normalizeWorkspace(data) {
   if(!data || data.version!==1 || !Array.isArray(data.trips) || !data.trips.every(t=>typeof t.id==='string' && typeof t.name==='string' && Array.isArray(t.items) && t.items.every(i=>i && typeof i.id==='string' && typeof i.name==='string' && (i.kind==='point' ? validCoordinate(i.coordinates) : i.kind==='segment' && Array.isArray(i.coordinates) && i.coordinates.length>=2 && i.coordinates.every(validCoordinate))))) throw new Error('The saved notebook is not a supported Journey Studio file.');
   data.visited=Array.isArray(data.visited)?data.visited:[];
   data.visitedStates=Array.isArray(data.visitedStates)?data.visitedStates:[];
+  data.visitedCountries=Array.isArray(data.visitedCountries)?[...new Set(data.visitedCountries.filter(id=>typeof id==='string'&&/^[A-Z]{2}$/.test(id)))]:[];
   data.units=data.units==='metric'?'metric':'imperial';
+  data.transportSpeeds=normalizeTransportSpeeds(data.transportSpeeds);
   data.language=data.language==='zh'?'zh':'en';
   data.posterOrientation=data.posterOrientation==='landscape'?'landscape':'portrait';
   data.palette=Object.hasOwn(palettes,data.palette)?data.palette:'trail';
   data.singleColor=validColor(data.singleColor)?data.singleColor:'#31765c';
   const active=data.trips.find(trip=>trip.id===data.activeTrip)||data.trips[0];
   for(const trip of data.trips)if(typeof trip.visible!=='boolean')trip.visible=data.showAllJourneys!==false||trip===active;
+  for(const trip of data.trips)if(trip.dateDefaults)trip.dateDefaults=Object.fromEntries(['start','end'].map(key=>{const value=trip.dateDefaults[key];return [key,typeof value==='string'&&/^\d{4}-\d{2}(?:-\d{2})?$/.test(value)&&validTime(value)?value:''];}));
+  for(const trip of data.trips)trip.videoTitle=typeof trip.videoTitle==='string'?trip.videoTitle.slice(0,240):'';
   delete data.showAllJourneys;
   data.sidebarState=['open','collapsed','hidden'].includes(data.sidebarState)?data.sidebarState:'open';
   data.sidebarPinned=data.sidebarPinned!==false;data.playerHidden=data.playerHidden===true;data.itineraryTab=data.itineraryTab==='places'?'places':'routes';
   data.showNationalParks=data.showNationalParks===true;
-  data.mapTheme=['liberty','positron','bright','dark','satellite','hybrid','topo'].includes(data.mapTheme)?data.mapTheme:'liberty';
+  data.mapTheme=['liberty','positron','bright','dark','satellite','hybrid','topo'].includes(data.mapTheme)?data.mapTheme:'positron';
   data.mapView=['2d','3d','globe'].includes(data.mapView)?data.mapView:'2d';
   colorJourneys(data);
-  data.bucketMode=['states','mixed'].includes(data.bucketMode)?data.bucketMode:'parks';
-  data.posterTemplate=['fieldnotes','midnight','postcard','atlas'].includes(data.posterTemplate)?data.posterTemplate:'fieldnotes';
+  data.bucketMode=['states','mixed','countries'].includes(data.bucketMode)?data.bucketMode:'parks';
+  data.posterTemplate=['fieldnotes','midnight','postcard','atlas','passport'].includes(data.posterTemplate)?data.posterTemplate:'fieldnotes';
   data.posterTitle=typeof data.posterTitle==='string'?data.posterTitle:'A lifetime of wild places';
   data.statesPosterTitle=typeof data.statesPosterTitle==='string'?data.statesPosterTitle:'Fifty states of adventure';
   data.mixedPosterTitle=typeof data.mixedPosterTitle==='string'?data.mixedPosterTitle:'Parks, states & stories';
+  data.countriesPosterTitle=typeof data.countriesPosterTitle==='string'?data.countriesPosterTitle:'A world of memories';
   return data;
 }
 async function db() {
@@ -43,7 +49,7 @@ function mergeWorkspaces(a,b) {
   const trips=new Map(a.trips.map(t=>[t.id,t]));
   for(const t of b.trips)if(!trips.has(t.id)||(trips.get(t.id).updatedAt||0)<(t.updatedAt||0))trips.set(t.id,t);
   const newer=(a.updatedAt||0)>(b.updatedAt||0)?a:b;
-  return {...newer,trips:[...trips.values()],visited:[...new Set([...a.visited,...b.visited])],visitedStates:[...new Set([...(a.visitedStates||[]),...(b.visitedStates||[])])]};
+  return {...newer,trips:[...trips.values()],visited:[...new Set([...a.visited,...b.visited])],visitedStates:[...new Set([...(a.visitedStates||[]),...(b.visitedStates||[])])],visitedCountries:[...new Set([...(a.visitedCountries||[]),...(b.visitedCountries||[])])]};
 }
 export class JourneyStore {
   constructor(report) {this.report=report;this.queue=Promise.resolve();this.folder=null;this.folderLocation='';this.privateFolder=null;this.needsReconnect=false;this.readOnly=false;}

@@ -1,3 +1,4 @@
+import {routeListPlan,paintRouteList} from './journey-route-list.mjs';
 import {setupInsets,insetBox} from './journey-insets.mjs';
 import {downloadJourneys,subsetTrip} from './journey-files.mjs';
 import {mapCredit} from './journey-basemaps.mjs';
@@ -23,21 +24,21 @@ function boundsFor(items) {
   for(const point of points){const lon=point[0]+360*Math.round((anchor-point[0])/360);west=Math.min(west,lon);east=Math.max(east,lon);south=Math.min(south,point[1]);north=Math.max(north,point[1]);}
   return [[west-.03,Math.max(-85,south-.03)],[east+.03,Math.min(85,north+.03)]];
 }
-function cameraOf(map){
+export function cameraOf(map){
   if(map.map)return {center:map.map.getCenter().toArray(),zoom:map.map.getZoom(),bearing:map.map.getBearing(),pitch:map.map.getPitch(),bounds:map.map.getBounds().toArray(),height:map.map.getContainer().clientHeight};
   const s=map.sketch;if(!s?.center)return null;
   return {center:fromMercator(s.center),zoom:Math.log2(s.scale/512),bearing:0,pitch:0,height:s.h,bounds:[fromMercator([s.center[0]-s.origin[0]/s.scale,s.center[1]+(s.h-s.origin[1])/s.scale]),fromMercator([s.center[0]+(s.w-s.origin[0])/s.scale,s.center[1]-s.origin[1]/s.scale])]};
 }
-function cleanStyle(map) {
+export function cleanStyle(map) {
   const style=structuredClone(map.map.getStyle());
   style.layers=style.layers.filter(layer=>!layer.id.startsWith('studio-')||layer.id==='studio-buildings');
   for(const source of Object.keys(style.sources))if(source.startsWith('studio-'))delete style.sources[source];return style;
 }
-function routeLayers(map,data,parks,showParks) {
+export function routeLayers(map,data,parks,showParks) {
   map.addSource('print-routes',{type:'geojson',data});
   for(const plane of [false,true]){
     const filter=['all',['==',['geometry-type'],'LineString'],[plane?'==':'!=',['get','mode'],'plane']];
-    for(const casing of [true,false])map.addLayer({id:`print-${plane?'flights':'roads'}-${casing?'casing':'line'}`,type:'line',source:'print-routes',filter,layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':casing?'#fff9eb':['get','color'],'line-width':casing?8:4,...(plane?{'line-dasharray':casing?[2,2]:[4,4]}:{})}});
+    for(const casing of [true,false])map.addLayer({id:`print-${plane?'flights':'roads'}-${casing?'casing':'line'}`,type:'line',source:'print-routes',filter,layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':casing?'#fff9eb':['get','color'],'line-width':casing?8:4,...(plane?{'line-dasharray':casing?[2,2]:[4,4],'line-opacity':casing?0:.5}:{})}});
   }
   map.addLayer({id:'print-places',type:'circle',source:'print-routes',filter:['==',['geometry-type'],'Point'],paint:{'circle-color':['get','color'],'circle-radius':['case',['get','important'],6,4],'circle-stroke-color':'#fffdf3','circle-stroke-width':2}});
   if(showParks)installParkLayer(map,parks,true,{source:'print-parks',layer:'print-parks',size:.65});
@@ -48,14 +49,16 @@ function text(ctx,value,x,y,size,color,{align='left',font='Arial',maxWidth}={}) 
   ctx.fillText(value,x,y);
 }
 function printGeometry(trips,options) {
-  const layout=posterLayout(options.orientation),W=layout.width,H=layout.height,poster=options.format!=='map';
+  const layout=posterLayout(options.orientation),W=layout.width,H=layout.height,poster=options.format!=='map',side=['left','right'].includes(options.routeList)?options.routeList:null;
   const legendHeight=poster?Math.max(210,Math.ceil(trips.length/(layout.landscape?3:2))*62+100):0;
-  return {layout,W,H,box:poster?{x:100,y:400,w:W-200,h:Math.max(600,H-520-legendHeight)}:{x:0,y:0,w:W,h:H-62}};
+  if(!side)return {layout,W,H,box:poster?{x:100,y:400,w:W-200,h:Math.max(600,H-520-legendHeight)}:{x:0,y:0,w:W,h:H-62},panel:null};
+  const area=poster?{x:100,y:400,w:W-200,h:H-580}:{x:30,y:30,w:W-60,h:H-110},width=Math.round(W*.28),gap=40;
+  const panel={x:side==='left'?area.x:area.x+area.w-width,y:area.y,w:width,h:area.h},box={...area,x:side==='left'?area.x+width+gap:area.x,w:area.w-width-gap};
+  return {layout,W,H,box,panel};
 }
-function paintMapPoster(canvas,trips,bitmap,{map,title='A journey to remember',orientation='portrait',format='poster',template='fieldnotes',language='en',pixelRatio=.5,composition={zoom:1,x:0,y:0},insetImages=[]},overview) {
-  const layout=posterLayout(orientation),W=layout.width,H=layout.height,skin=skins[template]||skins.fieldnotes,poster=format==='poster',zh=language==='zh';
-  const rows=Math.ceil(trips.length/(layout.landscape?3:2)),legendHeight=poster?Math.max(210,rows*62+100):0;
-  const box=poster?{x:100,y:400,w:W-200,h:Math.max(600,H-520-legendHeight)}:{x:0,y:0,w:W,h:H-62};
+function paintMapPoster(canvas,trips,bitmap,options,overview) {
+  const {map,title='A journey to remember',orientation='portrait',format='poster',template='fieldnotes',language='en',pixelRatio=.5,composition={zoom:1,x:0,y:0},insetImages=[],sidebarPlan}=options;
+  const {layout,W,H,box,panel}=printGeometry(trips,options),skin=skins[template]||skins.fieldnotes,poster=format==='poster',zh=language==='zh';
     if(canvas.width!==W*pixelRatio)canvas.width=W*pixelRatio;if(canvas.height!==H*pixelRatio)canvas.height=H*pixelRatio;const ctx=canvas.getContext('2d');ctx.setTransform(pixelRatio,0,0,pixelRatio,0,0);ctx.fillStyle=skin.paper;ctx.fillRect(0,0,W,H);
     if(poster){
       ctx.strokeStyle=skin.muted+'66';ctx.lineWidth=2;ctx.strokeRect(40,40,W-80,H-80);
@@ -71,12 +74,13 @@ function paintMapPoster(canvas,trips,bitmap,{map,title='A journey to remember',o
     if(poster){
       ctx.strokeStyle=skin.muted+'66';ctx.lineWidth=2;ctx.strokeRect(box.x,box.y,box.w,box.h);
       const columns=layout.landscape?3:2,colWidth=(W-220)/columns,top=box.y+box.h+75;
-      trips.forEach((trip,index)=>{const x=110+(index%columns)*colWidth,y=top+Math.floor(index/columns)*62;ctx.strokeStyle=trip.color||'#31765c';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(x,y-8);ctx.lineTo(x+44,y-8);ctx.stroke();text(ctx,trip.name,x+58,y,25,skin.ink,{maxWidth:colWidth-80});});
+      if(!panel)trips.forEach((trip,index)=>{const x=110+(index%columns)*colWidth,y=top+Math.floor(index/columns)*62;ctx.strokeStyle=trip.color||'#31765c';ctx.lineWidth=6;ctx.beginPath();ctx.moveTo(x,y-8);ctx.lineTo(x+44,y-8);ctx.stroke();text(ctx,trip.name,x+58,y,25,skin.ink,{maxWidth:colWidth-80});});
       text(ctx,zh?'每一条路线，都是一个故事。':'Every route holds a story.',W/2,H-115,27,skin.accent,{font:'Georgia',align:'center'});
     }
+    paintRouteList(ctx,panel,sidebarPlan,skin);canvas.dataset.routeList=JSON.stringify(panel?{side:options.routeList,columns:sidebarPlan.columns,segments:sidebarPlan.total,items:sidebarPlan.rows.filter(r=>r.kind==='segment').map(r=>({id:r.id,tripId:r.tripId}))}:null);
     const credit=mapCredit(map.theme,overview);
     text(ctx,credit,W/2,H-(poster?68:22),poster?18:22,skin.muted,{align:'center',maxWidth:W-150});
-    canvas.setAttribute('aria-label',zh?'按当前缩放和位置构图的行程地图':'Journey map with the current scale and position');canvas.dataset.overview=String(overview);canvas.dataset.template=template;canvas.dataset.format=format;canvas.dataset.orientation=orientation;canvas._mapFrame={x:box.x/W,y:box.y/H,w:box.w/W,h:box.h/H};canvas.dataset.composition=JSON.stringify(composition);return {overview,width:canvas.width,height:canvas.height};
+    canvas.setAttribute('aria-label',(zh?'按当前缩放和位置构图的行程地图':'Journey map with the current scale and position')+(panel?(zh?'，附'+(options.routeList==='left'?'左':'右')+'侧路线清单':', with a route list on the '+options.routeList):''));canvas.dataset.overview=String(overview);canvas.dataset.template=template;canvas.dataset.format=format;canvas.dataset.orientation=orientation;canvas._mapFrame={x:box.x/W,y:box.y/H,w:box.w/W,h:box.h/H};canvas.dataset.composition=JSON.stringify(composition);return {overview,width:canvas.width,height:canvas.height};
  }
 
 let localContext;
@@ -84,7 +88,7 @@ let localContext;
 // Only the backing-store pixel ratio changes for a full-resolution image.
 class MapPrintRenderer {
   constructor(trips,options,onFrame=()=>{}) {
-    this.trips=trips;this.options={...options};this.onFrame=onFrame;this.ratio=.5;this.value={...options.composition};this.main=options.map;this.camera=cameraOf(this.main);this.geometry=options.insetGeometry||printGeometry(trips,options);this.insets=[];
+    this.trips=trips;this.options={...options};this.onFrame=onFrame;this.ratio=.5;this.value={...options.composition};this.main=options.map;this.camera=cameraOf(this.main);this.geometry=options.insetGeometry||printGeometry(trips,options);this.options.sidebarPlan=routeListPlan(trips,options,this.geometry.panel);this.insets=[];
     this.host=document.createElement('div');this.host.dataset.printMap='true';const {box}=this.geometry;Object.assign(this.host.style,{position:'fixed',left:'-30000px',top:'0',width:box.w+'px',height:box.h+'px',pointerEvents:'none'});this.host.setAttribute('aria-hidden','true');document.body.append(this.host);
   }
   async init(signal){await this.initMap(signal);if(this.disposed)return;for(const spec of this.options.insets||[]){const f=insetBox(this.geometry.box,spec),child=new MapPrintRenderer(this.trips,{...this.options,insets:[],inset:spec,insetGeometry:{box:{x:0,y:0,w:f.w,h:f.h}},composition:{zoom:1,x:0,y:0}},()=>this.emit());const inset={spec:{...spec},renderer:child};this.insets.push(inset);await child.initMap(signal);}this.emit();}
@@ -154,7 +158,7 @@ export function setupMapExport({map,playback,getWorkspace,getTrip}) {
   const selectedTrips=()=>el('map-print-scope').value==='all'?getWorkspace().trips:el('map-print-scope').value==='visible'?getWorkspace().trips.filter(trip=>trip.visible!==false):[getTrip()];
   const trips=()=>selectedTrips().map(trip=>subsetTrip(trip,el('map-print-scope').value==='visible'?trip.items.filter(i=>i.visible!==false):trip.items));
   const insets=setupInsets({getCamera:()=>cameraOf(map)||{center:[-98,38],zoom:3},onChange:spec=>renderer?.setInset(spec),onStructure:()=>queue()});insets.bindPreview(el('map-print-viewport'),el('map-print-canvas'),()=>renderer);
-  const options=()=>({map,insets:structuredClone(insets.specs),title:el('map-print-title').value,orientation,format:el('map-print-format').value,template,extent:el('map-print-extent').value,places:el('map-print-places').checked,showParks:el('map-print-parks').checked,language:getWorkspace().language,composition:{...composition.value}});
+  const options=()=>({map,insets:structuredClone(insets.specs),title:el('map-print-title').value,orientation,format:el('map-print-format').value,template,extent:el('map-print-extent').value,places:el('map-print-places').checked,showParks:el('map-print-parks').checked,language:getWorkspace().language,units:getWorkspace().units,routeList:el('map-print-route-list').value,composition:{...composition.value}});
   const busy=value=>{for(const id of ['download-map-jpg','download-map-png','download-map-kml'])el(id).disabled=value||!trips().length;};
   function refresh(){const size=orientation==='portrait'?'4800 × 6000':'6000 × 4800';el('map-print-size').textContent=size+' JPG / PNG';el('map-print-summary').textContent=t('{count} journeys selected. KML includes routes and saved places.',{count:trips().length});composition.refresh();}
   async function paint(){
@@ -170,7 +174,7 @@ export function setupMapExport({map,playback,getWorkspace,getTrip}) {
 
   el('open-map-export').addEventListener('click',()=>{playback.pause();el('map-print-title').value=getTrip().name;el('map-print-parks').checked=getWorkspace().showNationalParks;el('map-print-scope').value='visible';insets.refresh();el('map-export-dialog').showModal();paint().then(()=>preview.fit());});
   el('map-export-dialog').addEventListener('close',()=>{clearTimeout(timer);request?.abort();generation++;renderer?.dispose();renderer=null;});
-  for(const id of ['map-print-title','map-print-scope','map-print-extent','map-print-format','map-print-places','map-print-parks'])el(id).addEventListener(id==='map-print-title'?'input':'change',queue);
+  for(const id of ['map-print-title','map-print-scope','map-print-extent','map-print-format','map-print-places','map-print-parks','map-print-route-list'])el(id).addEventListener(id==='map-print-title'?'input':'change',queue);
   for(const button of document.querySelectorAll('[data-map-template]'))button.addEventListener('click',()=>{template=button.dataset.mapTemplate;for(const b of document.querySelectorAll('[data-map-template]'))b.setAttribute('aria-pressed',String(b===button));queue();});
   for(const button of document.querySelectorAll('[data-map-orientation]'))button.addEventListener('click',()=>{orientation=button.dataset.mapOrientation;for(const b of document.querySelectorAll('[data-map-orientation]'))b.setAttribute('aria-pressed',String(b===button));preview.fit();queue();});
   for(const button of document.querySelectorAll('[data-map-interaction]'))button.addEventListener('click',()=>{composition.setMode(button.dataset.mapInteraction);preview.fit();});

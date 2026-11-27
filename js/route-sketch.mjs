@@ -1,3 +1,4 @@
+import {pathAtScale,pathBounds} from './journey-path-cache.mjs';
 import {mercator, fromMercator} from './route-data.mjs';
 
 // This local overview keeps the actual KML usable while the live basemap is loading or offline.
@@ -33,11 +34,13 @@ export class RouteSketch {
     canvas.addEventListener('pointerup', event => {
       if (drag?.id !== event.pointerId || drag.moved) return;
       const rect = canvas.getBoundingClientRect();
-      const stop = this.stops.findIndex(({point}) => {
-        const [x, y] = this.pixel(point);
+      const playback=!!this.playbackPointStops,stops=playback?this.playbackPointStops:this.stops;
+      const stop = stops.findIndex(({point},index) => {
+        if(playback&&index>=this.playbackPointCount)return false;
+        const wrapped=[...point];wrapped[0]+=Math.round(this.center[0]-point[0]);const [x,y]=this.pixel(wrapped);
         return Math.hypot(event.clientX - rect.left - x, event.clientY - rect.top - y) < 16;
       });
-      if (stop >= 0) onSelect(stop);
+      if(stop>=0){if(playback)this.onArrivalSelect?.(stops[stop]);else onSelect(stop);}
     });
     canvas.addEventListener('lostpointercapture', () => { drag = null; });
     canvas.addEventListener('wheel', event => {
@@ -169,12 +172,19 @@ export class RouteSketch {
       }
     }
     ctx.lineCap = 'round'; ctx.lineJoin = 'round';
-    this.paths.forEach((path,index)=>{
-      if(this.playbackTripId&&((this.playbackTripIds||[this.playbackTripId]).includes(this.route.lines[index]?.tripId)||this.route.lines[index]?.option))return;
+    const pathIndices=this.playbackTripId&&this.playbackPathIndices?this.playbackPathIndices:this.paths.keys();
+    for(const index of pathIndices){
+      const path=this.paths[index];
+      const route=this.route.lines[index];
+      if(this.playbackTripId&&(route?.option||(this.playbackCursor!==undefined?(route?.playbackOrder??-1)>=this.playbackCursor:(this.playbackTripIds||[this.playbackTripId]).includes(route?.tripId))))continue;
+      const box=pathBounds(path),shift=Math.round(this.center[0]-(box[0]+box[2])/2);
+      if(box[2]+shift<west||box[0]+shift>east||box[3]<north||box[1]>south)continue;
+      const visiblePath=pathAtScale(path,this.scale).points;
+      ctx.save();ctx.globalAlpha=route?.mode==='plane'?.5:1;
       ctx.setLineDash(this.route.lines[index]?.mode==='plane'?[12,12]:[]);
-      ctx.beginPath();trace(path);if(this.route.lines[index]?.selected){ctx.strokeStyle='#ffb32faa';ctx.lineWidth=15;ctx.stroke();}ctx.strokeStyle=dark?'#10212a':'#faf6e4';ctx.lineWidth=8;ctx.stroke();
-      ctx.strokeStyle=this.route.lines[index]?.color||'#b64e1b';ctx.lineWidth=3.6;ctx.stroke();
-    });
+      ctx.beginPath();trace(visiblePath,shift);if(this.route.lines[index]?.selected){ctx.strokeStyle='#ffb32faa';ctx.lineWidth=15;ctx.stroke();}if(route?.mode!=='plane'){ctx.strokeStyle=dark?'#10212a':'#faf6e4';ctx.lineWidth=8;ctx.stroke();}
+      ctx.strokeStyle=this.route.lines[index]?.color||'#b64e1b';ctx.lineWidth=3.6;ctx.stroke();ctx.restore();
+    }
 
     ctx.setLineDash([]);
     const labels = [];
@@ -183,13 +193,14 @@ export class RouteSketch {
       ctx.save();ctx.translate(x,y);ctx.beginPath();ctx.arc(0,0,11,0,Math.PI*2);ctx.fillStyle='#fffdf1';ctx.fill();ctx.strokeStyle='#b8c9af';ctx.lineWidth=1;ctx.stroke();
       ctx.beginPath();ctx.moveTo(0,-8);ctx.lineTo(6,1);ctx.lineTo(3,1);ctx.lineTo(7,6);ctx.lineTo(2,6);ctx.lineTo(2,10);ctx.lineTo(-2,10);ctx.lineTo(-2,6);ctx.lineTo(-7,6);ctx.lineTo(-3,1);ctx.lineTo(-6,1);ctx.closePath();ctx.fillStyle='#35774c';ctx.fill();ctx.restore();
     }
-    const order = this.stops.map((_, i) => i).sort((a, b) => Number(b === this.selected) - Number(a === this.selected));
-    for (const i of order) {
-      const stop = this.stops[i], [x, y] = this.pixel(stop.point);
-      if (x < -10 || x > w + 10 || y < -10 || y > h + 10) continue;
-      const active = i === this.selected||stop.selected;
-      ctx.beginPath(); ctx.arc(x, y, active ? 8 : 5.5, 0, 2 * Math.PI);
-      ctx.fillStyle = stop.color || (active ? '#cc571c' : '#234738'); ctx.strokeStyle = stop.selected?'#ffae20':'#fff9e7'; ctx.lineWidth = stop.selected?6:2.8; ctx.fill(); ctx.stroke();
+    if(this.playbackPointStops)this.drawPlaybackPoints(ctx,w,h);
+    const order=this.playbackPointStops?[]:this.stops.map((_,i)=>i).sort((a,b)=>Number(b===this.selected)-Number(a===this.selected));
+    for(const i of order){
+      const stop=this.stops[i],point=[...stop.point];point[0]+=Math.round(this.center[0]-point[0]);const [x,y]=this.pixel(point);
+      if(x< -10||x>w+10||y< -10||y>h+10)continue;
+      const active=i===this.selected||stop.selected;
+      ctx.beginPath();ctx.arc(x,y,active?8:5.5,0,2*Math.PI);
+      ctx.fillStyle=stop.color||(active?'#cc571c':'#234738');ctx.strokeStyle=stop.selected?'#ffae20':'#fff9e7';ctx.lineWidth=stop.selected?6:2.8;ctx.fill();ctx.stroke();
       ctx.font = (active ? 'bold ' : '') + '13px Arial, sans-serif';
       const left = x + 12, top = y - 11, right = left + ctx.measureText(stop.name).width;
       if (labels.some(b => b[0] < right && left < b[2] && b[1] < top + 16 && top < b[3])) continue;
@@ -197,6 +208,25 @@ export class RouteSketch {
       ctx.lineWidth = 3.5; ctx.strokeStyle = '#f6f6e8'; ctx.strokeText(stop.name, left, y + 4);
       ctx.fillStyle = '#263e32'; ctx.fillText(stop.name, left, y + 4);
     }
+    if(this.userLocation){
+      const {coordinates,accuracy}=this.userLocation,point=mercator(coordinates);point[0]+=Math.round(this.center[0]-point[0]);const [x,y]=this.pixel(point),radius=Math.min(Math.hypot(w,h)*2,accuracy/40030228.88/Math.max(.01,Math.cos(coordinates[1]*Math.PI/180))*this.scale);
+      ctx.beginPath();ctx.arc(x,y,Math.max(0,radius),0,Math.PI*2);ctx.fillStyle='#2779dc24';ctx.fill();ctx.beginPath();ctx.arc(x,y,7,0,Math.PI*2);ctx.fillStyle='#2779dc';ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.fill();ctx.stroke();
+    }
     this.onDraw?.();
   }
+  drawPlaybackPoints(ctx,w,h){
+    // Batch permanent arrival markers by color; labels remain in the small overlay.
+    const batches=new Map(),stars=new Path2D();
+    for(let i=0;i<this.playbackPointCount;i++){
+      const stop=this.playbackPointStops[i],point=[...stop.point];point[0]+=Math.round(this.center[0]-point[0]);const [x,y]=this.pixel(point);
+      if(x< -10||x>w+10||y< -10||y>h+10)continue;
+      const color=stop.color||'#31765c';let path=batches.get(color);if(!path){path=new Path2D();batches.set(color,path);}
+      const radius=stop.important?9:6;path.moveTo(x+radius,y);path.arc(x,y,radius,0,Math.PI*2);
+      if(stop.important){for(let j=0;j<10;j++){const angle=-Math.PI/2+j*Math.PI/5,r=j%2?3.1:7,px=x+Math.cos(angle)*r,py=y+Math.sin(angle)*r;j?stars.lineTo(px,py):stars.moveTo(px,py);}stars.closePath();}
+    }
+    ctx.lineWidth=2.5;ctx.strokeStyle='#fff9e9';
+    for(const [color,path]of batches){ctx.fillStyle=color;ctx.fill(path);ctx.stroke(path);}
+    ctx.fillStyle='#fff9e9';ctx.fill(stars);
+  }
+
 }
