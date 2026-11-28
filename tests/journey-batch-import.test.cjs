@@ -1,3 +1,4 @@
+const {dismissFolderPrompt}=require('./helpers/folder-prompt.cjs');
 const {test,before,after}=require('node:test');
 const assert=require('node:assert/strict');
 const {chromium}=require('playwright');
@@ -9,7 +10,7 @@ const existing={id:'existing',name:'Existing journey',visible:true,color:'#44556
 async function setup({language='en',mobile=false}={}){
  const context=await browser.newContext({viewport:mobile?{width:390,height:844}:{width:1360,height:1000}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(data=>{if(!localStorage.getItem('wanderlust-studio-v1'))localStorage.setItem('wanderlust-studio-v1',JSON.stringify(data));Object.defineProperty(window,'WebGL2RenderingContext',{value:undefined});},{version:1,activeTrip:'existing',language,palette:'single',singleColor:'#445566',trips:[existing],visited:[],updatedAt:1});
- await page.goto(base+'/journey-studio.html');await page.waitForFunction(()=>document.querySelector('#save-status').textContent!=='Opening your local notebook…'&&!document.querySelector('#studio-fallback').hidden);
+ await page.goto(base+'/journey-studio.html');await dismissFolderPrompt(page);await page.waitForFunction(()=>document.querySelector('#save-status').textContent!=='Opening your local notebook…'&&!document.querySelector('#studio-fallback').hidden);
  return {context,page,errors};
 }
 async function files(page){
@@ -31,7 +32,7 @@ test('one mixed-format selection creates independent journeys with colors and vi
   assert.equal(await page.locator('#import-status').textContent(),'Imported 3 files as separate journeys.');assert.equal(await page.locator('#trip-name').inputValue(),batch[0].trip.name);assert.equal(await page.locator('#trip-video-title').inputValue(),batch[0].trip.videoTitle);
   let data=await notebook(page);assert.deepEqual(data.trips[0],existing);assert.equal(new Set(data.trips.map(t=>t.id)).size,4);
   for(const [i,trip] of data.trips.slice(1).entries()){const source=batch[i].trip;assert.equal(trip.name,source.name);assert.equal(trip.color,source.color);assert.equal(trip.videoTitle,source.videoTitle);assert.equal(trip.items.length,2);assert.equal(trip.items[0].mode,source.items[0].mode);assert.equal(trip.items[0].start,'2026-03');assert.deepEqual(trip.items[0].coordinates,source.items[0].coordinates);assert.equal(trip.items[1].visible,false);}
-  await page.reload();await page.waitForFunction(()=>document.querySelectorAll('.journey-row').length===4);data=await notebook(page);
+  await page.reload();await dismissFolderPrompt(page);await page.waitForFunction(()=>document.querySelectorAll('.journey-row').length===4);data=await notebook(page);
   for(const trip of data.trips.slice(1)){await page.locator(`[data-journey-select="${trip.id}"]`).click();assert.equal(await page.locator('#trip-video-title').inputValue(),trip.videoTitle);}
   const roundtrip=await page.evaluate(async()=>{const {journeyFile,importJourneyFile}=await import('/js/journey-files.mjs'),{checkedPlaybackPlan}=await import('/js/journey-playback.mjs'),trips=JSON.parse(localStorage.getItem('wanderlust-studio-v1')).trips.slice(1),formats=['kml','kmz','geojson'],result=[];
    for(const [i,trip]of trips.entries()){const file=new File([await journeyFile([trip],formats[i])],'again.'+formats[i]);const restored=(await importJourneyFile(file)).trip;result.push({color:restored.color,title:restored.videoTitle});}
@@ -86,7 +87,7 @@ test('ZIP folders import each supported file once, preserving metadata and conti
   const batch=await files(page),bytes=await page.evaluate(async data=>{await import('/js/vendor/jszip-3.10.1.js');const zip=new JSZip();zip.file('Trips/Coast.KML',Uint8Array.from(data[0]));zip.file('Trips/bad.geojson','{broken');zip.file('Rail/Trip.kmz',Uint8Array.from(data[1]));zip.file('Walking/Trip.GeoJSON',Uint8Array.from(data[2]));zip.file('__MACOSX/._Trip.kml','ignore');zip.file('readme.txt','ignore');return [...await zip.generateAsync({type:'uint8array',compression:'DEFLATE'})];},batch.map(f=>[...f.buffer]));
   assert.match(await page.locator('#kml-file').getAttribute('accept'),/\.zip/);await page.locator('#kml-file').setInputFiles([{name:'Journeys.zip',mimeType:'application/zip',buffer:Buffer.from(bytes)},payload(batch[0])]);await finished(page,5);
   const data=await notebook(page),added=data.trips.slice(1);assert.equal(new Set(data.trips.map(t=>t.id)).size,5);assert.deepEqual(added.map(t=>t.name),[...batch.map(f=>f.trip.name),batch[0].trip.name]);assert.deepEqual(added.slice(0,3).map(t=>({color:t.color,title:t.videoTitle})),batch.map(f=>({color:f.trip.color,title:f.trip.videoTitle})));assert.ok(added.every(t=>t.items.length===2));assert.equal(await page.locator('#import-details li').count(),1);assert.match(await page.locator('#import-details').textContent(),/Journeys.zip \/ Trips\/bad.geojson/);assert.deepEqual(data.trips[0],existing);
-  await page.reload();await page.waitForFunction(()=>document.querySelectorAll('.journey-row').length===5);assert.deepEqual((await notebook(page)).trips.slice(1).map(t=>t.videoTitle),added.map(t=>t.videoTitle));assert.deepEqual(errors,[]);
+  await page.reload();await dismissFolderPrompt(page);await page.waitForFunction(()=>document.querySelectorAll('.journey-row').length===5);assert.deepEqual((await notebook(page)).trips.slice(1).map(t=>t.videoTitle),added.map(t=>t.videoTitle));assert.deepEqual(errors,[]);
  }finally{await context.close();}
 });
 

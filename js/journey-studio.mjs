@@ -1,3 +1,4 @@
+import {setupVehiclePicker} from './journey-vehicles.mjs';
 import {transportNames,isTransportMode,normalizeTransportSpeeds,DEFAULT_TRANSPORT_SPEEDS} from './journey-transport.mjs';
 import {setupBatchExport} from './journey-batch-export.mjs';
 import {readDateFields as dateValue,writeDateFields,setupDateFields,dateLabel} from './journey-dates.mjs';
@@ -20,6 +21,7 @@ import {setupMapExport} from './journey-map-export.mjs';
 import {setupVideoExport} from './journey-video.mjs';
 const el=id=>document.getElementById(id),status=message=>translatedStatus(el('form-status'),message);
 const translateStatic=captureStaticTranslations();
+const vehiclePicker=setupVehiclePicker();
 const modeValue=id=>el(id).querySelector('input:checked').value;
 const setMode=(id,mode)=>{el(id).querySelector('input[value="'+(isTransportMode(mode)?mode:'car')+'"]').checked=true;};
 const makeTrip=()=>({id:uid(),name:t('My next adventure'),visible:true,items:[],updatedAt:Date.now()});
@@ -49,8 +51,8 @@ setupDateFields((id,value)=>{
 const modeLabel=mode=>t(transportNames[mode]||'Route');
 function element(tag,text,className) {const node=document.createElement(tag);if(text!==undefined)node.textContent=text;if(className)node.className=className;return node;}
 function action(label,fn,aria) {const button=element('button',t(label));button.type='button';if(aria)button.setAttribute('aria-label',t(aria));button.addEventListener('click',fn);return button;}
-function save() {
-  if(loading)return;workspace.activeTrip=trip().id;trip().updatedAt=Date.now();el('save-status').textContent=t('Saving locally…');clearTimeout(saveTimer);saveTimer=setTimeout(()=>store.save(workspace),200);
+function save({delay=200}={}) {
+  if(loading)return;workspace.activeTrip=trip().id;trip().updatedAt=Date.now();el('save-status').textContent=t('Saving locally…');clearTimeout(saveTimer);saveTimer=setTimeout(()=>store.save(workspace),delay);
 }
 function changed() {renderTrips();renderItinerary();updateMap();save();}
 function renderTrips() {
@@ -348,7 +350,7 @@ function renderColors(){
 }
 function applyPreferences(){
   setLanguage(workspace.language);translateStatic();refreshStatuses();layout.refresh();for(const [button,format]of [['export-kml',document.querySelector('[name=export-format]:checked').value],['download-map-kml',el('map-file-format').value]])el(button).textContent=t('Export '+(format==='geojson'?'GeoJSON':format.toUpperCase()));
-  renderImportReport();renderTransportSpeeds();
+  renderImportReport();renderTransportSpeeds();vehiclePicker.refresh();
   for(const node of document.querySelectorAll('[data-brand-name]'))node.textContent=workspace.language==='zh'?'玩嘚儿了':'Wanderlust';
   for(const node of document.querySelectorAll('.brand-tilde'))node.hidden=workspace.language!=='zh';
   for(const node of document.querySelectorAll('.brand-period'))node.hidden=workspace.language==='zh';
@@ -415,9 +417,34 @@ el('select-itinerary').addEventListener('click',()=>{trip().items.filter(i=>i.ki
 el('clear-itinerary').addEventListener('click',()=>{selectedItems.clear();renderItinerary();updateMap();});
 el('export-selected').addEventListener('click',()=>review([...selectedItems]));
 el('new-trip').addEventListener('click',()=>{const fresh=makeTrip();workspace.trips.push(fresh);activateTrip(fresh.id);el('trip-name').focus();el('trip-name').select();});
-el('trip-video-title').addEventListener('input',()=>{trip().videoTitle=el('trip-video-title').value;save();});
+let videoTitleComposing=false;
+el('trip-video-title').addEventListener('compositionstart',()=>{videoTitleComposing=true;clearTimeout(saveTimer);});
+el('trip-video-title').addEventListener('input',event=>{trip().videoTitle=event.target.value;if(!videoTitleComposing&&!event.isComposing)save({delay:800});});
+el('trip-video-title').addEventListener('compositionend',()=>{videoTitleComposing=false;trip().videoTitle=el('trip-video-title').value;save({delay:800});});
+el('trip-video-title').addEventListener('change',()=>{if(!videoTitleComposing)save({delay:0});});
 el('trip-name').addEventListener('input',()=>{trip().name=el('trip-name').value.trim()||t('Untitled journey');renderJourneyList();save();});
-el('connect-folder').addEventListener('click',async()=>{try{clearTimeout(saveTimer);await store.flush();workspace=await store.connect(workspace);applyPreferences();activateTrip(workspace.activeTrip);status('Connected. Journeys and KML copies are saved in the hidden .wanderlust folder inside your chosen directory.');}catch(error){if(error.name!=='AbortError')status(error.message);}});
+function showFolderSetup(){
+  const supported=!!window.showDirectoryPicker||!!store.savedFolder;
+  el('folder-setup-message').textContent=t(!supported?'This browser saves journeys on this device, but cannot connect a local folder. Use desktop Chrome or Edge to enable folder sync.':store.connectionIssue==='unreadable'?'The saved folder could not be read. Its files have been kept unchanged. Reconnect it or choose another folder.':store.savedFolder?'Your saved folder needs permission before it can sync. Reconnect to merge its journeys with this browser.':'No local folder is connected. Choose a folder to sync your journeys and keep KML backups in its hidden .wanderlust folder.');
+  el('folder-setup-location').textContent=store.folderLocation;el('startup-connect-folder').hidden=!supported;el('startup-connect-folder').textContent=t(store.savedFolder?'Reconnect folder':'Connect folder');el('startup-change-folder').hidden=!store.savedFolder||!window.showDirectoryPicker;
+  el('folder-setup-dialog').showModal();
+}
+let connectingFolder=false;
+async function connectFolder(reconnect=false){
+  if(connectingFolder)return;connectingFolder=true;clearTimeout(saveTimer);el('folder-setup-error').textContent='';
+  for(const id of ['connect-folder','startup-connect-folder','startup-change-folder'])el(id).disabled=true;
+  try{
+    workspace=await store.connect(workspace,{reconnect});
+    if(!workspace.trips.length)workspace.trips.push(makeTrip());
+    applyPreferences();activateTrip(workspace.activeTrip);
+    if(!store.folder)throw new Error('Folder sync paused; reconnect the folder.');
+    el('folder-setup-dialog').close();status('Connected. Journeys and KML copies are saved in the hidden .wanderlust folder inside your chosen directory.');
+  }catch(error){if(error.name!=='AbortError'){status(error.message);el('folder-setup-error').textContent=t(error.message);}}
+  finally{connectingFolder=false;for(const id of ['connect-folder','startup-connect-folder','startup-change-folder'])el(id).disabled=false;}
+}
+el('connect-folder').addEventListener('click',()=>connectFolder(!!store.savedFolder&&!store.folder));
+el('startup-connect-folder').addEventListener('click',()=>connectFolder(!!store.savedFolder));
+el('startup-change-folder').addEventListener('click',()=>connectFolder(false));
 el('cancel-replace').addEventListener('click',()=>{resetBuilder();updateMap();});
 el('edit-mode').addEventListener('change',()=>{el('edit-vehicle-label').hidden=modeValue('edit-mode')!=='car';});
 el('edit-form').addEventListener('submit',submitEdit);el('replace-route').addEventListener('click',replaceRoute);
@@ -442,3 +469,6 @@ try{const saved=await store.open();if(saved)workspace=saved;}catch{el('save-stat
 workspace=normalizeWorkspace(workspace);if(!workspace.trips.length)workspace.trips.push(makeTrip());workspace.activeTrip=trip().id;loading=false;restoreBuilderDates();applyPreferences();renderFolderLocation();
 el('trip-name').value=trip().name;renderTrips();renderItinerary();updateMap();map.open().then(()=>map.fitCoordinates?map.fit(map.fitCoordinates,{duration:0}):map.userLocation?map.centerLocation():map.view==='globe'&&!map.sketch?map.globeOverview(false):map.fit());
 if(!window.showDirectoryPicker){el('connect-folder').textContent=t('About local storage');el('storage-note').textContent=t('Automatically saved in this browser. For a hidden folder on disk, open this page in desktop Chrome or Edge.');}
+
+if(!store.folder)showFolderSetup();
+document.documentElement.dataset.studioReady='true';

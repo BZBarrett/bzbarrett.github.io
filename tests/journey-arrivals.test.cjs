@@ -1,3 +1,4 @@
+const {dismissFolderPrompt}=require('./helpers/folder-prompt.cjs');
 const {test,before,after}=require('node:test');
 const assert=require('node:assert/strict');
 const {chromium}=require('playwright');
@@ -16,7 +17,7 @@ async function setup(fallback,data=fixture()){
  page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(({data,fallback})=>{localStorage.setItem('wanderlust-studio-v1',JSON.stringify(data));if(fallback)Object.defineProperty(window,'WebGL2RenderingContext',{value:undefined});},{data,fallback});
  await page.route('https://tiles.openfreemap.org/**',r=>r.fulfill({json:{version:8,sources:{},layers:[{id:'base',type:'background',paint:{'background-color':'#e7ede6'}}]}}));
- await page.goto(base+'/journey-studio.html');await page.waitForFunction(()=>!document.querySelector('#play-journey').disabled);
+ await page.goto(base+'/journey-studio.html');await dismissFolderPrompt(page);await page.waitForFunction(()=>!document.querySelector('#play-journey').disabled);
  await page.evaluate(async()=>{const {JourneyPlayback}=await import('/js/journey-playback.mjs'),advance=JourneyPlayback.prototype.advance;JourneyPlayback.prototype.advance=function(...args){window.player=this;return advance.apply(this,args);};document.querySelector('#play-journey').click();player.pause();player.follow=false;player.map.fit([[-120,35],[-117,35]],{duration:0});});
  await page.waitForFunction(()=>(player.map.sketch||player.map.ready)&&!player.map.opening&&!player.map.themeLoading);return {context,page,errors};
 }
@@ -250,7 +251,7 @@ test('a route selected while the globe is loading survives the startup camera up
  try{
   await page.addInitScript(()=>{localStorage.setItem('wanderlust-studio-v1',JSON.stringify({version:1,activeTrip:'new',mapView:'globe',updatedAt:1,trips:[{id:'new',name:'New trip',items:[]},{id:'remote',name:'Tokyo',items:[{id:'tokyo',name:'Tokyo',kind:'point',coordinates:[139.7,35.6]}]}]}));let library;Object.defineProperty(window,'maplibregl',{configurable:true,get:()=>library,set(value){library=value;const Original=value.Map;value.Map=class extends Original{constructor(options){super(options);window.startupMap=this;}};}});});
   await page.route('https://tiles.openfreemap.org/**',async route=>{await gate;await route.fulfill({json:{version:8,sources:{},layers:[{id:'delayed-base',type:'background',paint:{'background-color':'#e7ede6'}}]}});});
-  await page.goto(base+'/journey-studio.html');await page.waitForFunction(()=>window.startupMap?.getLayer('studio-lines'));
+  await page.goto(base+'/journey-studio.html');await dismissFolderPrompt(page);await page.waitForFunction(()=>window.startupMap?.getLayer('studio-lines'));
   for(const [id,value]of [['start','35, -120'],['end','35, -119']]){await page.locator('#'+id+'-query').fill(value);await page.locator('[data-search='+id+']').click();await page.waitForFunction(()=>document.querySelector('#form-status').textContent.startsWith('Selected '));}
   await page.locator('#segment-mode input[value=plane]').check();await page.locator('#find-routes').click();await page.getByRole('button',{name:'Add selected segment'}).waitFor();await page.waitForFunction(()=>!startupMap.isMoving());assert.ok(await page.evaluate(()=>startupMap.getZoom()>5));
   release();await page.waitForFunction(()=>startupMap.getLayer('delayed-base')&&startupMap.loaded()&&!startupMap.isMoving());await page.waitForTimeout(100);

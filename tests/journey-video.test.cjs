@@ -1,3 +1,4 @@
+const {dismissFolderPrompt}=require('./helpers/folder-prompt.cjs');
 const {test,before,after}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs/promises');
@@ -17,7 +18,7 @@ async function setup({fallback=false,unsupported=false,mobile=false,language='en
  window.__maps=[];let lib;Object.defineProperty(window,'maplibregl',{configurable:true,get:()=>lib,set(v){lib=v;const Original=v.Map;v.Map=class extends Original{constructor(o){super(o);window.__maps.push(this);}}}});
  },{data:fixture(),fallback,unsupported,language});
  await page.route('https://tiles.openfreemap.org/**',r=>r.fulfill({json:{version:8,sources:{},layers:[{id:'base',type:'background',paint:{'background-color':'#e7ede6'}}]}}));
- await page.goto(base+'/journey-studio.html');await page.waitForFunction(()=>!document.querySelector('#play-journey').disabled);
+ await page.goto(base+'/journey-studio.html');await dismissFolderPrompt(page);await page.waitForFunction(()=>!document.querySelector('#play-journey').disabled);
  if(!fallback)await page.waitForFunction(()=>__maps[0]?.getLayer('studio-lines')&&!__maps[0].isMoving());else await page.waitForFunction(()=>!document.querySelector('#studio-fallback').hidden);
  await page.evaluate(async()=>{const {JourneyPlayback}=await import('/js/journey-playback.mjs'),advance=JourneyPlayback.prototype.advance;JourneyPlayback.prototype.advance=function(...args){window.__player=this;return advance.apply(this,args);};document.querySelector('#play-journey').click();window.__player.pause();window.__player.seek(0);});
  await page.locator('#player-speed').selectOption('4');

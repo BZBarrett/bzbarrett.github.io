@@ -1,3 +1,4 @@
+const {dismissFolderPrompt}=require('./helpers/folder-prompt.cjs');
 const {test,before,after}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs/promises');
@@ -10,7 +11,7 @@ async function setup(){
   const context=await browser.newContext({viewport:{width:1500,height:1050}}),page=await context.newPage(),errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   await page.addInitScript(()=>Object.defineProperty(window,'WebGL2RenderingContext',{value:undefined}));
-  await page.goto(base+'/journey-studio.html');
+  await page.goto(base+'/journey-studio.html');await dismissFolderPrompt(page);
   await page.waitForFunction(()=>document.querySelector('#save-status').textContent!=='Opening your local notebook…');
   return {context,page,errors};
 }
@@ -79,7 +80,7 @@ test('passport selection persists, translates, supports mixed visits and falls b
     await page.locator('[data-close=bucket-dialog]').click();
     await page.locator('#open-settings').click();await page.locator('[data-language=zh]').click();await page.locator('[data-close=settings-dialog]').last().click();
     await page.waitForFunction(()=>JSON.parse(localStorage.getItem('wanderlust-studio-v1')).posterTemplate==='passport');
-    await page.reload();await page.locator('#open-bucket').click();await ready(page);
+    await page.reload();await dismissFolderPrompt(page);await page.locator('#open-bucket').click();await ready(page);
     assert.match(await page.locator('button[data-template=passport]').textContent(),/公园与州徽章/);
     assert.match(await page.locator('#park-poster').getAttribute('aria-label'),/已探索 1 \/ 64/);
     await page.setViewportSize({width:390,height:844});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));

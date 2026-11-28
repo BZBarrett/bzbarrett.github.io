@@ -1,3 +1,4 @@
+const {dismissFolderPrompt}=require('./helpers/folder-prompt.cjs');
 const {test,before,after}=require('node:test');
 const assert=require('node:assert/strict');
 const {chromium}=require('playwright');
@@ -16,7 +17,7 @@ async function setup(view='2d',data=fixture()){
   page.on('pageerror',e=>errors.push(e.message));
   await page.addInitScript(({data,fallback})=>{localStorage.setItem('wanderlust-studio-v1',JSON.stringify(data));if(fallback)Object.defineProperty(window,'WebGL2RenderingContext',{value:undefined});},{data,fallback:view==='canvas'});
   await page.route('https://tiles.openfreemap.org/**',r=>r.fulfill({json:{version:8,sources:{},layers:[{id:'base',type:'background',paint:{'background-color':'#e7ede6'}}]}}));
-  await page.goto(base+'/journey-studio.html');
+  await page.goto(base+'/journey-studio.html');await dismissFolderPrompt(page);
   await page.waitForFunction(()=>!document.querySelector('#play-journey').disabled);
   await page.evaluate(async()=>{const {JourneyPlayback}=await import('/js/journey-playback.mjs'),advance=JourneyPlayback.prototype.advance;JourneyPlayback.prototype.advance=function(...args){window.__player=this;return advance.apply(this,args);};});
   if(view==='globe'){await page.locator('#open-settings').click();await page.locator('[data-map-view=globe]').click();await page.locator('[data-close=settings-dialog]').last().click();}

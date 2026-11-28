@@ -1,3 +1,4 @@
+const {dismissFolderPrompt}=require('./helpers/folder-prompt.cjs');
 const {test,before,after}=require('node:test');
 const assert=require('node:assert/strict');
 const {chromium}=require('playwright');
@@ -20,7 +21,7 @@ for(const view of ['2d','globe','canvas'])test(`real flight search, selection an
       if(fallback)Object.defineProperty(window,'WebGL2RenderingContext',{value:undefined});
     },view==='canvas');
     await page.route('https://tiles.openfreemap.org/**',r=>r.fulfill({json:{version:8,sources:{},layers:[{id:'flight-test',type:'background',paint:{'background-color':'#e7ede6'}}]}}));
-    await page.goto(base+'/journey-studio.html');
+    await page.goto(base+'/journey-studio.html');await dismissFolderPrompt(page);
     await page.evaluate(async()=>{const {JourneyMap}=await import('/js/journey-map.mjs'),fit=JourneyMap.prototype.fit;JourneyMap.prototype.fit=function(...args){window.flightMap=this;return fit.apply(this,args);};document.querySelector('#map-fit').click();});
     await page.waitForFunction(()=>(flightMap.sketch||flightMap.ready)&&!flightMap.opening&&!flightMap.themeLoading);
     if(view==='globe'){await page.evaluate(()=>flightMap.setView('globe'));await page.waitForFunction(()=>!flightMap.map.isMoving());}

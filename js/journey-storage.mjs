@@ -52,54 +52,97 @@ function mergeWorkspaces(a,b) {
   return {...newer,trips:[...trips.values()],visited:[...new Set([...a.visited,...b.visited])],visitedStates:[...new Set([...(a.visitedStates||[]),...(b.visitedStates||[])])],visitedCountries:[...new Set([...(a.visitedCountries||[]),...(b.visitedCountries||[])])]};
 }
 export class JourneyStore {
-  constructor(report) {this.report=report;this.queue=Promise.resolve();this.folder=null;this.folderLocation='';this.privateFolder=null;this.needsReconnect=false;this.readOnly=false;}
+  constructor(report) {this.report=report;this.queue=Promise.resolve();this.folder=null;this.folderLocation='';this.privateFolder=null;this.needsReconnect=false;this.readOnly=false;this.savedFolder=null;this.connectionIssue='';this.pendingSave=null;this.saving=false;}
   async open() {
     const candidates=[];let damaged=false;
     try {const cached=localStorage.getItem(KEY);if(cached)candidates.push(normalizeWorkspace(JSON.parse(cached)));}catch{damaged=true;}
     try {const saved=await setting('workspace');if(saved)candidates.push(normalizeWorkspace(saved));}catch{}
     try {this.folderLocation=await setting('folderLocation')||'';}catch{}
     try {this.privateFolder=await (await navigator.storage.getDirectory()).getDirectoryHandle('.wanderlust',{create:true});const saved=await readNotebook(this.privateFolder);if(saved)candidates.push(saved);}catch(error){this.privateFolder=null;if(error.name!=='TypeError'&&error.name!=='SecurityError')damaged=true;}
-    try {this.folder=await setting('folder');if(this.folder){const permission=await this.folder.queryPermission({mode:'readwrite'});if(permission==='granted'){const saved=await readNotebook(this.folder);if(saved)candidates.push(saved);}else{this.needsReconnect=true;this.folder=null;}}}catch(error){this.folder=null;damaged=true;}
+    try {this.savedFolder=await setting('folder');if(this.savedFolder){const permission=await this.savedFolder.queryPermission({mode:'readwrite'});if(permission==='granted'){const saved=await readNotebook(this.savedFolder);if(saved)candidates.push(saved);this.folder=this.savedFolder;}else{this.needsReconnect=true;this.connectionIssue='permission';}}}catch(error){this.folder=null;this.needsReconnect=!!this.savedFolder;this.connectionIssue='unreadable';damaged=true;}
     candidates.sort((a,b)=>(b.updatedAt||0)-(a.updatedAt||0));
     this.report(damaged?'Recovered available local data; an unreadable copy could not be restored.':this.needsReconnect?'Restored on this device · reconnect your folder to sync.':'Your local notebook is ready.');
     // A corrupt disk copy must not be overwritten by an empty workspace.
     if(damaged && !candidates.length){this.privateFolder=null;this.folder=null;}
-    return candidates[0] || null;
+    const merged=candidates.reduce((result,candidate)=>mergeWorkspaces(result,candidate),null);
+    if(this.folder&&merged)await this.save(merged);
+    return merged;
   }
   save(data) {
-    if(this.readOnly) return Promise.resolve();
-    const snapshot=structuredClone(data); snapshot.updatedAt=Date.now();data.updatedAt=snapshot.updatedAt;
-    let fastSaved=false;
-    try{localStorage.setItem(KEY,JSON.stringify(snapshot));fastSaved=true;}catch{}
-    this.report('Saving locally…');
-    this.queue=this.queue.catch(()=>{}).then(async()=>{
-      let saved=fastSaved;const warnings=[];
-      try{await setting('workspace',snapshot);saved=true;}catch{}
-      for(const [directory,external] of [[this.privateFolder,false],[this.folder,true]]) {
-        if(!directory)continue;
-        try {
-          // JSON is the complete editable model. KML companions make each journey portable.
-          await writeFile(directory,'workspace.json',JSON.stringify(snapshot,null,2));saved=true;
-          for(const trip of snapshot.trips) {
-            try{await writeFile(directory,'journey-'+trip.id.replace(/[^a-zA-Z0-9-]/g,'_')+'.kml',exportKML(trip));}
-            catch{warnings.push('A KML copy needs valid dates before it can be refreshed.');}
-          }
-        }catch{if(external){this.needsReconnect=true;this.folder=null;warnings.push('Folder sync paused; reconnect the folder.');}else warnings.push('Private file backup unavailable.');}
-      }
-      this.report(saved ? (this.folder?'Saved to .wanderlust':'Saved on this device')+(warnings.length?' · '+[...new Set(warnings)].join(' '):this.needsReconnect?' · reconnect your folder to sync.':'') : 'Could not save. Export KML now to keep your work.');
-      return saved;
-    });return this.queue;
+    if(this.readOnly)return Promise.resolve();
+    data.updatedAt=Date.now();
+    // Keep at most one in-flight snapshot and one reference to the latest state.
+    // Cloning here would retain a full notebook for every edit behind slow disk IO.
+    this.pendingSave=data;this.report('Saving locally…');
+    if(!this.saving){this.saving=true;this.queue=this.drainSaves();}
+    return this.queue;
   }
-  async connect(current) {
-    if(!window.showDirectoryPicker)throw new Error('Folder access is available in desktop Chrome or Edge over HTTPS (or localhost). Your notebook still saves in this browser.');
-    const parent=await window.showDirectoryPicker({id:'wanderlust-studio',mode:'readwrite'});
-    const directory=await parent.getDirectoryHandle('.wanderlust',{create:true});
-    // Read and validate before connecting, so existing files are never overwritten on a read error.
+  async drainSaves() {
+    // Coalesce requests from the same event before taking an immutable snapshot.
+    await Promise.resolve();let saved=false;
+    try{
+      while(this.pendingSave){
+        const data=this.pendingSave;this.pendingSave=null;
+        try{
+          const snapshot=structuredClone(data),text=JSON.stringify(snapshot);
+          saved=await this.writeSnapshot(snapshot,text);
+        }catch{
+          saved=false;
+          if(!this.pendingSave)this.report('Could not save. Export KML now to keep your work.');
+        }
+      }
+      return saved;
+    }finally{this.saving=false;}
+  }
+  async writeSnapshot(snapshot,text) {
+    let saved=false;const warnings=[],directories=[];
+    try{localStorage.setItem(KEY,text);saved=true;}catch{}
+    try{await setting('workspace',snapshot);saved=true;}catch{}
+    const failed=external=>{
+      if(external){this.needsReconnect=true;this.connectionIssue='permission';this.folder=null;warnings.push('Folder sync paused; reconnect the folder.');}
+      else warnings.push('Private file backup unavailable.');
+    };
+    // Serialize the notebook once; the browser and both folders share these bytes.
+    for(const [directory,external]of [[this.privateFolder,false],[this.folder,true]]){
+      if(!directory)continue;
+      try{await writeFile(directory,'workspace.json',text);saved=true;directories.push({directory,external});}
+      catch{failed(external);}
+    }
+    // Serialize one journey at a time and reuse its KML across the two backups.
+    // Release each string before moving on; never retain all generated KML files.
+    for(const trip of snapshot.trips){
+      if(!directories.length)break;
+      let kml;
+      try{kml=exportKML(trip);}catch{warnings.push('A KML copy needs valid dates before it can be refreshed.');continue;}
+      for(let i=directories.length-1;i>=0;i--){
+        const {directory,external}=directories[i];
+        try{await writeFile(directory,'journey-'+trip.id.replace(/[^a-zA-Z0-9-]/g,'_')+'.kml',kml);}
+        catch{failed(external);directories.splice(i,1);}
+      }
+    }
+    // An older write must not claim that newer, still-pending edits are saved.
+    if(!this.pendingSave)this.report(saved?(this.folder?'Saved to .wanderlust':'Saved on this device')+(warnings.length?' · '+[...new Set(warnings)].join(' '):this.needsReconnect?' · reconnect your folder to sync.':''):'Could not save. Export KML now to keep your work.');
+    return saved;
+  }
+  async connect(current,{reconnect=false}={}) {
+    let directory,location=this.folderLocation;
+    if(reconnect&&this.savedFolder){
+      // Permission must be requested by the user's click, never on page load.
+      const permission=await this.savedFolder.requestPermission({mode:'readwrite'});
+      if(permission!=='granted')throw new Error('Folder permission was not granted. Allow access or choose another folder.');
+      directory=this.savedFolder;
+    }else{
+      if(!window.showDirectoryPicker)throw new Error('Folder access is available in desktop Chrome or Edge over HTTPS (or localhost). Your notebook still saves in this browser.');
+      const parent=await window.showDirectoryPicker({id:'wanderlust-studio',mode:'readwrite'});
+      directory=parent.name==='.wanderlust'?parent:await parent.getDirectoryHandle('.wanderlust',{create:true});
+      const relative=await parent.resolve(directory);
+      location=[parent.name,...(relative||['.wanderlust'])].filter(Boolean).join('/');
+    }
+    await this.flush();
+    // Validate before writing: a corrupt or inaccessible copy stays untouched.
     const disk=await readNotebook(directory),merged=mergeWorkspaces(current,disk);
-    const relative=await parent.resolve(directory);
-    const location=[parent.name,...(relative||['.wanderlust'])].filter(Boolean).join('/');
     await setting('folder',directory);await setting('folderLocation',location);
-    this.folder=directory;this.folderLocation=location;this.needsReconnect=false;
+    this.folder=directory;this.savedFolder=directory;this.folderLocation=location;this.needsReconnect=false;this.connectionIssue='';
     navigator.storage?.persist?.().catch(()=>{});
     await this.save(merged);return merged;
   }

@@ -1,3 +1,4 @@
+const {dismissFolderPrompt}=require('./helpers/folder-prompt.cjs');
 const {test,before,after}=require('node:test');
 const assert=require('node:assert/strict');
 const {chromium}=require('playwright');
@@ -11,7 +12,7 @@ async function setup({empty=false,mobile=false}={}){
  const context=await browser.newContext({viewport:mobile?{width:390,height:844}:{width:1360,height:1000}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
  const data=fixture();if(empty)data.trips[0].items=[];
  await page.addInitScript(data=>{if(!localStorage.getItem('wanderlust-studio-v1'))localStorage.setItem('wanderlust-studio-v1',JSON.stringify(data));Object.defineProperty(window,'WebGL2RenderingContext',{value:undefined});},data);
- await page.goto(base+'/journey-studio.html');await page.waitForFunction(()=>!document.querySelector('#studio-fallback').hidden&&document.querySelector('#trip-name').value==='Transport stories');
+ await page.goto(base+'/journey-studio.html');await dismissFolderPrompt(page);await page.waitForFunction(()=>!document.querySelector('#studio-fallback').hidden&&document.querySelector('#trip-name').value==='Transport stories');
  await page.evaluate(async()=>{const {JourneyPlayback}=await import('/js/journey-playback.mjs'),advance=JourneyPlayback.prototype.advance;JourneyPlayback.prototype.advance=function(...args){window.player=this;return advance.apply(this,args);};});
  return {context,page,errors};
 }
@@ -32,7 +33,7 @@ test('settings update live and video timing together, keep the current position,
  const current=await page.evaluate(async()=>{const {captureVideoSettings}=await import('/js/journey-video.mjs'),data=JSON.parse(localStorage.getItem('wanderlust-studio-v1'));return {position:player.frame.position,state:player.state,ratios:player.transportSpeeds,items:JSON.stringify(player.activeJourney.items),duration:player.plan.total};});assert.deepEqual(current.position,before.position);assert.equal(current.state,'paused');assert.equal(current.items,before.items);assert.equal(current.ratios.plane,4.5);
  await page.waitForFunction(()=>JSON.parse(localStorage.getItem('wanderlust-studio-v1')).transportSpeeds?.walk===.25);const sync=await page.evaluate(async()=>{const {captureVideoSettings}=await import('/js/journey-video.mjs'),s=captureVideoSettings(player.map,player,JSON.parse(localStorage.getItem('wanderlust-studio-v1')));return {duration:s.plan.total,speeds:s.transportSpeeds};});assert.equal(sync.duration,current.duration);assert.deepEqual(sync.speeds,current.ratios);
  await page.locator('#settings-dialog .transport-speed-settings').screenshot({path:'/tmp/studio-transport-speeds.png'});await page.locator('[data-close=settings-dialog]').last().click();assert.match(await page.locator('#player-speed option[value="1"]').textContent(),/45 km\/s/);
- await page.waitForFunction(()=>document.querySelector('#save-status').textContent.startsWith('Saved'));await page.reload();await page.waitForFunction(()=>!document.querySelector('#studio-fallback').hidden);await page.locator('#open-settings').click();assert.equal(await page.locator('#speed-plane').inputValue(),'4.5');assert.equal(await page.locator('#speed-transit').inputValue(),'0.75');
+ await page.waitForFunction(()=>document.querySelector('#save-status').textContent.startsWith('Saved'));await page.reload();await dismissFolderPrompt(page);await page.waitForFunction(()=>!document.querySelector('#studio-fallback').hidden);await page.locator('#open-settings').click();assert.equal(await page.locator('#speed-plane').inputValue(),'4.5');assert.equal(await page.locator('#speed-transit').inputValue(),'0.75');
  await page.locator('#reset-transport-speeds').click();assert.equal(await page.locator('#speed-plane').inputValue(),'3');assert.equal(await page.locator('#speed-walk').inputValue(),'0.5');await page.waitForFunction(()=>JSON.parse(localStorage.getItem('wanderlust-studio-v1')).transportSpeeds?.plane===3);assert.deepEqual(errors,[]);
  }finally{await context.close();}
 });

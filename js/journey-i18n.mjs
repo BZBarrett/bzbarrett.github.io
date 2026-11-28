@@ -151,3 +151,14 @@ Object.assign(zh,{
   "Geographic sketch; public transport routes and schedules are not verified. Import a route file for exact geometry.": "公共交通规划示意线，不代表实际线路或时刻表。可导入路线文件以使用准确路径。",
   "Public transport sketch ready. Import an existing route for exact geometry.": "公共交通示意线已准备好，可导入现有路线以使用准确路径。"
 });
+
+Object.assign(zh,{
+ 'YOUR RIDE':'你的座驾','Choose vehicle & color':'选择车型与颜色','Close vehicle picker':'关闭车型选择','Choose a model for the animation. Unlisted models use the black 1991 Porsche 911 Carrera 2 (964).':'为动画选择车型。未列出的车型使用黑色 1991 Porsche 911 Carrera 2 (964)。','Search model, year or color':'搜索车型、年份或颜色','e.g. Toyota, 2023, Blue':'例如 Toyota、2023、蓝色','Vehicle models':'车型图标','{count} vehicles':'{count} 款车型','No matching vehicles.':'没有匹配的车型。',
+ 'Connect your local folder':'连接本地文件夹','Close folder reminder':'关闭文件夹提示','Continue in browser':'继续使用浏览器','Connect folder':'连接文件夹','Reconnect folder':'重新连接文件夹','Choose another folder':'选择其他文件夹',
+ 'Folder permission was not granted. Allow access or choose another folder.':'尚未获得文件夹访问权限。请允许访问或选择其他文件夹。',
+ 'This browser saves journeys on this device, but cannot connect a local folder. Use desktop Chrome or Edge to enable folder sync.':'行程会保存在当前浏览器中，但此浏览器无法连接本地文件夹。请使用桌面版 Chrome 或 Edge 启用文件夹同步。',
+ 'The saved folder could not be read. Its files have been kept unchanged. Reconnect it or choose another folder.':'无法读取已保存的文件夹，其中的文件保持不变。请重新连接或选择其他文件夹。',
+ 'Your saved folder needs permission before it can sync. Reconnect to merge its journeys with this browser.':'已保存的文件夹需要重新授权才能同步。连接后会合并文件夹和当前浏览器中的行程。',
+ 'No local folder is connected. Choose a folder to sync your journeys and keep KML backups in its hidden .wanderlust folder.':'尚未连接本地文件夹。请选择文件夹，同步行程并在其中的隐藏 .wanderlust 文件夹内保存 KML 备份。',
+ 'Black':'黑色','White':'白色','Blue':'蓝色','Red':'红色','Gray':'灰色','Silver':'银色','Green':'绿色','Orange':'橙色','Bronze':'古铜色','Sand':'沙色','Beige':'米色','Dark Blue':'深蓝色','Dark Gray':'深灰色','Dark Red':'深红色','Light Blue':'浅蓝色','Olive Green':'橄榄绿','Pearl White':'珍珠白','Mudbath':'泥浴棕','Shock':'荧光黄绿','Navy Blue / Creme Light':'海军蓝 / 奶油白','Deep Blue / Silver':'深蓝 / 银色'
+});

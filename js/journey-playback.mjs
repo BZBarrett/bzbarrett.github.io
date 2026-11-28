@@ -1,3 +1,4 @@
+import {DEFAULT_VEHICLE_ICON,resolveVehicleIcon,loadVehicleIcon} from './journey-vehicles.mjs';
 import {transportNames as modeNames,normalizeTransportSpeeds,DEFAULT_TRANSPORT_SPEEDS} from './journey-transport.mjs';
 import {arrivalCount,routeArrivals} from './journey-arrivals.mjs';
 import {validTime} from './journey-kml.mjs';
@@ -32,7 +33,7 @@ export function playbackPlan(items,speedSettings) {
     const length=cumulative.at(-1);if(!Number.isFinite(length)||length<.01)continue;
     const mode=Object.hasOwn(modeNames,item.mode)?item.mode:'car';
     const duration=length/playbackSpeed(mode,speeds);
-    segments.push({id:item.id,name:item.name,vehicle:item.vehicle||'',mode,coordinates,cumulative,length,duration,offset:total});total+=duration;
+    segments.push({id:item.id,name:item.name,vehicle:item.vehicle||'',vehicleIcon:mode==='car'?resolveVehicleIcon(item.vehicle).filename:null,mode,coordinates,cumulative,length,duration,offset:total});total+=duration;
   }
   const arrivals=routeArrivals(items,segments,playbackDistance),unique=new Map();
   for(const arrival of arrivals){const old=unique.get(arrival.key);if(!old)unique.set(arrival.key,{...arrival});else if(arrival.important)old.important=true;}
@@ -187,8 +188,14 @@ export function playbackIconOpacity(now,reducedMotion=false) {
 // Shared painter: live playback and MP4 frames use exactly the same artwork and paths.
 export class PlaybackPainter {
   constructor(map,canvas){this.map=map;this.canvas=canvas;this.ctx=canvas.getContext('2d');this.images={};this.routes=[];this.state='paused';this.color='#31765c';}
+  prepareVehicles(segments) {
+    if(this.vehiclePlan===segments)return this.vehicleLoading;
+    this.vehiclePlan=segments;this.vehicleImages??={};
+    const names=new Set([DEFAULT_VEHICLE_ICON,...segments.filter(s=>s.mode==='car').map(s=>s.vehicleIcon||resolveVehicleIcon(s.vehicle).filename)]);
+    return this.vehicleLoading=Promise.all([...names].map(async filename=>{const image=await loadVehicleIcon(filename);this.vehicleImages[filename]=image;if(filename===DEFAULT_VEHICLE_ICON)this.images.car=image;this.requestDraw?.();}));
+  }
   sprite(mode,point,angle,size) {
-    const ctx=this.ctx,icon=this.images[mode];ctx.save();ctx.translate(...point);ctx.rotate(angle);
+    const ctx=this.ctx,icon=mode==='car'?(this.vehicleImages?.[this.frame?.segment.vehicleIcon]||this.images.car):this.images[mode];ctx.save();ctx.translate(...point);ctx.rotate(angle);if(mode==='car')ctx.scale(-1,1);
     ctx.shadowColor='#17354266';ctx.shadowBlur=5;ctx.shadowOffsetY=2;
     if(icon?.complete&&icon.naturalWidth){const height=size*icon.naturalHeight/icon.naturalWidth;ctx.drawImage(icon,-size/2,-height/2,size,height);}
     else{ctx.fillStyle=this.color;ctx.beginPath();ctx.moveTo(0,-12);ctx.lineTo(8,10);ctx.lineTo(-8,10);ctx.closePath();ctx.fill();}
@@ -311,7 +318,7 @@ export class JourneyPlayback extends PlaybackPainter {
     this.scope='current';this.checkedJourneys=[];this.controlsHidden=false;this.plan={segments:[],total:0};this.routes=[];this.elapsed=0;this.state='idle';this.rate=1;this.follow=true;this.frame=null;this.images={};this.animationSeconds=0;this.arrivalTimes=new Map();
     this.reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
     el('player-speed').replaceChildren(...PLAYBACK_RATES.map(rate=>{const option=document.createElement('option');option.value=rate;option.textContent=rate+'×';option.selected=rate===this.rate;return option;}));
-    for(const mode of Object.keys(modeNames)){const image=new Image();image.onload=()=>this.requestDraw();image.src='images/journey-icons/playback/'+mode+'.svg';this.images[mode]=image;}
+    for(const mode of Object.keys(modeNames).filter(mode=>mode!=='car')){const image=new Image();image.onload=()=>this.requestDraw();image.src='images/journey-icons/playback/'+mode+'.svg';this.images[mode]=image;}
     map.onFrame=()=>this.draw();map.onUserPan=()=>{this.follow=false;el('player-follow').checked=false;};
     map.onPlaybackPick=point=>this.hitTest(point);
     el('player-toggle').addEventListener('click',()=>this.state==='playing'?this.pause():this.play());
@@ -331,7 +338,7 @@ export class JourneyPlayback extends PlaybackPainter {
     const sources=this.scope==='checked'?checkedJourneys.filter(j=>j.visible!==false):[journey];
     const signature=JSON.stringify([this.scope,...sources.map(j=>[j.id,j.name,j.color,...j.items.filter(i=>i.visible!==false).map(({id,kind,name,mode,vehicle,coordinates,startNode,endNode,important,start,end,trackTimes,extra})=>({id,kind,name,mode,vehicle,coordinates,startNode,endNode,important,start,end,firstTrackTime:trackTimes?.[0],folder:extra?.sourceFolderPath}))])]);
     const rebuild=()=>this.scope==='checked'?checkedPlaybackPlan(sources,speeds):playbackPlan(journey.items,speeds);
-    if(signature!==this.signature){this.exit();this.signature=signature;this.transportSpeeds=speeds;this.plan=rebuild();}
+    if(signature!==this.signature){this.exit();this.signature=signature;this.transportSpeeds=speeds;this.plan=rebuild();this.prepareVehicles(this.plan.segments).catch(()=>{});}
     else if(speedChanged){
       const frame=this.frame;this.transportSpeeds=speeds;this.plan=rebuild();
       const segment=frame&&this.plan.segments[frame.index];

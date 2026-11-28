@@ -1,3 +1,4 @@
+const {dismissFolderPrompt}=require('./helpers/folder-prompt.cjs');
 const {test,before,after}=require('node:test');
 const assert=require('node:assert/strict');
 const fs=require('node:fs/promises');
@@ -16,7 +17,7 @@ const fixture=()=>({version:1,activeTrip:'a',trips:[
 async function setup({data=fixture(),mobile=false,language='en'}={}){
  const context=await browser.newContext({viewport:mobile?{width:390,height:844}:{width:1360,height:1000}}),page=await context.newPage(),errors=[];page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(data=>{if(!localStorage.getItem('wanderlust-studio-v1'))localStorage.setItem('wanderlust-studio-v1',JSON.stringify(data));Object.defineProperty(window,'WebGL2RenderingContext',{value:undefined});},{...data,language});
- await page.goto(base+'/journey-studio.html');await page.waitForFunction(()=>document.querySelectorAll('.journey-row').length===5);return {context,page,errors};
+ await page.goto(base+'/journey-studio.html');await dismissFolderPrompt(page);await page.waitForFunction(()=>document.querySelectorAll('.journey-row').length===5);return {context,page,errors};
 }
 for(const format of ['kml','kmz','geojson'])test(`batch ZIP downloads only checked journeys as separate ${format} files with unique names and complete metadata`,async()=>{
  const {context,page,errors}=await setup();try{

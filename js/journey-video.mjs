@@ -1,3 +1,4 @@
+import {videoCaptionLayout,itineraryCaption} from './journey-video-caption.mjs';
 import {transportModes,normalizeTransportSpeeds} from './journey-transport.mjs';
 import {checkedPlaybackPlan,playbackFrame,playbackCameraPosition,PlaybackPainter,PLAYBACK_RATES,IMPORTANT_LABEL_SECONDS} from './journey-playback.mjs';
 import {JourneyMap} from './journey-map.mjs';
@@ -27,6 +28,8 @@ export function captureVideoSettings(map,playback,workspace){
   const trips=workspace.trips.filter(j=>j.visible!==false).map(j=>({id:j.id,name:j.name,videoTitle:j.videoTitle,color:j.color,items:j.items.filter(i=>i.visible!==false)}));
   const transportSpeeds=normalizeTransportSpeeds(workspace.transportSpeeds),plan=checkedPlaybackPlan(trips,transportSpeeds);
   if(!plan.segments.length)throw new Error('Select at least one journey with a visible route to export.');
+  const labels=new Map(trips.map(trip=>[trip.id,new Map(trip.items.filter(item=>item.kind==='segment').map(item=>[item.id,itineraryCaption(item)]))]));
+  for(const segment of plan.segments)segment.itineraryLabel=labels.get(segment.tripId)?.get(segment.id)??itineraryCaption(segment);
   const camera=cameraOf(map);
   if(!camera||map.opening||map.themeLoading||map.map&&!map.ready)throw new Error('Wait for the current map to finish loading, then try again.');
   const size=map.map?.getContainer()||map.sketch.canvas.parentElement;
@@ -54,7 +57,7 @@ export class JourneyVideoRenderer {
   constructor(snapshot,orientation='landscape',options={}){
     this.snapshot=snapshot;this.orientation=orientation;this.options=videoOptions(options);Object.assign(this,videoSize(orientation,this.options.resolution));
     // Keep composition and relative label/vehicle sizes identical at every resolution.
-    const logical=videoSize(orientation);this.w=logical.width/2;this.h=logical.height/2;this.dpr=this.width/this.w;this.index=-1;
+    const logical=videoSize(orientation);this.w=logical.width/2;this.h=logical.height/2;this.dpr=this.width/this.w;this.index=-1;this.captionLayouts=new WeakMap();
     this.host=document.createElement('div');this.host.dataset.videoMap='true';this.host.setAttribute('aria-hidden','true');
     Object.assign(this.host.style,{position:'fixed',left:'-20000px',top:'0',width:this.w+'px',height:this.h+'px',pointerEvents:'none'});document.body.append(this.host);
     this.canvas=document.createElement('canvas');this.canvas.width=this.width;this.canvas.height=this.height;this.ctx=this.canvas.getContext('2d',{alpha:false});
@@ -64,7 +67,7 @@ export class JourneyVideoRenderer {
   }
   async init(signal){
     const s=this.snapshot,c=s.camera,scale=this.h/c.height;
-    await Promise.all(transportModes.map(async mode=>{const image=new Image();image.src='images/journey-icons/playback/'+mode+'.svg';await image.decode();this.painter.images[mode]=image;}));signal?.throwIfAborted();
+    await Promise.all(transportModes.filter(mode=>mode!=='car').map(async mode=>{const image=new Image();image.src='images/journey-icons/playback/'+mode+'.svg';await image.decode();this.painter.images[mode]=image;}));await this.painter.prepareVehicles(s.plan.segments);signal?.throwIfAborted();
     const lines=s.plan.segments.map((segment,order)=>({points:unwrap(segment.coordinates),color:segment.color,mode:segment.mode,playbackOrder:order}));
     if(s.style){
       this.native=new window.maplibregl.Map({container:this.host,style:structuredClone(s.style),center:c.center,zoom:c.zoom+Math.log2(scale),pitch:c.pitch,bearing:c.bearing,pixelRatio:this.dpr,preserveDrawingBuffer:true,interactive:false,attributionControl:false,maplibreLogo:false,fadeDuration:0});
@@ -108,11 +111,16 @@ export class JourneyVideoRenderer {
   caption(frame){
     const ctx=this.ctx,s=this.snapshot;ctx.save();ctx.scale(this.dpr,this.dpr);
     const dark=s.theme==='dark'||s.view==='globe',paper=dark?'#132c3be8':'#fffdf4ed',ink=dark?'#f6f5e9':'#234534';
-    const title=frame.segment.tripVideoTitle||frame.segment.tripName||'',subtitle=frame.segment.name||'',max=this.w-64;
-    const clipText=(value,width)=>{while(value.length&&ctx.measureText(value).width>width)value=value.slice(0,-1);return value;};
-    ctx.fillStyle=paper;ctx.beginPath();ctx.roundRect(20,20,Math.min(max,420),75,12);ctx.fill();
-    ctx.fillStyle=frame.segment.color||'#31765c';ctx.fillRect(34,36,4,40);ctx.fillStyle=ink;ctx.font='600 17px Arial, "PingFang SC", sans-serif';ctx.fillText(clipText(title,Math.min(max,420)-52),49,49);
-    ctx.font='12px Arial, "PingFang SC", sans-serif';ctx.fillText(clipText(subtitle,Math.min(max,420)-52),49,73);
+    const title=frame.segment.tripVideoTitle||frame.segment.tripName||'',subtitle=frame.segment.itineraryLabel??itineraryCaption(frame.segment);
+    let layout=this.captionLayouts.get(frame.segment);
+    if(!layout||layout.title!==title||layout.subtitle!==subtitle){layout={...videoCaptionLayout(ctx,title,subtitle,this.w,this.h),title,subtitle};this.captionLayouts.set(frame.segment,layout);}
+    ctx.fillStyle=dark?'#132c3ba8':'#fffdf4a8';ctx.beginPath();ctx.roundRect(20,20,layout.width,layout.height,12);ctx.fill();
+    ctx.fillStyle=frame.segment.color||'#31765c';ctx.fillRect(34,34,4,layout.height-28);ctx.fillStyle=ink;ctx.textAlign='left';ctx.textBaseline='top';
+    let y=34;ctx.font=layout.titleFont;
+    for(const line of layout.titleLines){ctx.fillText(line,49,y);y+=layout.titleLineHeight;}
+    y+=layout.gap;ctx.font=layout.subtitleFont;
+    for(const line of layout.subtitleLines){ctx.fillText(line,49,y);y+=layout.subtitleLineHeight;}
+    ctx.textBaseline='alphabetic';
     const credit=mapCredit(s.theme,s.overview);ctx.font='10px Arial, sans-serif';const width=Math.min(this.w,ctx.measureText(credit).width+22);ctx.fillStyle=paper;ctx.fillRect((this.w-width)/2,this.h-22,width,22);ctx.fillStyle=ink;ctx.textAlign='center';ctx.fillText(credit,this.w/2,this.h-8,this.w-16);ctx.restore();
   }
   dispose(){if(this.disposed)return;this.disposed=true;this.native?.remove();if(this.sketch)cancelAnimationFrame(this.sketch.frame);this.host.remove();this.painter.canvas.width=this.painter.canvas.height=1;this.canvas.width=this.canvas.height=1;}

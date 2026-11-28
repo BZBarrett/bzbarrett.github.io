@@ -469,3 +469,20 @@ html[lang=zh-CN] .studio-brand .brand-wordmark { font-family:'Journey Brand','Pi
 .transport-speed-row output {text-align:center;font-weight:600;color:#315a45;}
 .transport-speed-row small {color:#75816b;font-size:.75rem;}
 @media(max-width:400px){.studio .transport-speed-settings .transport-speed-row{grid-template-columns:minmax(0,1fr) 65px 48px;gap:.3rem;}.transport-speed-row > span{gap:.35rem;}}
+
+/* Model artwork remains separate from the compact transport mode controls. */
+.vehicle-field { margin:.8rem 0 .35rem; }
+.vehicle-field-heading { display:flex;align-items:center;justify-content:space-between;gap:.6rem;margin-bottom:.35rem; }
+.studio .vehicle-field-heading label { margin:0; }
+.vehicle-picker-button { width:34px;height:34px;flex:none; }
+.studio-dialog.vehicle-dialog { width:min(94vw,840px); }
+.vehicle-grid { display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.65rem;max-height:55dvh;overflow:auto;overscroll-behavior:contain;padding:3px;scrollbar-width:thin; }
+.vehicle-option { display:flex;flex-direction:column;align-items:stretch;gap:.4rem;min-width:0;padding:.75rem;border:1px solid #d0d9c9;border-radius:12px;background:#fffef9;text-align:left;color:#244638;cursor:pointer; }
+.vehicle-option:hover { background:#edf2e9;border-color:#89a083; }
+.vehicle-option[aria-pressed=true] { background:#e4ede3;border-color:#50735b;box-shadow:inset 0 0 0 1px #50735b; }
+.vehicle-option:focus-visible { outline:3px solid #d78540;outline-offset:1px; }
+.vehicle-option img { width:100%;height:90px;object-fit:contain; }
+.vehicle-option strong { font-size:.875rem;line-height:1.35; }
+.vehicle-option > span { font-size:.8rem;color:#64705e; }
+#folder-setup-location { overflow-wrap:anywhere; }
+@media(max-width:600px) { .vehicle-grid { grid-template-columns:repeat(2,minmax(0,1fr));gap:.5rem; }.vehicle-option { padding:.6rem; }.vehicle-option img { height:70px; } }

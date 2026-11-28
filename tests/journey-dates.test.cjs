@@ -1,3 +1,4 @@
+const {dismissFolderPrompt}=require('./helpers/folder-prompt.cjs');
 const {test,before,after}=require('node:test');
 const assert=require('node:assert/strict');
 const {chromium}=require('playwright');
@@ -8,7 +9,7 @@ async function setup(data){
  const context=await browser.newContext({viewport:{width:1360,height:1000},timezoneId:'America/Los_Angeles'}),page=await context.newPage(),errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(data=>{Object.defineProperty(window,'WebGL2RenderingContext',{value:undefined});if(data)localStorage.setItem('wanderlust-studio-v1',JSON.stringify(data));},data);
- await page.route('https://tiles.openfreemap.org/**',r=>r.abort());await page.goto(base+'/journey-studio.html');
+ await page.route('https://tiles.openfreemap.org/**',r=>r.abort());await page.goto(base+'/journey-studio.html');await dismissFolderPrompt(page);
  await page.waitForFunction(()=>document.querySelector('#save-status').textContent!=='Opening your local notebook…');return {context,page,errors};
 }
 const items=page=>page.evaluate(()=>JSON.parse(localStorage.getItem('wanderlust-studio-v1')).trips[0].items);
@@ -44,7 +45,7 @@ test('create, reload, edit and replace a route using only months or an optional 
   await page.locator('#find-routes').click();await page.getByRole('button',{name:'Add selected segment'}).click();await saved(page);
   assert.equal((await items(page))[0].start,'2026-11');assert.equal((await items(page))[0].end,'2026-12');assert.equal(await page.locator('#segment-start').inputValue(),'11-2026');
   const kml=await page.evaluate(async()=>{const root=await(await navigator.storage.getDirectory()).getDirectoryHandle('.wanderlust'),state=JSON.parse(localStorage.getItem('wanderlust-studio-v1'));return (await(await root.getFileHandle('journey-'+state.trips[0].id+'.kml')).getFile()).text();});assert.match(kml,/<begin>2026-11<\/begin><end>2026-12<\/end>/);
-  await page.reload();await page.locator('#route-itinerary button').filter({hasText:'Edit'}).click();assert.equal(await page.locator('#edit-start').inputValue(),'11-2026');assert.equal(await page.locator('#edit-start-day').inputValue(),'');
+  await page.reload();await dismissFolderPrompt(page);await page.locator('#route-itinerary button').filter({hasText:'Edit'}).click();assert.equal(await page.locator('#edit-start').inputValue(),'11-2026');assert.equal(await page.locator('#edit-start-day').inputValue(),'');
   await page.locator('#edit-end').fill('2026-10');await page.getByRole('button',{name:'Save changes'}).click();assert.match(await page.locator('#edit-error').textContent(),/end date/);
   await page.locator('#edit-start').fill('2026-02');await page.locator('#edit-start-day').fill('30');await page.getByRole('button',{name:'Save changes'}).click();assert.match(await page.locator('#edit-error').textContent(),/valid year and month/);
   await page.locator('#edit-start').fill('2024-02');await page.locator('#edit-start-day').fill('29');await page.locator('#edit-end').fill('2024-02');await page.getByRole('button',{name:'Save changes'}).click();await saved(page);
@@ -84,7 +85,7 @@ test('MM-YYYY dates carry forward between routes and places and remain specific 
   await page.locator('#new-trip').click();assert.equal(await page.locator('#point-start').inputValue(),'');
   await page.locator('#point-start').fill('02-2024');await page.locator('#point-start-day').fill('29');await page.locator('#point-start-day').blur();await saved(page);
   await page.locator('[data-journey-select="'+first+'"]').click();assert.equal(await page.locator('#segment-start').inputValue(),'11-2026');assert.equal(await page.locator('#segment-end').inputValue(),'12-2026');await saved(page);
-  await page.reload();await page.waitForFunction(()=>document.querySelector('#segment-start').value==='11-2026');assert.equal(await page.locator('#segment-start-day').inputValue(),'25');
+  await page.reload();await dismissFolderPrompt(page);await page.waitForFunction(()=>document.querySelector('#segment-start').value==='11-2026');assert.equal(await page.locator('#segment-start-day').inputValue(),'25');
   const normalized=await page.evaluate(async()=>{const {calendarDate}=await import('/js/journey-dates.mjs');const results=['11-2026','02-2024','2026-11'].map(v=>calendarDate(v));let invalid=0;for(const value of ['13-2026','00-2026','02-0000','2026-2','11/2026'])try{calendarDate(value);}catch{invalid++;}return {results,invalid};});assert.deepEqual(normalized,{results:['2026-11','2024-02','2026-11'],invalid:5});assert.deepEqual(errors,[]);
  }finally{await context.close();}
 });
